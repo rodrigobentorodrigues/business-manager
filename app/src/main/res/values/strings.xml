@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Business Manager</string>
+    <string name="logo">Logo</string>
+    <string name="btn_login">REALIZAR LOGIN</string>
+    <string name="btn_cad">CADASTRAR</string>
+    <string name="adm">Administrador</string>
+    <string name="func">Funcionário</string>
+    <string name="escolha">Escolha seu tipo de cadastro</string>
+    <string name="escolher">Escolher</string>
+</resources>
