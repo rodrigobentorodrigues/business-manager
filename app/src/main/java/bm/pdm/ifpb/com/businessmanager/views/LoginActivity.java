@@ -1,9 +1,11 @@
-package bm.pdm.ifpb.com.businessmanager;
+package bm.pdm.ifpb.com.businessmanager.views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import bm.pdm.ifpb.com.businessmanager.R;
 
 public class LoginActivity extends AppCompatActivity {
 

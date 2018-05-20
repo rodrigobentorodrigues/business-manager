@@ -4,39 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CadastroActivity">
+    tools:context=".views.CadastroActivity">
 
     <ImageView
         android:id="@+id/escolhaAdm"
         android:layout_width="174dp"
-        android:layout_height="204dp"
+        android:layout_height="190dp"
         android:layout_marginBottom="132dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:contentDescription="Imagem do Administrador"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/foto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/patrao" />
+        app:srcCompat="@drawable/teste" />
 
     <ImageView
         android:id="@+id/escolhaFunc"
-        android:layout_width="179dp"
-        android:layout_height="196dp"
-        android:layout_marginBottom="140dp"
+        android:layout_width="174dp"
+        android:layout_height="190dp"
+        android:layout_marginBottom="132dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:contentDescription="Imagem do funcionário"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/foto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/escolhaAdm"
-        app:srcCompat="@drawable/funcionario" />
+        app:srcCompat="@drawable/teste2" />
 
     <TextView
         android:id="@+id/textView2"
@@ -119,7 +121,7 @@
         app:layout_constraintHorizontal_bias="0.076"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/escolhaAdm"
-        app:layout_constraintVertical_bias="0.219" />
+        app:layout_constraintVertical_bias="0.287" />
 
     <Button
         android:id="@+id/botaoFunc"
