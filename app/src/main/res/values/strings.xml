@@ -2,15 +2,20 @@
     <string name="app_name">Business Manager</string>
     <string name="logo">Logo</string>
     <string name="btn_login">REALIZAR LOGIN</string>
+    <string name="nome">Nome</string>
+    <string name="cargo">Cargo</string>
     <string name="login">Login</string>
     <string name="senha">Senha</string>
     <string name="tipo">Tipo</string>
-    <string name="info_login">Informe o seu login</string>
-    <string name="info_senha">Informe a sua senha</string>
+    <string name="info_login">Informe o login</string>
+    <string name="info_nome">Informe o nome</string>
+    <string name="info_cargo">Informe o cargo</string>
+    <string name="info_senha">Informe a senha</string>
     <string name="btn_cad">CADASTRAR</string>
     <string name="adm">Patrão</string>
     <string name="func">Funcionário</string>
     <string name="foto">Avatar</string>
     <string name="escolha">Escolha seu tipo de cadastro</string>
     <string name="escolher">Escolher</string>
+    <string name="logo_cad">Cadastro de Funcionário</string>
 </resources>

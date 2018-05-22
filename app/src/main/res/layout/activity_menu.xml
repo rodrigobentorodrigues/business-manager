@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.MenuActivity">
+
+    <ImageButton
+        android:id="@+id/botaoAtividade"
+        android:layout_width="132dp"
+        android:layout_height="131dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="63dp"
+        android:src="@drawable/ag1"
+        android:background="@android:color/transparent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="41dp" />
+
+    <ImageButton
+        android:id="@+id/botaoContatos"
+        android:layout_width="137dp"
+        android:layout_height="131dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/botaoAtividade"
+        android:layout_marginEnd="38dp"
+        android:src="@drawable/p1"
+        android:background="@android:color/transparent"
+        android:layout_marginRight="38dp"
+        android:layout_alignParentRight="true" />
+
+    <ImageButton
+        android:id="@+id/botaoCadastro"
+        android:layout_width="137dp"
+        android:layout_height="131dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/botaoAtividade"
+        android:layout_marginBottom="144dp"
+        android:src="@drawable/cont"
+        android:background="@android:color/transparent"
+        android:layout_alignLeft="@+id/botaoAtividade" />
+
+    <ImageButton
+        android:id="@+id/botaoDuvida"
+        android:layout_width="137dp"
+        android:layout_height="131dp"
+        android:layout_alignStart="@+id/botaoContatos"
+        android:layout_alignTop="@+id/botaoCadastro"
+        android:src="@drawable/ch1"
+        android:background="@android:color/transparent"
+        android:layout_alignLeft="@+id/botaoContatos" />
+</RelativeLayout>
