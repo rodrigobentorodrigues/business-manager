@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.CadastroAtividade">
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp"
+        android:text="Cadastro de Atividade"
+        android:textSize="28sp"/>
+
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="113dp"
+        android:text="Funcionário"
+        android:textSize="18sp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="34dp" />
+
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="307dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/textView22"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/campoDesc"
+        android:layout_alignStart="@+id/spinner3"
+        android:text="Descrição da atividade"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/campoDesc"
+        android:layout_width="307dp"
+        android:layout_height="79dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="203dp"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/campoData"
+        android:layout_alignStart="@+id/spinner3"
+        android:text="Data de conclusão"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/campoData"
+        android:layout_width="312dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="109dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="date"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/cadAtiv"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="140dp"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
+        android:text="@string/btn_cad" />
+
+</RelativeLayout>

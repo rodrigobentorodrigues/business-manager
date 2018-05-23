@@ -30,7 +30,8 @@ public class CadastroActivity extends AppCompatActivity {
         administrador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(CadastroActivity.this, CadastroAdministrador.class);
+                startActivity(intent);
             }
         });
         funcionario.setOnClickListener(new View.OnClickListener() {

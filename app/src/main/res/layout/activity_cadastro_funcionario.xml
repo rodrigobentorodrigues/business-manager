@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.CadastroFuncionario">
+    tools:context=".views.CadastroFuncionario"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <RelativeLayout
         android:id="@+id/relative"
@@ -25,37 +27,33 @@
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/nomeFunc"
+            android:layout_above="@+id/nomeFunc"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="29dp"
+            android:layout_marginBottom="-133dp"
+            android:layout_marginStart="27dp"
             android:text="@string/nome"
-            android:textSize="20sp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="29dp" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/nomeFunc"
-            android:layout_width="250dp"
+            android:layout_width="326dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="133dp"
-            android:layout_toEndOf="@+id/textView10"
+            android:layout_alignStart="@+id/textView9"
+            android:layout_marginTop="130dp"
             android:ems="10"
             android:gravity="center"
             android:hint="@string/info_nome"
             android:inputType="textPersonName"
             android:textAlignment="center"
-            android:textSize="20sp"
-            android:layout_toRightOf="@+id/textView10" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/cargoFunc"
-            android:layout_width="250dp"
+            android:layout_width="322dp"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/nomeFunc"
-            android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/nomeFunc"
-            android:layout_marginTop="205dp"
+            android:layout_below="@+id/textView9"
+            android:layout_centerHorizontal="true"
             android:ems="10"
             android:gravity="center"
             android:hint="@string/info_cargo"
@@ -67,15 +65,15 @@
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/cargoFunc"
-            android:layout_alignLeft="@+id/textView8"
+            android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/textView8"
+            android:layout_marginTop="188dp"
             android:text="@string/cargo"
             android:textSize="20sp" />
 
         <EditText
             android:id="@+id/editText5"
-            android:layout_width="226dp"
+            android:layout_width="227dp"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/nomeFunc"
             android:layout_alignParentTop="true"
@@ -100,7 +98,7 @@
 
         <EditText
             android:id="@+id/loginFunc"
-            android:layout_width="250dp"
+            android:layout_width="227dp"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/nomeFunc"
             android:layout_alignParentTop="true"
@@ -126,7 +124,7 @@
 
         <EditText
             android:id="@+id/senhaFunc"
-            android:layout_width="250dp"
+            android:layout_width="227dp"
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/nomeFunc"
             android:layout_alignParentTop="true"
@@ -157,7 +155,7 @@
             android:layout_height="60dp"
             android:layout_below="@+id/textView12"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:text="Cadastrar"
             android:textSize="20sp" />
 

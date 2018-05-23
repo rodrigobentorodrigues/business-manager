@@ -2,47 +2,59 @@ package bm.pdm.ifpb.com.businessmanager.views;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.hardware.input.InputManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
-import android.text.Layout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.Spinner;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button botaoLogin, botaoCadastro;
+    private Button botaoLogin;
+    private Spinner spinner;
+    private EditText login, senha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //
+        this.login = findViewById(R.id.inputLogin);
+        this.senha = findViewById(R.id.inputSenha);
         this.botaoLogin = findViewById(R.id.botaoLogin);
-        this.botaoCadastro = findViewById(R.id.botaoCad);
-        //
+
+        // Setando os valores para o Spinner
+        this.spinner = findViewById(R.id.spinner2);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.tipo, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.spinner.setAdapter(adapter);
+
         botaoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentLogin = new Intent(MainActivity.this,
-                        LoginActivity.class);
-                startActivity(intentLogin);
-            }
-        });
-        botaoCadastro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog dialogo = construirAlerta("Escolha por cadastro de administrador",
-                        "Informe a palavra passe: ");
-                dialogo.show();
+                String valorLogin = login.getText().toString();
+                String valorSenha = senha.getText().toString();
+                if(valorLogin.isEmpty() || valorSenha.isEmpty()){
+                    AlertDialog alert = construirAlerta("Valores invalidos",
+                            "Informe todos os campos na tela");
+                    alert.show();
+                } else {
+                    if(valorLogin.equals("adminpdm") && valorSenha.equals("pdmadmin")){
+                        Intent intent = new Intent(MainActivity.this, CadastroActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                        intent.putExtra("tipo", spinner.getSelectedItem().toString());
+                        startActivity(intent);
+                    }
+                }
             }
         });
     }
@@ -51,23 +63,9 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder b = new AlertDialog.Builder(this);
         b.setTitle(titulo);
         b.setMessage(mensagem);
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        input.setGravity(Gravity.CENTER);
-        b.setView(input);
-        b.setNegativeButton("Prosseguir", new DialogInterface.OnClickListener() {
+        b.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String palavraPasse = input.getText().toString();
-                Log.i("Palavra", palavraPasse);
-                if(palavraPasse.equals("pdm2018")){
-                    Intent intentCadastro = new Intent(MainActivity.this,
-                            CadastroActivity.class);
-                    startActivity(intentCadastro);
-                } else {
-                    Toast.makeText(MainActivity.this,
-                            "Credenciais invalidas", Toast.LENGTH_SHORT).show();
-                }
             }
         });
         AlertDialog alerta = b.create();
