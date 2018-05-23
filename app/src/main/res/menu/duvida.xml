@@ -2,6 +2,9 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Novo Contato"
-        android:id="@+id/addContato"/>
+    <item
+        android:id="@+id/addContato"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Novo Contato"
+        app:showAsAction="always" />
 </menu>

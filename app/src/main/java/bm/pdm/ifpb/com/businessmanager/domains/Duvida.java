@@ -2,6 +2,7 @@ package bm.pdm.ifpb.com.businessmanager.domains;
 
 public class Duvida {
 
+    private int id;
     private String deUsuario;
     private String paraUsuario;
     private String pergunta;
@@ -21,6 +22,14 @@ public class Duvida {
         this.paraUsuario = paraUsuario;
         this.pergunta = pergunta;
         this.resposta = resposta;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDeUsuario() {
@@ -58,7 +67,8 @@ public class Duvida {
     @Override
     public String toString() {
         return "Duvida{" +
-                "deUsuario='" + deUsuario + '\'' +
+                "id=" + id +
+                ", deUsuario='" + deUsuario + '\'' +
                 ", paraUsuario='" + paraUsuario + '\'' +
                 ", pergunta='" + pergunta + '\'' +
                 ", resposta='" + resposta + '\'' +

@@ -45,7 +45,8 @@
         android:layout_above="@+id/campoDesc"
         android:layout_alignStart="@+id/spinner3"
         android:text="Descrição da atividade"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_alignLeft="@+id/spinner3" />
 
     <EditText
         android:id="@+id/campoDesc"
@@ -64,7 +65,8 @@
         android:layout_above="@+id/campoData"
         android:layout_alignStart="@+id/spinner3"
         android:text="Data de conclusão"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_alignLeft="@+id/spinner3" />
 
     <EditText
         android:id="@+id/campoData"

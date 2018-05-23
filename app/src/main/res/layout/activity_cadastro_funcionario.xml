@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/relative"
         android:layout_width="match_parent"
-        android:layout_height="590dp">
+        android:layout_height="570dp">
 
         <TextView
             android:id="@+id/textView"
@@ -32,7 +32,9 @@
             android:layout_marginBottom="-133dp"
             android:layout_marginStart="27dp"
             android:text="@string/nome"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="27dp" />
 
         <EditText
             android:id="@+id/nomeFunc"
@@ -46,7 +48,8 @@
             android:hint="@string/info_nome"
             android:inputType="textPersonName"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_alignLeft="@+id/textView9" />
 
         <EditText
             android:id="@+id/cargoFunc"
@@ -69,7 +72,8 @@
             android:layout_alignStart="@+id/textView8"
             android:layout_marginTop="188dp"
             android:text="@string/cargo"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_alignLeft="@+id/textView8" />
 
         <EditText
             android:id="@+id/editText5"
@@ -153,9 +157,8 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="170dp"
             android:layout_height="60dp"
-            android:layout_below="@+id/textView12"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
             android:text="Cadastrar"
             android:textSize="20sp" />
 

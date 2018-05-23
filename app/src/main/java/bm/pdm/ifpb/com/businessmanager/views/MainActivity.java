@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import bm.pdm.ifpb.com.businessmanager.R;
+import bm.pdm.ifpb.com.businessmanager.domains.TipoTemp;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                     } else {
                         Intent intent = new Intent(MainActivity.this, MenuActivity.class);
-                        intent.putExtra("tipo", spinner.getSelectedItem().toString());
+                        TipoTemp tipo = new TipoTemp();
+                        tipo.setValor(spinner.getSelectedItem().toString());
                         startActivity(intent);
+                        // intent.putExtra("tipo", spinner.getSelectedItem().toString());
                     }
                 }
             }
