@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InfoDuvidaActivity">
+
+    <TextView
+        android:id="@+id/textView36"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Informações sobre a dúvida"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView37"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView36"
+        android:layout_marginTop="82dp"
+        android:text="Titulo:"
+        android:textSize="18sp"
+        android:layout_alignLeft="@+id/textView36" />
+
+    <TextView
+        android:id="@+id/tituloAtividade"
+        android:layout_width="294dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView36"
+        android:layout_below="@+id/textView37"
+        android:text="TextView"
+        android:textSize="18sp"
+        android:layout_alignLeft="@+id/textView36" />
+
+    <TextView
+        android:id="@+id/textView39"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView36"
+        android:layout_marginTop="154dp"
+        android:text="Descrição:"
+        android:textSize="18sp"
+        android:layout_alignLeft="@+id/textView36" />
+
+    <TextView
+        android:id="@+id/descAtividade"
+        android:layout_width="294dp"
+        android:layout_height="70dp"
+        android:layout_alignStart="@+id/textView36"
+        android:layout_below="@+id/textView39"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:textSize="18sp"
+        android:layout_alignLeft="@+id/textView36" />
+
+    <Button
+        android:id="@+id/botaoResp"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="188dp"
+        android:text="Responder" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="294dp"
+        android:layout_height="66dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="98dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/botaoEnviar"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView36"
+        android:layout_below="@+id/editText3"
+        android:layout_marginTop="-98dp"
+        android:text="Enviar >"
+        android:layout_alignRight="@+id/textView36" />
+
+</RelativeLayout>

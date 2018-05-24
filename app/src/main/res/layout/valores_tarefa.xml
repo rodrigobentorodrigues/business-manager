@@ -11,13 +11,13 @@
         android:id="@+id/imageView2"
         android:layout_width="79dp"
         android:layout_height="89dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="35dp"
-        app:srcCompat="@drawable/bloco"
-        android:layout_marginLeft="16dp"
-        android:layout_alignParentLeft="true" />
+        app:srcCompat="@drawable/bloco3" />
 
     <TextView
         android:id="@+id/textView27"
@@ -43,7 +43,7 @@
 
     <TextView
         android:id="@+id/campoPara"
-        android:layout_width="208dp"
+        android:layout_width="199dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
