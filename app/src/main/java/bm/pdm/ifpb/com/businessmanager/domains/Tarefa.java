@@ -10,17 +10,19 @@ public class Tarefa implements Serializable {
     private String paraUsuario;
     private String titulo;
     private String descricao;
-    private LocalDate dataEntrega;
+    //private LocalDate dataEntrega;
+    private String data;
 
     public Tarefa() {
     }
 
-    public Tarefa(String deUsuario, String paraUsuario, String titulo, String descricao, LocalDate dataEntrega) {
+    public Tarefa(String deUsuario, String paraUsuario, String titulo, String descricao,
+                  String data) {
         this.deUsuario = deUsuario;
         this.paraUsuario = paraUsuario;
         this.titulo = titulo;
         this.descricao = descricao;
-        this.dataEntrega = dataEntrega;
+        this.data = data;
     }
 
     public int getId() {
@@ -63,12 +65,12 @@ public class Tarefa implements Serializable {
         this.descricao = descricao;
     }
 
-    public LocalDate getDataEntrega() {
-        return dataEntrega;
+    public String getData() {
+        return data;
     }
 
-    public void setDataEntrega(LocalDate dataEntrega) {
-        this.dataEntrega = dataEntrega;
+    public void setData(String data) {
+        this.data = data;
     }
 
     @Override
@@ -77,8 +79,9 @@ public class Tarefa implements Serializable {
                 "id=" + id +
                 ", deUsuario='" + deUsuario + '\'' +
                 ", paraUsuario='" + paraUsuario + '\'' +
+                ", titulo='" + titulo + '\'' +
                 ", descricao='" + descricao + '\'' +
-                ", dataEntrega=" + dataEntrega +
+                ", data='" + data + '\'' +
                 '}';
     }
 

@@ -1,6 +1,8 @@
 package bm.pdm.ifpb.com.businessmanager.domains;
 
-public class Duvida {
+import java.io.Serializable;
+
+public class Duvida implements Serializable {
 
     private int id;
     private String deUsuario;

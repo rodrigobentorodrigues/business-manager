@@ -1,4 +1,4 @@
-package bm.pdm.ifpb.com.businessmanager;
+package bm.pdm.ifpb.com.businessmanager.views;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 
 public class InfoTarefaActivity extends AppCompatActivity {

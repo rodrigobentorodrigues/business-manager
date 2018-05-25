@@ -1,10 +1,13 @@
 package bm.pdm.ifpb.com.businessmanager.views;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,6 +34,15 @@ public class DuvidaActivity extends AppCompatActivity {
         //
         this.listView = findViewById(android.R.id.list);
         listView.setAdapter(new DuvidaAdapter(duvidasTeste, DuvidaActivity.this));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Duvida duvida = (Duvida) parent.getAdapter().getItem(position);
+                Intent intent = new Intent(DuvidaActivity.this, InfoDuvidaActivity.class);
+                intent.putExtra("duvida", duvida);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -44,7 +56,8 @@ public class DuvidaActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addContato:
-                Toast.makeText(DuvidaActivity.this, "Deu certo", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(DuvidaActivity.this, CadastroDuvida.class);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

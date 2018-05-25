@@ -48,7 +48,8 @@ public class MenuActivity extends AppCompatActivity {
         contatos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MenuActivity.this, UsuarioActivity.class);
+                startActivity(intent);
             }
         });
         cadastro.setOnClickListener(new View.OnClickListener() {
