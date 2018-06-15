@@ -1,12 +1,15 @@
 package bm.pdm.ifpb.com.businessmanager.views;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,12 +25,13 @@ public class TarefaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarefa);
-        List<Tarefa> tarefas = Arrays.asList(new Tarefa("Ari", "Rodrigo", "Construir telas",
-                "Construir todas as telas até a data prevista", "31/05/1997"),
-                new Tarefa("Chicão", "Rudan", "Cadastro em disciplinas",
-                        "Realizar o cadastro no sistemas do SUAP", "22/06/2019"),
-                new Tarefa("Job", "Juan", "Peer Instruction",
-                "Desenvolver Peer para a data prevista, assunto: (JPA)", "15/01/2005"));
+        List<Tarefa> tarefas = Arrays.
+                asList(new Tarefa(0, "Rodrigo", "Rennan",
+                                "Tarefa 1", "Tarefa Descrição",
+                                "31/05/1997", false),
+                        new Tarefa(0, "Rennan", "Rodrigo",
+                                "Tarefa 1", "Tarefa Descrição",
+                                "15/05/2015", false));
         //
         this.listView = findViewById(android.R.id.list);
         listView.setAdapter(new TarefaAdapter(tarefas, TarefaActivity.this));

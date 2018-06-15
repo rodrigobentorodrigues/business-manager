@@ -22,10 +22,10 @@ public class UsuarioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usuario);
-        List<Usuario> usuarios = Arrays.asList(new Usuario("Rodrigo", "rod", "123", "(083) 981549498"),
-                new Usuario("Ari", "rod", "123", "(083) 35258080"),
-                new Usuario("Juan", "juan", "123", "(083) 40028922"),
-                new Usuario("Natan", "natan", "123", "(083) 991337455"));
+        List<Usuario> usuarios = Arrays.asList(new Usuario(0, "Rodrigo", "Administrador",
+                        "rod", "123", "981549498"),
+                new Usuario(0, "Rodrigo", "Administrador",
+                        "rod", "123", "981549498"));
         this.listView = findViewById(android.R.id.list);
         listView.setAdapter(new UsuarioAdapter(usuarios, UsuarioActivity.this));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

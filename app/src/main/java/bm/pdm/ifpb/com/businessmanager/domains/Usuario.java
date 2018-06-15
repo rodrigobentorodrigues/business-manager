@@ -6,15 +6,21 @@ public class Usuario implements Serializable{
 
     private int id;
     private String nome;
+    private String cargo;
     private String login;
     private String senha;
     private String telefone;
 
-    public Usuario(String nome, String login, String senha, String telefone) {
+    public Usuario(int id, String nome, String cargo, String login, String senha, String telefone) {
+        this.id = id;
         this.nome = nome;
+        this.cargo = cargo;
         this.login = login;
         this.senha = senha;
         this.telefone = telefone;
+    }
+
+    public Usuario() {
     }
 
     public int getId() {
@@ -31,6 +37,14 @@ public class Usuario implements Serializable{
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
     }
 
     public String getLogin() {
@@ -62,9 +76,11 @@ public class Usuario implements Serializable{
         return "Usuario{" +
                 "id=" + id +
                 ", nome='" + nome + '\'' +
+                ", cargo='" + cargo + '\'' +
                 ", login='" + login + '\'' +
                 ", senha='" + senha + '\'' +
                 ", telefone='" + telefone + '\'' +
                 '}';
     }
+
 }

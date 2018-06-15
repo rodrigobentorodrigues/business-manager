@@ -1,8 +1,12 @@
 package bm.pdm.ifpb.com.businessmanager.views;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,20 +15,22 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
+import bm.pdm.ifpb.com.businessmanager.domains.RepoTemp;
+import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
+import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
+import bm.pdm.ifpb.com.businessmanager.services.AdicionarAtividade;
 
 public class CadastroAtividade extends AppCompatActivity {
 
     private Spinner spinner;
-    private EditText desc, data;
+    private EditText desc, data, titulo;
     private Button cadastro;
-    private String tipo;
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_atividade);
-
-        tipo = getIntent().getStringExtra("tipo");
 
         this.spinner = findViewById(R.id.spinner3);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -34,19 +40,51 @@ public class CadastroAtividade extends AppCompatActivity {
 
         this.desc = findViewById(R.id.campoDesc);
         this.data = findViewById(R.id.campoData);
+        this.titulo = findViewById(R.id.campoTitulo);
         this.cadastro = findViewById(R.id.cadAtiv);
+        usuario = RepoTemp.getUsuario();
+
         cadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String deUsuario = usuario.getNome();
+                String paraUsuario = spinner.getSelectedItem().toString();
                 String valorDesc = desc.getText().toString();
                 String valorData = data.getText().toString();
-                Toast.makeText(CadastroAtividade.this, valorDesc +
-                        " " + valorData, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CadastroAtividade.this, MenuActivity.class);
-                intent.putExtra("tipo", tipo);
-                startActivity(intent);
+                Log.i("Data", valorData);
+                String valorTitulo = titulo.getText().toString();
+
+                if(paraUsuario.isEmpty() || valorDesc.isEmpty() ||
+                        valorData.isEmpty() || valorData.isEmpty() || valorTitulo.isEmpty()){
+                    Toast.makeText(CadastroAtividade.this, "Informe todos os campos", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CadastroAtividade.this, "Enviando dados para o servidor", Toast.LENGTH_SHORT).show();
+                    Tarefa tarefa = new Tarefa(0, deUsuario, paraUsuario, valorTitulo, valorDesc, valorData, false);
+                    Intent intent = new Intent(CadastroAtividade.this, AdicionarAtividade.class);
+                    intent.putExtra("url", "https://business-manager-server.herokuapp.com/");
+                    intent.putExtra("tarefa", tarefa);
+                    startService(intent);
+                }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter filter = new IntentFilter("cad-ativ");
+        registerReceiver(new CadAtivBroadCast(), filter);
+    }
+
+    private class CadAtivBroadCast extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(CadastroAtividade.this, "Cadastrado!", Toast.LENGTH_SHORT).show();
+            Intent intent1 = new Intent(CadastroAtividade.this, MenuActivity.class);
+            startActivity(intent1);
+        }
+
     }
 
 }

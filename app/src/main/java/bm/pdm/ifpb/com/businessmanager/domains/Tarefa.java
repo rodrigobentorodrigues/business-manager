@@ -10,19 +10,21 @@ public class Tarefa implements Serializable {
     private String paraUsuario;
     private String titulo;
     private String descricao;
-    //private LocalDate dataEntrega;
+    // private LocalDate data;
     private String data;
+    private boolean concluida;
 
-    public Tarefa() {
-    }
-
-    public Tarefa(String deUsuario, String paraUsuario, String titulo, String descricao,
-                  String data) {
+    public Tarefa(int id, String deUsuario, String paraUsuario, String titulo, String descricao, String data, boolean concluida) {
+        this.id = id;
         this.deUsuario = deUsuario;
         this.paraUsuario = paraUsuario;
         this.titulo = titulo;
         this.descricao = descricao;
         this.data = data;
+        this.concluida = concluida;
+    }
+
+    public Tarefa() {
     }
 
     public int getId() {
@@ -73,6 +75,14 @@ public class Tarefa implements Serializable {
         this.data = data;
     }
 
+    public boolean isConcluida() {
+        return concluida;
+    }
+
+    public void setConcluida(boolean concluida) {
+        this.concluida = concluida;
+    }
+
     @Override
     public String toString() {
         return "Tarefa{" +
@@ -82,7 +92,7 @@ public class Tarefa implements Serializable {
                 ", titulo='" + titulo + '\'' +
                 ", descricao='" + descricao + '\'' +
                 ", data='" + data + '\'' +
+                ", concluida=" + concluida +
                 '}';
     }
-
 }

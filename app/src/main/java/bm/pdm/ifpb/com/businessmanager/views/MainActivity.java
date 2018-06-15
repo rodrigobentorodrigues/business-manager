@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import bm.pdm.ifpb.com.businessmanager.R;
-import bm.pdm.ifpb.com.businessmanager.domains.TipoTemp;
+import bm.pdm.ifpb.com.businessmanager.infra.AutenticarUsuario;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,15 +46,13 @@ public class MainActivity extends AppCompatActivity {
                             "Informe todos os campos na tela");
                     alert.show();
                 } else {
-                    if(valorLogin.equals("adminpdm") && valorSenha.equals("pdmadmin")){
+                    //if(valorLogin.equals("adminpdm") && valorSenha.equals("pdmadmin")){
+                    if(valorLogin.equals("a") && valorSenha.equals("a")){
                         Intent intent = new Intent(MainActivity.this, CadastroActivity.class);
                         startActivity(intent);
                     } else {
-                        Intent intent = new Intent(MainActivity.this, MenuActivity.class);
-                        TipoTemp tipo = new TipoTemp();
-                        tipo.setValor(spinner.getSelectedItem().toString());
-                        startActivity(intent);
-                        // intent.putExtra("tipo", spinner.getSelectedItem().toString());
+                        AutenticarUsuario auth = new AutenticarUsuario(MainActivity.this);
+                        auth.execute("https://business-manager-server.herokuapp.com/usuario/autenticar?login="+valorLogin+"&senha="+valorSenha);
                     }
                 }
             }

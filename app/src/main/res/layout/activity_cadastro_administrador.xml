@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="14dp"
         android:gravity="center"
         android:text="Cadastro de Administrador"
         android:textSize="25sp" />
@@ -23,9 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView13"
-        android:layout_marginTop="82dp"
-        android:text="Nome"
-        android:layout_alignLeft="@+id/textView13" />
+        android:layout_marginTop="64dp"
+        android:text="Nome" />
 
     <EditText
         android:id="@+id/campoFuncionario"
@@ -45,9 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView13"
-        android:layout_marginTop="165dp"
-        android:text="Empresa"
-        android:layout_alignLeft="@+id/textView13" />
+        android:layout_marginTop="140dp"
+        android:text="Empresa" />
 
     <EditText
         android:id="@+id/campoEmpresa"
@@ -65,10 +63,10 @@
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView13"
-        android:layout_centerVertical="true"
-        android:text="@string/login"
-        android:layout_alignLeft="@+id/textView13" />
+        android:layout_marginTop="218dp"
+        android:text="@string/login" />
 
     <EditText
         android:id="@+id/campoLogin"
@@ -88,9 +86,30 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView13"
-        android:layout_marginBottom="165dp"
-        android:text="@string/senha"
-        android:layout_alignLeft="@+id/textView13" />
+        android:layout_marginBottom="193dp"
+        android:text="@string/senha" />
+
+    <TextView
+        android:id="@+id/textView45"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView13"
+        android:layout_marginBottom="116dp"
+        android:text="Telefone" />
+
+    <EditText
+        android:id="@+id/campoTel"
+        android:layout_width="294dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView45"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-116dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Informe o telefone"
+        android:inputType="phone"
+        android:textAlignment="center" />
 
     <EditText
         android:id="@+id/campoSenha"
@@ -98,12 +117,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView17"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-165dp"
+        android:layout_marginTop="-193dp"
         android:ems="10"
-        android:hint="@string/info_senha"
-        android:textAlignment="center"
         android:gravity="center"
-        android:inputType="textPassword" />
+        android:hint="@string/info_senha"
+        android:inputType="textPassword"
+        android:textAlignment="center" />
 
     <Button
         android:id="@+id/botaoCadastro"
@@ -112,7 +131,6 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
         android:text="Cadastrar" />
 
 

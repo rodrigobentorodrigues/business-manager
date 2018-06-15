@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="bm.pdm.ifpb.com.businessmanager">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo3"
@@ -105,6 +107,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.UsuarioActivity" />
         </activity>
+        <service
+            android:name=".services.AdicionarFuncionario"
+            android:exported="false">
+        </service>
+        <service
+            android:name=".services.AdicionarAdministrador"
+            android:exported="false"></service>
+        <service
+            android:name=".services.AdicionarAtividade"
+            android:exported="false"></service>
     </application>
 
 </manifest>
