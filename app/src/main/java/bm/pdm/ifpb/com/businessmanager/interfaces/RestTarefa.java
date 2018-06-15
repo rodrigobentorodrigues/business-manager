@@ -15,6 +15,7 @@ public interface RestTarefa {
                                  @Query("paraUsuario") String paraUsuario,
                                  @Query("titulo") String titulo,
                                  @Query("descricao") String descricao,
+                                 @Query("data") String data,
                                  @Query("concluida") boolean concluida);
 
 }

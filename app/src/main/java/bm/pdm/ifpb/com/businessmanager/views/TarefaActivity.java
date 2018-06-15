@@ -14,6 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import bm.pdm.ifpb.com.businessmanager.R;
+import bm.pdm.ifpb.com.businessmanager.domains.RepoTemp;
+import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
+import bm.pdm.ifpb.com.businessmanager.infra.ListarTarefas;
 import bm.pdm.ifpb.com.businessmanager.infra.TarefaAdapter;
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 
@@ -25,16 +28,19 @@ public class TarefaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarefa);
-        List<Tarefa> tarefas = Arrays.
-                asList(new Tarefa(0, "Rodrigo", "Rennan",
-                                "Tarefa 1", "Tarefa Descrição",
-                                "31/05/1997", false),
-                        new Tarefa(0, "Rennan", "Rodrigo",
-                                "Tarefa 1", "Tarefa Descrição",
-                                "15/05/2015", false));
+//        List<Tarefa> tarefas = Arrays.
+//                asList(new Tarefa(0, "Rodrigo", "Rennan",
+//                                "Tarefa 1", "Tarefa Descrição",
+//                                "31/05/1997", false),
+//                        new Tarefa(0, "Rennan", "Rodrigo",
+//                                "Tarefa 1", "Tarefa Descrição",
+//                                "15/05/2015", false));
         //
+        Usuario usuario = RepoTemp.getUsuario();
         this.listView = findViewById(android.R.id.list);
-        listView.setAdapter(new TarefaAdapter(tarefas, TarefaActivity.this));
+        ListarTarefas listar = new ListarTarefas(TarefaActivity.this, listView);
+        listar.execute("https://business-manager-server.herokuapp.com/tarefa/naoConcluidas?usuario="+usuario.getNome());
+        // listView.setAdapter(new TarefaAdapter(tarefas, TarefaActivity.this));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

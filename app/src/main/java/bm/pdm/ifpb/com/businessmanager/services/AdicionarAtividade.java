@@ -28,7 +28,7 @@ public class AdicionarAtividade extends IntentService {
         RestTarefa adicionarTarefa = retrofit.create(RestTarefa.class);
         Call<Tarefa> tarefaCall = adicionarTarefa.adicionarTarefa(0,
                 tarefa.getDeUsuario(), tarefa.getParaUsuario(), tarefa.getTitulo(),
-                tarefa.getDescricao(), false);
+                tarefa.getDescricao(), tarefa.getData(), false);
         try {
             tarefaCall.execute();
             Intent sendBroad = new Intent();

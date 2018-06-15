@@ -2,10 +2,10 @@ package bm.pdm.ifpb.com.businessmanager.infra;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
+import android.widget.ListView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,24 +15,27 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-import bm.pdm.ifpb.com.businessmanager.domains.RepoTemp;
-import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
-import bm.pdm.ifpb.com.businessmanager.views.MenuActivity;
+import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 
-public class AutenticarUsuario extends AsyncTask<String, Void, String> {
+public class ListarTarefas extends AsyncTask<String, Void, String> {
 
     private Context contexto;
-    private ProgressDialog dialog;
+    private ListView listView;
+    private ProgressDialog progressDialog;
 
-    public AutenticarUsuario(Context contexto) {
-        this.contexto = contexto;
+    public ListarTarefas(Context context, ListView listView) {
+        this.contexto = context;
+        this.listView = listView;
     }
 
     @Override
     protected void onPreExecute() {
-        dialog = ProgressDialog.show(contexto, "Aguarde...", "Buscando informações do servidor");
-        dialog.setCancelable(false);
+        progressDialog = ProgressDialog.show(contexto, "Aguarde...",
+                "Buscando informações do servidor");
+        progressDialog.setCancelable(false);
     }
 
     @Override
@@ -67,34 +70,24 @@ public class AutenticarUsuario extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         try {
-            JSONObject retorno = new JSONObject(s);
-            int id = retorno.getInt("id");
-            dialog.dismiss();
-            if(id != 0){
-                Usuario usuario = new Usuario();
-                usuario.setId(id);
-                usuario.setNome(retorno.getString("nome"));
-                String cargo = retorno.getString("funcao");
-                RepoTemp temp = new RepoTemp();
-                if(cargo != "Administrador"){
-                    temp.setValor("Funcionário");
-                } else {
-                    temp.setValor(cargo);
-                }
-                usuario.setCargo(cargo);
-                usuario.setLogin(retorno.getString("login"));
-                usuario.setSenha(retorno.getString("senha"));
-                usuario.setTelefone(retorno.getString("telefone"));
-                Intent intent = new Intent(contexto, MenuActivity.class);
-                contexto.startActivity(intent);
-                RepoTemp.setUsuario(usuario);
-            } else {
-                Toast.makeText(contexto, "Usuário não cadastrado na base de dados",
-                        Toast.LENGTH_SHORT).show();
+            List<Tarefa> tarefas = new ArrayList<>();
+            JSONArray arrayResult = new JSONArray(s);
+            for(int i = 0; i < arrayResult.length(); i++){
+                JSONObject object = arrayResult.getJSONObject(i);
+                Tarefa tarefa = new Tarefa();
+                tarefa.setId(object.getInt("id"));
+                tarefa.setDeUsuario(object.getString("deUsuario"));
+                tarefa.setParaUsuario(object.getString("paraUsuario"));
+                tarefa.setTitulo(object.getString("titulo"));
+                tarefa.setDescricao(object.getString("descricao"));
+                tarefa.setData(object.getString("data"));
+                tarefa.setConcluida(object.getBoolean("concluida"));
+                tarefas.add(tarefa);
             }
+            progressDialog.dismiss();
+            listView.setAdapter(new TarefaAdapter(tarefas, contexto));
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
 }
