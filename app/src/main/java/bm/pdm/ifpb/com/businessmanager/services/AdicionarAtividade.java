@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 import bm.pdm.ifpb.com.businessmanager.interfaces.RestTarefa;

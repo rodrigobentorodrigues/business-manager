@@ -1,53 +1,49 @@
 package bm.pdm.ifpb.com.businessmanager.views;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
+import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
-import bm.pdm.ifpb.com.businessmanager.domains.RepoTemp;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
+import bm.pdm.ifpb.com.businessmanager.infra.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.infra.ListarTarefas;
-import bm.pdm.ifpb.com.businessmanager.infra.TarefaAdapter;
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 
 public class TarefaActivity extends AppCompatActivity {
 
     private ListView listView;
+    private Usuario usuario;
+    private DadosUsuario dadosUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarefa);
-//        List<Tarefa> tarefas = Arrays.
-//                asList(new Tarefa(0, "Rodrigo", "Rennan",
-//                                "Tarefa 1", "Tarefa Descrição",
-//                                "31/05/1997", false),
-//                        new Tarefa(0, "Rennan", "Rodrigo",
-//                                "Tarefa 1", "Tarefa Descrição",
-//                                "15/05/2015", false));
-        //
-        Usuario usuario = RepoTemp.getUsuario();
+        this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
+        this.usuario = dadosUsuario.autenticado();
+        Log.i("Tarefa", dadosUsuario.toString());
         this.listView = findViewById(android.R.id.list);
         ListarTarefas listar = new ListarTarefas(TarefaActivity.this, listView);
         listar.execute("https://business-manager-server.herokuapp.com/tarefa/naoConcluidas?usuario="+usuario.getNome());
-        // listView.setAdapter(new TarefaAdapter(tarefas, TarefaActivity.this));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Tarefa tarefa = (Tarefa) parent.getItemAtPosition(position);
-                Intent intent = new Intent(TarefaActivity.this, InfoTarefaActivity.class);
-                intent.putExtra("tarefa", tarefa);
-                startActivity(intent);
+                if(tarefa.getParaUsuario().equals(usuario.getNome())){
+                    Intent intent = new Intent(TarefaActivity.this, InfoTarefaActivity.class);
+                    intent.putExtra("tarefa", tarefa);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(TarefaActivity.this, "Para visualizar esta atividade você precisa ser o destinatário",
+                            Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

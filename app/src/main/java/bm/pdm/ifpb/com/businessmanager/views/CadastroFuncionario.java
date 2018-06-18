@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
+import bm.pdm.ifpb.com.businessmanager.infra.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.services.AdicionarFuncionario;
 
 public class CadastroFuncionario extends AppCompatActivity {
@@ -21,11 +22,15 @@ public class CadastroFuncionario extends AppCompatActivity {
     private EditText nome, cargo, login, senha, tel;
     private Button cadastro;
     private Usuario usuario;
+    private DadosUsuario dadosUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_funcionario);
+        IntentFilter filter = new IntentFilter("cad-func");
+        registerReceiver(new CadastroFuncBroadCast(), filter);
+        Log.i("Receiver", "Registrado");
         //
         this.nome = findViewById(R.id.nomeFunc);
         this.cargo = findViewById(R.id.cargoFunc);
@@ -57,14 +62,6 @@ public class CadastroFuncionario extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        IntentFilter filter = new IntentFilter("cad-func");
-        registerReceiver(new CadastroFuncBroadCast(), filter);
-        Log.i("Receiver", "Registrado");
     }
 
     private class CadastroFuncBroadCast extends BroadcastReceiver {

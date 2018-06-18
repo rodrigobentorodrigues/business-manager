@@ -15,9 +15,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
-import bm.pdm.ifpb.com.businessmanager.domains.RepoTemp;
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
+import bm.pdm.ifpb.com.businessmanager.infra.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.services.AdicionarAtividade;
 
 public class CadastroAtividade extends AppCompatActivity {
@@ -26,11 +26,15 @@ public class CadastroAtividade extends AppCompatActivity {
     private EditText desc, data, titulo;
     private Button cadastro;
     private Usuario usuario;
+    private DadosUsuario dadosUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_atividade);
+        //
+        IntentFilter filter = new IntentFilter("cad-ativ");
+        registerReceiver(new CadAtivBroadCast(), filter);
 
         this.spinner = findViewById(R.id.spinner3);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -42,8 +46,11 @@ public class CadastroAtividade extends AppCompatActivity {
         this.data = findViewById(R.id.campoData);
         this.titulo = findViewById(R.id.campoTitulo);
         this.cadastro = findViewById(R.id.cadAtiv);
-        usuario = RepoTemp.getUsuario();
 
+        this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
+        this.usuario = dadosUsuario.autenticado();
+
+        Log.i("Cad-Atividade", usuario.toString());
         cadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,13 +74,6 @@ public class CadastroAtividade extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        IntentFilter filter = new IntentFilter("cad-ativ");
-        registerReceiver(new CadAtivBroadCast(), filter);
     }
 
     private class CadAtivBroadCast extends BroadcastReceiver {

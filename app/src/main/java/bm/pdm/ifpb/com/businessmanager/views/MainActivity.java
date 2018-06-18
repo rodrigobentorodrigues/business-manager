@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, CadastroActivity.class);
                         startActivity(intent);
                     } else {
-                        AutenticarUsuario auth = new AutenticarUsuario(MainActivity.this);
+                        AutenticarUsuario auth = new AutenticarUsuario(MainActivity.this,  spinner.getSelectedItem().toString());
                         auth.execute("https://business-manager-server.herokuapp.com/usuario/autenticar?login="+valorLogin+"&senha="+valorSenha);
                     }
                 }

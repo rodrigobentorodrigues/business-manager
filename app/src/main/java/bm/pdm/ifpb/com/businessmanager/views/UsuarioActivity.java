@@ -7,27 +7,28 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.Arrays;
-import java.util.List;
-
 import bm.pdm.ifpb.com.businessmanager.R;
-import bm.pdm.ifpb.com.businessmanager.infra.UsuarioAdapter;
+import bm.pdm.ifpb.com.businessmanager.infra.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.infra.ListarUsuario;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 
 public class UsuarioActivity extends AppCompatActivity {
 
     private ListView listView;
+    private Usuario usuario;
+    private DadosUsuario dadosUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usuario);
-        List<Usuario> usuarios = Arrays.asList(new Usuario(0, "Rodrigo", "Administrador",
-                        "rod", "123", "981549498"),
-                new Usuario(0, "Rodrigo", "Administrador",
-                        "rod", "123", "981549498"));
+        //
+        this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
+        this.usuario = dadosUsuario.autenticado();
+        //
         this.listView = findViewById(android.R.id.list);
-        listView.setAdapter(new UsuarioAdapter(usuarios, UsuarioActivity.this));
+        ListarUsuario listarUsuario = new ListarUsuario(UsuarioActivity.this, listView);
+        listarUsuario.execute("https://business-manager-server.herokuapp.com/usuario/todosPorId?id="+usuario.getIdEmpresa());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

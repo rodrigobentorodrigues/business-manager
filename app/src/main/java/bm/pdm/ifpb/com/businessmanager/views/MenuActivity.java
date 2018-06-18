@@ -5,17 +5,19 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
 import bm.pdm.ifpb.com.businessmanager.R;
-import bm.pdm.ifpb.com.businessmanager.domains.RepoTemp;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
+import bm.pdm.ifpb.com.businessmanager.infra.DadosUsuario;
 
 public class MenuActivity extends AppCompatActivity {
 
     private ImageButton atividade, contatos, cadastro, duvida;
-    private final String TIPO_FUNC = "Funcionário";
+    private final String TIPO_FUNC = "Administrador";
+    private DadosUsuario dadosUsuario;
     private Usuario usuario;
 
     @Override
@@ -23,17 +25,19 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         //
+        this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
+        //
         this.atividade = findViewById(R.id.botaoAtividade);
         this.contatos = findViewById(R.id.botaoContatos);
         this.cadastro = findViewById(R.id.botaoCadastro);
         this.duvida = findViewById(R.id.botaoDuvida);
         //
-
-        usuario = RepoTemp.getUsuario();
+        usuario = dadosUsuario.autenticado();
+        Log.i("Menu", usuario.toString());
         atividade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(usuario.getCargo().equals(TIPO_FUNC)){
+                if(!usuario.getCargo().equals(TIPO_FUNC)){
                     Intent intent = new Intent(MenuActivity.this,
                             TarefaActivity.class);
                     startActivity(intent);
@@ -55,7 +59,7 @@ public class MenuActivity extends AppCompatActivity {
         cadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(usuario.getCargo().equals(TIPO_FUNC)){
+                if(!usuario.getCargo().equals(TIPO_FUNC)){
                     AlertDialog alert = construirAlerta("Acesso negado",
                             "Você não tem acesso para essa parte do aplicativo!");
                     alert.show();

@@ -26,6 +26,11 @@ public class CadastroAdministrador extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_administrador);
+        //
+        IntentFilter filter = new IntentFilter("cad-adm");
+        registerReceiver(new CadastroAdmBroadCast(), filter);
+        Log.i("Receiver", "Registrado");
+        //
         this.nome = findViewById(R.id.campoFuncionario);
         this.login = findViewById(R.id.campoLogin);
         this.senha = findViewById(R.id.campoSenha);
@@ -62,14 +67,6 @@ public class CadastroAdministrador extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        IntentFilter filter = new IntentFilter("cad-adm");
-        registerReceiver(new CadastroAdmBroadCast(), filter);
-        Log.i("Receiver", "Registrado");
     }
 
     private class CadastroAdmBroadCast extends BroadcastReceiver {

@@ -11,36 +11,42 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.util.Arrays;
-import java.util.List;
-
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Duvida;
-import bm.pdm.ifpb.com.businessmanager.infra.DuvidaAdapter;
+import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
+import bm.pdm.ifpb.com.businessmanager.infra.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.infra.ListarDuvida;
 
 public class DuvidaActivity extends AppCompatActivity {
 
     private ListView listView;
+    private Usuario usuario;
+    private DadosUsuario dadosUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_duvida);
-        //
-        List<Duvida> duvidasTeste = Arrays.asList(
-                new Duvida("Rodrigo","Rennan", "Como faço um listView?"),
-                new Duvida("Ari","Juan", "Como criar um gmail?"),
-                new Duvida("Maria","Joao", "Me auxilia em PDM? Me auxilia em PDM? Me auxilia em PDM? "));
+
+        this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
+        this.usuario = dadosUsuario.autenticado();
         //
         this.listView = findViewById(android.R.id.list);
-        listView.setAdapter(new DuvidaAdapter(duvidasTeste, DuvidaActivity.this));
+        ListarDuvida listarDuvida = new ListarDuvida(DuvidaActivity.this, listView);
+        listarDuvida.execute("https://business-manager-server.herokuapp.com/duvida/naoConcluidas?usuario="+usuario.getNome());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Duvida duvida = (Duvida) parent.getAdapter().getItem(position);
-                Intent intent = new Intent(DuvidaActivity.this, InfoDuvidaActivity.class);
-                intent.putExtra("duvida", duvida);
-                startActivity(intent);
+                if(duvida.getParaUsuario().equals(usuario.getNome())){
+                    Intent intent = new Intent(DuvidaActivity.this, InfoDuvidaActivity.class);
+                    intent.putExtra("duvida", duvida);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(DuvidaActivity.this, "Para visualizar esta duvida você precisa ser o destinatário",
+                            Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

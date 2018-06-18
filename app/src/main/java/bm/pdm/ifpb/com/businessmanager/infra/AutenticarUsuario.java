@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -16,17 +17,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import bm.pdm.ifpb.com.businessmanager.domains.RepoTemp;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
+import bm.pdm.ifpb.com.businessmanager.views.MainActivity;
 import bm.pdm.ifpb.com.businessmanager.views.MenuActivity;
 
 public class AutenticarUsuario extends AsyncTask<String, Void, String> {
 
     private Context contexto;
+    private String tipo;
     private ProgressDialog dialog;
+    private DadosUsuario dadosUsuario;
 
-    public AutenticarUsuario(Context contexto) {
+    public AutenticarUsuario(Context contexto, String tipo) {
         this.contexto = contexto;
+        this.tipo = tipo;
+        this.dadosUsuario = new DadosUsuario(contexto.getSharedPreferences("usuario",
+                Context.MODE_PRIVATE));
     }
 
     @Override
@@ -71,27 +77,39 @@ public class AutenticarUsuario extends AsyncTask<String, Void, String> {
             int id = retorno.getInt("id");
             dialog.dismiss();
             if(id != 0){
-                Usuario usuario = new Usuario();
-                usuario.setId(id);
-                usuario.setNome(retorno.getString("nome"));
                 String cargo = retorno.getString("funcao");
-                RepoTemp temp = new RepoTemp();
-                if(cargo != "Administrador"){
-                    temp.setValor("Funcionário");
+                if(cargo.equals(tipo)){
+                    preencherUsuario(retorno);
+                } else if(tipo.equals("Funcionário")){
+                    preencherUsuario(retorno);
                 } else {
-                    temp.setValor(cargo);
+                    Toast.makeText(contexto, "O usuário não é desse tipo de cargo",
+                            Toast.LENGTH_SHORT).show();
                 }
-                usuario.setCargo(cargo);
-                usuario.setLogin(retorno.getString("login"));
-                usuario.setSenha(retorno.getString("senha"));
-                usuario.setTelefone(retorno.getString("telefone"));
-                Intent intent = new Intent(contexto, MenuActivity.class);
-                contexto.startActivity(intent);
-                RepoTemp.setUsuario(usuario);
             } else {
                 Toast.makeText(contexto, "Usuário não cadastrado na base de dados",
                         Toast.LENGTH_SHORT).show();
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void preencherUsuario(JSONObject retorno){
+        JSONObject empresa = null;
+        try {
+            empresa = retorno.getJSONObject("empresa");
+            Usuario usuario = new Usuario();
+            usuario.setId(retorno.getInt("id"));
+            usuario.setNome(retorno.getString("nome"));
+            usuario.setCargo(retorno.getString("funcao"));
+            usuario.setLogin(retorno.getString("login"));
+            usuario.setSenha(retorno.getString("senha"));
+            usuario.setTelefone(retorno.getString("telefone"));
+            usuario.setIdEmpresa(empresa.getInt("id"));
+            dadosUsuario.alterarValores(usuario);
+            Intent intent = new Intent(contexto, MenuActivity.class);
+            contexto.startActivity(intent);
         } catch (JSONException e) {
             e.printStackTrace();
         }

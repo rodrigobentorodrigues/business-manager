@@ -117,6 +117,9 @@
         <service
             android:name=".services.AdicionarAtividade"
             android:exported="false"></service>
+        <service
+            android:name=".services.AdicionarDuvida"
+            android:exported="false"></service>
     </application>
 
 </manifest>

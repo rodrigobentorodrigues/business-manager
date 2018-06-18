@@ -10,6 +10,7 @@ public class Usuario implements Serializable{
     private String login;
     private String senha;
     private String telefone;
+    private int idEmpresa;
 
     public Usuario(int id, String nome, String cargo, String login, String senha, String telefone) {
         this.id = id;
@@ -71,6 +72,14 @@ public class Usuario implements Serializable{
         this.telefone = telefone;
     }
 
+    public int getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(int idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
@@ -80,6 +89,7 @@ public class Usuario implements Serializable{
                 ", login='" + login + '\'' +
                 ", senha='" + senha + '\'' +
                 ", telefone='" + telefone + '\'' +
+                ", idEmpresa=" + idEmpresa +
                 '}';
     }
 
