@@ -23,7 +23,7 @@ import bm.pdm.ifpb.com.businessmanager.services.AdicionarAtividade;
 public class CadastroAtividade extends AppCompatActivity {
 
     private Spinner spinner;
-    private EditText desc, data, titulo;
+    private EditText desc, data, titulo, funcionario;
     private Button cadastro;
     private Usuario usuario;
     private DadosUsuario dadosUsuario;
@@ -36,12 +36,13 @@ public class CadastroAtividade extends AppCompatActivity {
         IntentFilter filter = new IntentFilter("cad-ativ");
         registerReceiver(new CadAtivBroadCast(), filter);
 
-        this.spinner = findViewById(R.id.spinner3);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.tipo, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.spinner.setAdapter(adapter);
+//        this.spinner = findViewById(R.id.spinner3);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+//                R.array.tipo, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        this.spinner.setAdapter(adapter);
 
+        this.funcionario = findViewById(R.id.campoNomeFunc);
         this.desc = findViewById(R.id.campoDesc);
         this.data = findViewById(R.id.campoData);
         this.titulo = findViewById(R.id.campoTitulo);
@@ -55,7 +56,7 @@ public class CadastroAtividade extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String deUsuario = usuario.getNome();
-                String paraUsuario = spinner.getSelectedItem().toString();
+                String paraUsuario = funcionario.getText().toString();
                 String valorDesc = desc.getText().toString();
                 String valorData = data.getText().toString();
                 Log.i("Data", valorData);

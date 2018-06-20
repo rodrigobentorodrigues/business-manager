@@ -24,7 +24,8 @@
         android:layout_alignStart="@+id/campoData"
         android:layout_marginTop="66dp"
         android:text="Funcionário"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_alignLeft="@+id/campoData" />
 
     <TextView
         android:id="@+id/textView47"
@@ -34,30 +35,31 @@
         android:layout_alignStart="@+id/textView22"
         android:layout_marginTop="151dp"
         android:text="Titulo"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:layout_alignLeft="@+id/textView22" />
 
-    <Spinner
-        android:id="@+id/spinner3"
-        android:layout_width="307dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/textView22"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:textAlignment="center" />
+    <!--<Spinner-->
+        <!--android:id="@+id/spinner3"-->
+        <!--android:layout_width="307dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_below="@+id/textView22"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:gravity="center"-->
+        <!--android:textAlignment="center" />-->
 
     <TextView
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/campoDesc"
-        android:layout_alignStart="@+id/spinner3"
+        android:layout_alignStart="@+id/textView22"
         android:text="Descrição da atividade"
         android:textSize="18sp"
-        android:layout_alignLeft="@+id/spinner3" />
+        android:layout_alignLeft="@+id/textView22" />
 
     <EditText
         android:id="@+id/campoDesc"
-        android:layout_width="307dp"
+        android:layout_width="309dp"
         android:layout_height="79dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -70,14 +72,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/campoData"
-        android:layout_alignStart="@+id/spinner3"
+        android:layout_alignStart="@+id/textView22"
         android:text="Data de conclusão"
         android:textSize="18sp"
-        android:layout_alignLeft="@+id/spinner3" />
+        android:layout_alignLeft="@+id/textView22" />
 
     <EditText
         android:id="@+id/campoData"
-        android:layout_width="312dp"
+        android:layout_width="309dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -105,5 +107,17 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/campoNomeFunc"
+        android:layout_width="309dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView22"
+        android:layout_below="@+id/textView22"
+        android:ems="10"
+        android:hint="Informe o nome do funcionário"
+        android:gravity="center"
+        android:inputType="textCapSentences"
+        android:layout_alignLeft="@+id/textView22" />
 
 </RelativeLayout>
