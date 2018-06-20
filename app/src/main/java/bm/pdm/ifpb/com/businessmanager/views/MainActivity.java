@@ -1,7 +1,14 @@
 package bm.pdm.ifpb.com.businessmanager.views;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,9 +28,23 @@ public class MainActivity extends AppCompatActivity {
     private EditText login, senha;
 
     @Override
+    @RequiresApi(api = Build.VERSION_CODES.M)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //
+        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 100);
+        }
+        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 100);
+        }
+        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.WRITE_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_CONTACTS}, 100);
+        }
         //
         this.login = findViewById(R.id.inputLogin);
         this.senha = findViewById(R.id.inputSenha);
@@ -46,13 +67,25 @@ public class MainActivity extends AppCompatActivity {
                             "Informe todos os campos na tela");
                     alert.show();
                 } else {
-                    //if(valorLogin.equals("adminpdm") && valorSenha.equals("pdmadmin")){
-                    if(valorLogin.equals("a") && valorSenha.equals("a")){
-                        Intent intent = new Intent(MainActivity.this, CadastroActivity.class);
-                        startActivity(intent);
+                    ConnectivityManager cm = (ConnectivityManager)
+                            MainActivity.this.getSystemService(CONNECTIVITY_SERVICE);
+                    // Objeto netInfo que recebe as informacoes da Network
+                    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+                    //Se o objeto for nulo ou nao tem conectividade retorna false
+                    if ((netInfo != null) && (netInfo.isConnectedOrConnecting()) && (netInfo.isAvailable())){
+                        //if(valorLogin.equals("adminpdm") && valorSenha.equals("pdmadmin")){
+                        if(valorLogin.equals("a") && valorSenha.equals("a")){
+                            Intent intent = new Intent(MainActivity.this, CadastroActivity.class);
+                            startActivity(intent);
+                        } else {
+                            AutenticarUsuario auth = new AutenticarUsuario(MainActivity.this,  spinner.getSelectedItem().toString());
+                            auth.execute("https://business-manager-server.herokuapp.com/usuario/autenticar?login="+valorLogin+"&senha="+valorSenha);
+                        }
                     } else {
-                        AutenticarUsuario auth = new AutenticarUsuario(MainActivity.this,  spinner.getSelectedItem().toString());
-                        auth.execute("https://business-manager-server.herokuapp.com/usuario/autenticar?login="+valorLogin+"&senha="+valorSenha);
+                        String titulo = "Sem conexão com a internet";
+                        String msg = "Por favor, conecte-se com alguma rede e tente novamente";
+                        AlertDialog alerta = construirAlerta(titulo, msg);
+                        alerta.show();
                     }
                 }
             }
