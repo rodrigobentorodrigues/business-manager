@@ -86,6 +86,7 @@
             android:ems="10"
             android:gravity="center"
             android:hint="Informe o telefone"
+            android:maxLength="15"
             android:inputType="phone"
             android:textAlignment="center"
             android:textSize="20sp" />

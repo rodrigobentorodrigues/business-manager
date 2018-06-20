@@ -14,8 +14,9 @@ import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
+import bm.pdm.ifpb.com.businessmanager.infra.AdicionarFuncionario;
 import bm.pdm.ifpb.com.businessmanager.infra.DadosUsuario;
-import bm.pdm.ifpb.com.businessmanager.services.AdicionarFuncionario;
+import br.com.jansenfelipe.androidmask.MaskEditTextChangedListener;
 
 public class CadastroFuncionario extends AppCompatActivity {
 
@@ -28,15 +29,14 @@ public class CadastroFuncionario extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_funcionario);
-        IntentFilter filter = new IntentFilter("cad-func");
-        registerReceiver(new CadastroFuncBroadCast(), filter);
-        Log.i("Receiver", "Registrado");
         //
         this.nome = findViewById(R.id.nomeFunc);
         this.cargo = findViewById(R.id.cargoFunc);
         this.login = findViewById(R.id.loginFunc);
         this.senha = findViewById(R.id.senhaFunc);
         this.tel = findViewById(R.id.telefoneCampo);
+        MaskEditTextChangedListener mask = new MaskEditTextChangedListener("(###)#####-####", tel);
+        tel.addTextChangedListener(mask);
         this.cadastro = findViewById(R.id.cadFunc);
         //
         cadastro.setOnClickListener(new View.OnClickListener() {
@@ -47,18 +47,22 @@ public class CadastroFuncionario extends AppCompatActivity {
                 String loginFunc = login.getText().toString();
                 String senhaFunc = senha.getText().toString();
                 String telFunc = tel.getText().toString();
+                Log.i("TELEFONE", telFunc);
                 if(nomeFunc.equals("") || cargoFunc.equals("") ||
                         loginFunc.equals("")  || senhaFunc.equals("") || telFunc.equals("")){
                     Toast.makeText(CadastroFuncionario.this, "Informe todos os campos",
                             Toast.LENGTH_SHORT).show();
                 } else {
                     usuario = new Usuario(0, nomeFunc, cargoFunc, loginFunc, senhaFunc, telFunc);
-                    Intent intent = new Intent(CadastroFuncionario.this, AdicionarFuncionario.class);
-                    intent.putExtra("url", "https://business-manager-server.herokuapp.com/");
-                    intent.putExtra("idEmpresa", 1);
-                    intent.putExtra("usuario", usuario);
-                    startService(intent);
-                    Toast.makeText(CadastroFuncionario.this, "Dados enviados", Toast.LENGTH_SHORT).show();
+                    usuario.setIdEmpresa(1);
+                    AdicionarFuncionario addFunc = new bm.pdm.ifpb.com.businessmanager.infra.
+                            AdicionarFuncionario(usuario, CadastroFuncionario.this);
+                    addFunc.execute("https://business-manager-server.herokuapp.com/");
+                    nome.setText("");
+                    cargo.setText("");
+                    login.setText("");
+                    senha.setText("");
+                    tel.setText("");
                 }
             }
         });

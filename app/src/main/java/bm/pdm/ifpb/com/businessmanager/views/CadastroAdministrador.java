@@ -3,10 +3,8 @@ package bm.pdm.ifpb.com.businessmanager.views;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +12,8 @@ import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
-import bm.pdm.ifpb.com.businessmanager.services.AdicionarAdministrador;
+import bm.pdm.ifpb.com.businessmanager.infra.AdicionarAdministrador;
+import br.com.jansenfelipe.androidmask.MaskEditTextChangedListener;
 
 public class CadastroAdministrador extends AppCompatActivity {
 
@@ -27,14 +26,12 @@ public class CadastroAdministrador extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_administrador);
         //
-        IntentFilter filter = new IntentFilter("cad-adm");
-        registerReceiver(new CadastroAdmBroadCast(), filter);
-        Log.i("Receiver", "Registrado");
-        //
         this.nome = findViewById(R.id.campoFuncionario);
         this.login = findViewById(R.id.campoLogin);
         this.senha = findViewById(R.id.campoSenha);
         this.tel = findViewById(R.id.campoTel);
+        MaskEditTextChangedListener mask = new MaskEditTextChangedListener("(###)#####-####", tel);
+        tel.addTextChangedListener(mask);
         this.empresa = findViewById(R.id.campoEmpresa);
         this.cadastro = findViewById(R.id.botaoCadastro);
 
@@ -55,15 +52,14 @@ public class CadastroAdministrador extends AppCompatActivity {
                     //
                     usuario = new Usuario(0, nomeFunc, "Administrador", loginFunc,
                             senhaFunc, telFunc);
-                    Intent intent = new Intent(CadastroAdministrador.this,
-                            AdicionarAdministrador.class);
-                    intent.putExtra("url",
-                            "https://business-manager-server.herokuapp.com/");
-                    intent.putExtra("nomeEmpresa", empresaFunc);
-                    intent.putExtra("usuario", usuario);
-                    startService(intent);
-                    Toast.makeText(CadastroAdministrador.this,
-                            "Dados enviados", Toast.LENGTH_SHORT).show();
+                    AdicionarAdministrador add = new AdicionarAdministrador(usuario,
+                            CadastroAdministrador.this, empresaFunc);
+                    add.execute("https://business-manager-server.herokuapp.com/");
+                    nome.setText("");
+                    empresa.setText("");
+                    login.setText("");
+                    senha.setText("");
+                    tel.setText("");
                 }
             }
         });
