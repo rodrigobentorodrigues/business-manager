@@ -86,7 +86,7 @@
         android:layout_marginBottom="89dp"
         android:ems="10"
         android:gravity="center"
-        android:inputType="date"
+        android:inputType="number"
         android:textAlignment="center" />
 
     <Button
