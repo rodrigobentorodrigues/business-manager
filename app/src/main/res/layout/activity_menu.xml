@@ -11,7 +11,8 @@
         android:layout_width="132dp"
         android:layout_height="131dp"
         android:layout_alignEnd="@+id/botaoCadastro"
-        android:layout_alignTop="@+id/botaoContatos"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="67dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ag1"
         android:layout_alignRight="@+id/botaoCadastro" />
@@ -21,13 +22,12 @@
         android:layout_width="137dp"
         android:layout_height="131dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="91dp"
+        android:layout_alignTop="@+id/botaoAtividade"
+        android:layout_marginEnd="23dp"
         android:background="@android:color/transparent"
         android:src="@drawable/p1"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="24dp" />
+        android:layout_marginRight="23dp" />
 
     <ImageButton
         android:id="@+id/botaoCadastro"
@@ -51,5 +51,62 @@
         android:background="@android:color/transparent"
         android:src="@drawable/ch1"
         android:layout_alignLeft="@+id/botaoContatos" />
+
+    <TextView
+        android:id="@+id/textView48"
+        android:layout_width="132dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/botaoAtividade"
+        android:layout_marginTop="211dp"
+        android:text="Atividades"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_alignLeft="@+id/botaoAtividade" />
+
+    <TextView
+        android:id="@+id/textView50"
+        android:layout_width="132dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/botaoAtividade"
+        android:layout_marginBottom="77dp"
+        android:gravity="center"
+        android:text="Funcionários"
+        android:textSize="20sp"
+        android:layout_alignLeft="@+id/botaoAtividade" />
+
+    <TextView
+        android:id="@+id/textView51"
+        android:layout_width="132dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/botaoContatos"
+        android:layout_alignTop="@+id/textView50"
+        android:gravity="center"
+        android:text="Duvidas"
+        android:textSize="20sp"
+        android:layout_alignLeft="@+id/botaoContatos" />
+
+    <TextView
+        android:id="@+id/textView49"
+        android:layout_width="132dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/botaoContatos"
+        android:layout_alignTop="@+id/textView48"
+        android:gravity="center"
+        android:text="Contatos"
+        android:textSize="20sp"
+        android:layout_alignLeft="@+id/botaoContatos" />
+
+    <TextView
+        android:id="@+id/textView52"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:gravity="center"
+        android:text="Menu Principal"
+        android:textSize="22sp" />
 
 </RelativeLayout>
