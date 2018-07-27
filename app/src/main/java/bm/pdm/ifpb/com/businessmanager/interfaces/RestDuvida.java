@@ -14,4 +14,11 @@ public interface RestDuvida {
                                  @Query("pergunta") String pergunta,
                                  @Query("resposta") String resposta);
 
+    @POST("duvida/responder")
+    Call<Duvida> responderDuvida(@Query("id") int id,
+                                 @Query("deUsuario") String deUsuario,
+                                 @Query("paraUsuario") String paraUsuario,
+                                 @Query("pergunta") String pergunta,
+                                 @Query("resposta") String resposta);
+
 }

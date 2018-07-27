@@ -11,12 +11,14 @@ import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Duvida;
+import bm.pdm.ifpb.com.businessmanager.infra.ResponderDuvida;
 
 public class InfoDuvidaActivity extends AppCompatActivity {
 
     private Button enviar, responder;
     private TextView usuario, descricao;
     private EditText resposta;
+    private Duvida duvida;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +26,7 @@ public class InfoDuvidaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info_duvida);
 
         Intent intent = getIntent();
-        Duvida duvida = (Duvida) intent.getSerializableExtra("duvida");
+        duvida = (Duvida) intent.getSerializableExtra("duvida");
 
         this.usuario = findViewById(R.id.campoUsuarioDe);
         this.descricao = findViewById(R.id.descAtividade);
@@ -51,10 +53,9 @@ public class InfoDuvidaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String valorResposta = resposta.getText().toString();
-                Toast.makeText(InfoDuvidaActivity.this, "Resposta: " +
-                        valorResposta + " enviada", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(InfoDuvidaActivity.this, MenuActivity.class);
-                startActivity(intent);
+                duvida.setResposta(valorResposta);
+                ResponderDuvida responderDuvida = new ResponderDuvida(InfoDuvidaActivity.this, duvida);
+                responderDuvida.execute("https://business-manager-server.herokuapp.com/");
             }
         });
 

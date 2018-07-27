@@ -9,17 +9,19 @@ import android.widget.TextView;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
+import bm.pdm.ifpb.com.businessmanager.infra.ConcluirAtividade;
 
 public class InfoTarefaActivity extends AppCompatActivity {
 
     private Button botaoConcluida;
     private TextView usuario, titulo, descricao;
+    private Tarefa tarefa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        Tarefa tarefa = (Tarefa) intent.getSerializableExtra("tarefa");
+        tarefa = (Tarefa) intent.getSerializableExtra("tarefa");
         setContentView(R.layout.activity_info_tarefa);
         this.usuario = findViewById(R.id.cadPor);
         usuario.setText(tarefa.getDeUsuario());
@@ -32,7 +34,9 @@ public class InfoTarefaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Implementar logica
-                finish();
+                ConcluirAtividade concluirAtividade = new ConcluirAtividade(
+                        InfoTarefaActivity.this, tarefa);
+                concluirAtividade.execute("https://business-manager-server.herokuapp.com/");
             }
         });
     }

@@ -114,10 +114,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.UsuarioActivity" />
         </activity>
-        <service
-            android:name=".services.AdicionarFuncionario"
-            android:exported="false">
-        </service>
+
         <service
             android:name=".services.AdicionarAdministrador"
             android:exported="false"></service>
