@@ -12,11 +12,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.infra.AutenticarUsuario;
@@ -104,4 +108,5 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alerta = b.create();
         return alerta;
     }
+
 }

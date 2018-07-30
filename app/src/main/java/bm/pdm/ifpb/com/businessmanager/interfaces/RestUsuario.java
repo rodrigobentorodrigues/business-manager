@@ -9,21 +9,23 @@ public interface RestUsuario {
 
     @POST("usuario/adicionarFuncionario")
     Call<Usuario> adicionarFuncionario(@Query("id") int id,
-                                          @Query("nome") String nome,
-                                          @Query("funcao") String funcao,
-                                          @Query("telefone") String telefone,
-                                          @Query("login") String login,
-                                          @Query("senha") String senha,
-                                          @Query("idEmpresa") int idEmpresa);
+                                      @Query("nome") String nome,
+                                      @Query("funcao") String funcao,
+                                      @Query("telefone") String telefone,
+                                      @Query("login") String login,
+                                      @Query("senha") String senha,
+                                      @Query("imagem") byte[] imagem,
+                                      @Query("idEmpresa") int idEmpresa);
 
     @POST("usuario/adicionarAdministrador")
     Call<Usuario> adicionarAdministrador(@Query("id") int id,
-                                              @Query("nome") String nome,
-                                              @Query("funcao") String funcao,
-                                              @Query("telefone") String telefone,
-                                              @Query("login") String login,
-                                              @Query("senha") String senha,
-                                              @Query("nomeEmpresa") String nomeEmpresa);
+                                      @Query("nome") String nome,
+                                      @Query("funcao") String funcao,
+                                      @Query("telefone") String telefone,
+                                      @Query("login") String login,
+                                      @Query("senha") String senha,
+                                      @Query("imagem") byte[] imagem,
+                                      @Query("nomeEmpresa") String nomeEmpresa);
 
 
 

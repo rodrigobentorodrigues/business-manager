@@ -24,14 +24,15 @@ public class UsuarioContrato extends SQLiteOpenHelper {
 
     public static class UsuarioDados implements BaseColumns {
         public static final String nomeBanco = "usuario.db";
-        public static final int versaoBanco = 1;
+        public static final int versaoBanco = 2;
         public static final String tabela = "usuario";
         public static final String colunaNome = "nome";
         public static final String colunaCargo = "cargo";
         public static final String colunaLogin = "login";
         public static final String colunaSenha = "senha";
         public static final String colunaTelefone = "telefone";
-        // public static final String colunaIdEmpresa = "idEmpresa";
+        public static final String colunaIdEmpresa = "idEmpresa";
+        public static final String colunaImagem = "imagem";
     }
 
     private static final String sqlCriarTabela =
@@ -41,7 +42,9 @@ public class UsuarioContrato extends SQLiteOpenHelper {
                     UsuarioDados.colunaCargo + " TEXT, " +
                     UsuarioDados.colunaLogin + " TEXT, " +
                     UsuarioDados.colunaSenha + " TEXT, " +
-                    UsuarioDados.colunaTelefone + " TEXT);";
+                    UsuarioDados.colunaTelefone + " TEXT, " +
+                    UsuarioDados.colunaIdEmpresa + " INTEGER, " +
+                    UsuarioDados.colunaImagem + " BLOB);";
     private static final String sqlExcluirTabela =
             "DROP TABLE IF EXISTS " + UsuarioDados.tabela;
 

@@ -40,7 +40,7 @@ public class AdicionarFuncionario extends AsyncTask<String, Void, Boolean> {
                 addConverterFactory(GsonConverterFactory.create()).build();
         RestUsuario daoUsuario = retrofit.create(RestUsuario.class);
         Call<Usuario> usuarioCall = daoUsuario.adicionarFuncionario(usuario.getId(), usuario.getNome(), usuario.getCargo(), usuario.getTelefone(),
-                usuario.getLogin(), usuario.getSenha(), usuario.getIdEmpresa());
+                usuario.getLogin(), usuario.getSenha(), usuario.getImagem(), usuario.getIdEmpresa());
         try {
             usuarioCall.execute();
         } catch (IOException e) {

@@ -6,8 +6,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
@@ -90,6 +94,28 @@ public class MenuActivity extends AppCompatActivity {
         });
         AlertDialog alerta = b.create();
         return alerta;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.opcoes, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.dados:
+                Toast.makeText(this, "Selecionou Dados", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.buscaServidor:
+                Toast.makeText(this, "Selecionou Servidor", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
