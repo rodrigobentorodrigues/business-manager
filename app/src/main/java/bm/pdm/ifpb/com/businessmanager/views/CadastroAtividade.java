@@ -37,14 +37,16 @@ public class CadastroAtividade extends AppCompatActivity {
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
     private final String format = "dd/MM/yyyy";
+    private CadAtivBroadCast broadCast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_atividade);
+        this.broadCast = new CadAtivBroadCast();
         //
         IntentFilter filter = new IntentFilter("cad-ativ");
-        registerReceiver(new CadAtivBroadCast(), filter);
+        registerReceiver(broadCast, filter);
 
 //        this.spinner = findViewById(R.id.spinner3);
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -58,7 +60,7 @@ public class CadastroAtividade extends AppCompatActivity {
         this.data = findViewById(R.id.campoData);
         this.dateFormat = new SimpleDateFormat(format, new Locale("pt", "BR"));
         this.calendar = Calendar.getInstance();
-        // this.ano = calendar.get(Calendar.YEAR);
+
         final DatePickerDialog.OnDateSetListener datePicker = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -75,6 +77,7 @@ public class CadastroAtividade extends AppCompatActivity {
                         calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
         updateLabelDate();
         this.titulo = findViewById(R.id.campoTitulo);
         this.cadastro = findViewById(R.id.cadAtiv);
@@ -117,6 +120,12 @@ public class CadastroAtividade extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(broadCast);
+        super.onDestroy();
     }
 
     private void updateLabelDate(){

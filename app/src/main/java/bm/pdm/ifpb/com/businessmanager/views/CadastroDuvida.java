@@ -25,13 +25,15 @@ public class CadastroDuvida extends AppCompatActivity {
     private Button enviar;
     private Usuario usuario;
     private DadosUsuario dadosUsuario;
+    private CadastroDuvidaBroad broadcast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_duvida);
+        this.broadcast = new CadastroDuvidaBroad();
         IntentFilter broadDuvida = new IntentFilter("cad-duv");
-        registerReceiver(new CadastroDuvidaBroad(), broadDuvida);
+        registerReceiver(broadcast, broadDuvida);
 
         this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
         this.usuario = dadosUsuario.autenticado();
@@ -63,6 +65,13 @@ public class CadastroDuvida extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(broadcast);
+        super.onDestroy();
+
     }
 
     private class CadastroDuvidaBroad extends BroadcastReceiver {

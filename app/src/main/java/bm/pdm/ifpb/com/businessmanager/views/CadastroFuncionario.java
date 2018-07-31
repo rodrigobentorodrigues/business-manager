@@ -38,16 +38,16 @@ public class CadastroFuncionario extends AppCompatActivity {
     private EditText nome, cargo, login, senha, tel;
     private Button cadastro;
     private Usuario usuario;
+    private Usuario usuarioAdministrador;
     private DadosUsuario dadosUsuario;
-    private ConversorImagem conversor;
-    private String caminhoImagem;
-    private UsuarioDao usuarioDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_funcionario);
-        //
+        this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
+        this.usuarioAdministrador = dadosUsuario.autenticado();
+        Log.d("Administrador", usuarioAdministrador.toString());
         this.nome = findViewById(R.id.nomeFunc);
         this.cargo = findViewById(R.id.cargoFunc);
         this.login = findViewById(R.id.loginFunc);
@@ -72,9 +72,17 @@ public class CadastroFuncionario extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     usuario = new Usuario(0, nomeFunc, cargoFunc, loginFunc, senhaFunc, telFunc);
-                    usuario.setIdEmpresa(1);
-                    requisitarPermissoes();
-
+                    usuario.setIdEmpresa(usuarioAdministrador.getIdEmpresa());
+                    // usuarioDao.inserirUsuario(usuario);
+                    AdicionarFuncionario addFunc = new bm.pdm.ifpb.com.businessmanager.infra.
+                            AdicionarFuncionario(usuario, CadastroFuncionario.this);
+                    addFunc.execute("https://business-manager-server.herokuapp.com/");
+                    nome.setText("");
+                    cargo.setText("");
+                    login.setText("");
+                    senha.setText("");
+                    tel.setText("");
+                    // requisitarPermissoes();
                 }
             }
         });
@@ -109,40 +117,30 @@ public class CadastroFuncionario extends AppCompatActivity {
     private void despacharIntent(){
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intentCamera.resolveActivity(getPackageManager()) != null){
-            File imagem = null;
-            File diretorioTemp = Environment.getExternalStorageDirectory();
-            try {
-                imagem = File.createTempFile("PERFIL", ".jpg", diretorioTemp);
-                caminhoImagem = "file:" + imagem.getAbsolutePath();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(imagem != null){
-                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagem));
-                startActivityForResult(intentCamera, 0);
-            }
+            startActivityForResult(intentCamera, 0);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.parse(caminhoImagem)));
-            conversor = new ConversorImagem();
-            usuarioDao = new UsuarioDao(CadastroFuncionario.this);
-            usuario.setImagem(conversor.toByteArray(bitmap));
-            usuarioDao.inserirUsuario(usuario);
-            AdicionarFuncionario addFunc = new bm.pdm.ifpb.com.businessmanager.infra.
-                    AdicionarFuncionario(usuario, CadastroFuncionario.this);
-            addFunc.execute("https://business-manager-server.herokuapp.com/");
-            nome.setText("");
-            cargo.setText("");
-            login.setText("");
-            senha.setText("");
-            tel.setText("");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        Bundle bundle = data.getExtras();
+//        if(bundle.get("data") != null){
+//            Bitmap bitmap = (Bitmap) bundle.get("data");
+//            conversor = new ConversorImagem();
+//            // usuarioDao = new UsuarioDao(CadastroFuncionario.this);
+//            // usuario.setImagem(conversor.toByteArray(bitmap));
+//            // usuarioDao.inserirUsuario(usuario);
+//            AdicionarFuncionario addFunc = new bm.pdm.ifpb.com.businessmanager.infra.
+//                    AdicionarFuncionario(usuario, CadastroFuncionario.this);
+//            addFunc.execute("https://business-manager-server.herokuapp.com/");
+//            nome.setText("");
+//            cargo.setText("");
+//            login.setText("");
+//            senha.setText("");
+//            tel.setText("");
+//        } else {
+//            despacharIntent();
+//        }
     }
 
 }

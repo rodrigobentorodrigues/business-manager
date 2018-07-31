@@ -40,33 +40,36 @@ public class AdicionarFuncionario extends AsyncTask<String, Void, Boolean> {
                 addConverterFactory(GsonConverterFactory.create()).build();
         RestUsuario daoUsuario = retrofit.create(RestUsuario.class);
         Call<Usuario> usuarioCall = daoUsuario.adicionarFuncionario(usuario.getId(), usuario.getNome(), usuario.getCargo(), usuario.getTelefone(),
-                usuario.getLogin(), usuario.getSenha(), usuario.getImagem(), usuario.getIdEmpresa());
+                usuario.getLogin(), usuario.getSenha(), usuario.getIdEmpresa());
         try {
             usuarioCall.execute();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
-        return true;
     }
 
     @Override
-    protected void onPostExecute(Boolean s) {
-        dialog.dismiss();
-        ContatosUtil util = new ContatosUtil(context.getContentResolver());
-        boolean condAgenda = util.verificarNumeroAgenda(usuario.getTelefone());
-        if(!condAgenda){
-            // Adicionando a agenda de contatos
-            Intent inten = new Intent(ContactsContract.Intents.Insert.ACTION);
-            inten.setType(ContactsContract.Contacts.CONTENT_TYPE);
-            inten.putExtra(ContactsContract.Intents.Insert.NAME, usuario.getNome());
-            inten.putExtra(ContactsContract.Intents.Insert.PHONE, usuario.getTelefone());
-            inten.putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_WORK);
-            context.startActivity(inten);
-        } else {
-            Toast.makeText(context, "Contato ja existente em sua agenda", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(context, MenuActivity.class);
-            context.startActivity(intent);
+    protected void onPostExecute(Boolean aBoolean) {
+        if(aBoolean){
+            dialog.dismiss();
+            ContatosUtil util = new ContatosUtil(context.getContentResolver());
+            boolean condAgenda = util.verificarNumeroAgenda(usuario.getTelefone());
+            if(!condAgenda){
+                // Adicionando a agenda de contatos
+                Intent inten = new Intent(ContactsContract.Intents.Insert.ACTION);
+                inten.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                inten.putExtra(ContactsContract.Intents.Insert.NAME, usuario.getNome());
+                inten.putExtra(ContactsContract.Intents.Insert.PHONE, usuario.getTelefone());
+                inten.putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_WORK);
+                context.startActivity(inten);
+            } else {
+                Toast.makeText(context, "Contato ja existente em sua agenda", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, MenuActivity.class);
+                context.startActivity(intent);
+            }
+            Toast.makeText(context, "Funcionario cadastrado com exito", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(context, "Funcionario cadastrado com exito", Toast.LENGTH_LONG).show();
     }
 }

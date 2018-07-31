@@ -14,7 +14,6 @@ public interface RestUsuario {
                                       @Query("telefone") String telefone,
                                       @Query("login") String login,
                                       @Query("senha") String senha,
-                                      @Query("imagem") byte[] imagem,
                                       @Query("idEmpresa") int idEmpresa);
 
     @POST("usuario/adicionarAdministrador")
@@ -24,7 +23,6 @@ public interface RestUsuario {
                                       @Query("telefone") String telefone,
                                       @Query("login") String login,
                                       @Query("senha") String senha,
-                                      @Query("imagem") byte[] imagem,
                                       @Query("nomeEmpresa") String nomeEmpresa);
 
 

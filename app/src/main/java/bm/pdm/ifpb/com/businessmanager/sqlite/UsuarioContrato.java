@@ -32,7 +32,6 @@ public class UsuarioContrato extends SQLiteOpenHelper {
         public static final String colunaSenha = "senha";
         public static final String colunaTelefone = "telefone";
         public static final String colunaIdEmpresa = "idEmpresa";
-        public static final String colunaImagem = "imagem";
     }
 
     private static final String sqlCriarTabela =
@@ -43,8 +42,7 @@ public class UsuarioContrato extends SQLiteOpenHelper {
                     UsuarioDados.colunaLogin + " TEXT, " +
                     UsuarioDados.colunaSenha + " TEXT, " +
                     UsuarioDados.colunaTelefone + " TEXT, " +
-                    UsuarioDados.colunaIdEmpresa + " INTEGER, " +
-                    UsuarioDados.colunaImagem + " BLOB);";
+                    UsuarioDados.colunaIdEmpresa + " INTEGER);";
     private static final String sqlExcluirTabela =
             "DROP TABLE IF EXISTS " + UsuarioDados.tabela;
 

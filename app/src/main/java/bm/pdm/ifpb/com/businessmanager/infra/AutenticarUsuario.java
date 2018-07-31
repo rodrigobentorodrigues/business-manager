@@ -74,6 +74,7 @@ public class AutenticarUsuario extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         try {
             JSONObject retorno = new JSONObject(s);
+            Log.d("JSON", retorno.toString());
             int id = retorno.getInt("id");
             dialog.dismiss();
             if(id != 0){

@@ -11,7 +11,6 @@ public class Usuario implements Serializable{
     private String senha;
     private String telefone;
     private int idEmpresa;
-    private byte[] imagem;
 
     public Usuario(int id, String nome, String cargo,
                    String login, String senha, String telefone) {
@@ -21,18 +20,6 @@ public class Usuario implements Serializable{
         this.login = login;
         this.senha = senha;
         this.telefone = telefone;
-    }
-
-    public Usuario(int id, String nome, String cargo,
-                   String login, String senha, String telefone, int idEmpresa, byte[] imagem) {
-        this.id = id;
-        this.nome = nome;
-        this.cargo = cargo;
-        this.login = login;
-        this.senha = senha;
-        this.telefone = telefone;
-        this.idEmpresa = idEmpresa;
-        this.imagem = imagem;
     }
 
     public Usuario() {
@@ -92,14 +79,6 @@ public class Usuario implements Serializable{
 
     public void setIdEmpresa(int idEmpresa) {
         this.idEmpresa = idEmpresa;
-    }
-
-    public byte[] getImagem() {
-        return imagem;
-    }
-
-    public void setImagem(byte[] imagem) {
-        this.imagem = imagem;
     }
 
     @Override

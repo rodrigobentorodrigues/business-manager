@@ -3,6 +3,7 @@ package bm.pdm.ifpb.com.businessmanager.views;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -25,6 +26,7 @@ public class UsuarioActivity extends AppCompatActivity {
         //
         this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
         this.usuario = dadosUsuario.autenticado();
+        Log.d("Usuario", usuario.toString());
         //
         this.listView = findViewById(android.R.id.list);
         ListarUsuario listarUsuario = new ListarUsuario(UsuarioActivity.this, listView);

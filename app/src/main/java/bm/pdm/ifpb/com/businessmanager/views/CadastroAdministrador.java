@@ -36,8 +36,6 @@ public class CadastroAdministrador extends AppCompatActivity {
     private EditText nome, login, senha, tel, empresa;
     private Button cadastro;
     private Usuario usuario;
-    private ConversorImagem conversor;
-    private String caminhoImagem, empresaFunc;
     private UsuarioDao usuarioDao;
 
     @Override
@@ -57,7 +55,7 @@ public class CadastroAdministrador extends AppCompatActivity {
         cadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                empresaFunc = empresa.getText().toString();
+                String empresaFunc = empresa.getText().toString();
                 String nomeFunc = nome.getText().toString();
                 String loginFunc = login.getText().toString();
                 String senhaFunc = senha.getText().toString();
@@ -67,19 +65,30 @@ public class CadastroAdministrador extends AppCompatActivity {
                     Toast.makeText(CadastroAdministrador.this, "Informe todos os campos",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    //
-                    requisitarPermissoes();
                     usuario = new Usuario(0, nomeFunc, "Administrador", loginFunc,
                             senhaFunc, telFunc);
+                    usuario.setIdEmpresa(1);
+                    AdicionarAdministrador add = new AdicionarAdministrador(usuario,
+                            CadastroAdministrador.this, empresaFunc);
+                    add.execute("https://business-manager-server.herokuapp.com/");
+                    nome.setText("");
+                    empresa.setText("");
+                    login.setText("");
+                    senha.setText("");
+                    tel.setText("");
+                    // requisitarPermissoes();
                 }
             }
         });
     }
 
     private void requisitarPermissoes(){
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
         else {
@@ -105,41 +114,30 @@ public class CadastroAdministrador extends AppCompatActivity {
     private void despacharIntent(){
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intentCamera.resolveActivity(getPackageManager()) != null){
-            File imagem = null;
-            File diretorioTemp = Environment.getExternalStorageDirectory();
-            try {
-                imagem = File.createTempFile("PERFIL", ".jpg", diretorioTemp);
-                caminhoImagem = "file:" + imagem.getAbsolutePath();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(imagem != null){
-                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imagem));
-                startActivityForResult(intentCamera, 0);
-            }
+            startActivityForResult(intentCamera, 1);
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.parse(caminhoImagem)));
-            conversor = new ConversorImagem();
-            usuarioDao = new UsuarioDao(CadastroAdministrador.this);
-            byte[] imagem = conversor.toByteArray(bitmap);
-            Log.i("Imagem", imagem.toString());
-            usuario.setImagem(imagem);
-            AdicionarAdministrador add = new AdicionarAdministrador(usuario,
-                    CadastroAdministrador.this, empresaFunc);
-            add.execute("https://business-manager-server.herokuapp.com/");
-            nome.setText("");
-            empresa.setText("");
-            login.setText("");
-            senha.setText("");
-            tel.setText("");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+//        Bundle bundle = data.getExtras();
+//        if(bundle.get("data") == null){
+//            despacharIntent();
+//        } else {
+//            Bitmap bitmap = (Bitmap) bundle.get("data");
+//            conversor = new ConversorImagem();
+//            usuarioDao = new UsuarioDao(CadastroAdministrador.this);
+//            byte[] imagem = conversor.toByteArray(bitmap);
+//            // usuario.setImagem(imagem);
+//            AdicionarAdministrador add = new AdicionarAdministrador(usuario,
+//                    CadastroAdministrador.this, empresaFunc);
+//            add.execute("https://business-manager-server.herokuapp.com/");
+//            nome.setText("");
+//            empresa.setText("");
+//            login.setText("");
+//            senha.setText("");
+//            tel.setText("");
+//        }
     }
 
     private class CadastroAdmBroadCast extends BroadcastReceiver {
