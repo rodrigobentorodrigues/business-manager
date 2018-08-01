@@ -24,7 +24,7 @@ public class UsuarioContrato extends SQLiteOpenHelper {
 
     public static class UsuarioDados implements BaseColumns {
         public static final String nomeBanco = "usuario.db";
-        public static final int versaoBanco = 2;
+        public static final int versaoBanco = 3;
         public static final String tabela = "usuario";
         public static final String colunaNome = "nome";
         public static final String colunaCargo = "cargo";
@@ -36,7 +36,7 @@ public class UsuarioContrato extends SQLiteOpenHelper {
 
     private static final String sqlCriarTabela =
             "CREATE TABLE " + UsuarioDados.tabela + " (" +
-                    UsuarioDados._ID + " SERIAL PRIMARY KEY," +
+                    UsuarioDados._ID + " INTEGER PRIMARY KEY," +
                     UsuarioDados.colunaNome + " TEXT," +
                     UsuarioDados.colunaCargo + " TEXT, " +
                     UsuarioDados.colunaLogin + " TEXT, " +

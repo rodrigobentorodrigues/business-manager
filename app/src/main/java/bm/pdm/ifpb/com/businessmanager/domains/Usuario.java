@@ -1,6 +1,10 @@
 package bm.pdm.ifpb.com.businessmanager.domains;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Usuario implements Serializable{
 
@@ -94,4 +98,24 @@ public class Usuario implements Serializable{
                 '}';
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Usuario usuario = (Usuario) o;
+        return id == usuario.id &&
+                idEmpresa == usuario.idEmpresa &&
+                Objects.equals(nome, usuario.nome) &&
+                Objects.equals(cargo, usuario.cargo) &&
+                Objects.equals(login, usuario.login) &&
+                Objects.equals(senha, usuario.senha) &&
+                Objects.equals(telefone, usuario.telefone);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nome, cargo, login, senha, telefone, idEmpresa);
+    }
 }

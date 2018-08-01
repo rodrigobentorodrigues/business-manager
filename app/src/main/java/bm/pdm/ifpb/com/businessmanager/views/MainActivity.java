@@ -12,6 +12,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,19 +26,58 @@ import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.infra.AutenticarUsuario;
+import bm.pdm.ifpb.com.businessmanager.sqlite.DuvidaDao;
+import bm.pdm.ifpb.com.businessmanager.sqlite.TarefaDao;
+import bm.pdm.ifpb.com.businessmanager.sqlite.UsuarioDao;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button botaoLogin;
     private Spinner spinner;
     private EditText login, senha;
+    private UsuarioDao usuarioDao;
+    private DuvidaDao duvidaDao;
+    private TarefaDao tarefaDao;
 
     @Override
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //
+        usuarioDao = new UsuarioDao(this);
+        duvidaDao = new DuvidaDao(this);
+        tarefaDao = new TarefaDao(this);
+//        Log.d("Usuarios", usuarioDao.todosUsuarios().toString());
+//        Log.d("Tarefas", tarefaDao.todasTarefas().toString());
+//        Log.d("Duvidas", duvidaDao.todasDuvidas().toString());
+//        Usuario usuario = new Usuario();
+//        usuario.setId(1);
+//        usuario.setNome("Rodrigo");
+//        usuario.setCargo("Analista");
+//        usuario.setLogin("rod");
+//        usuario.setSenha("123");
+//        usuario.setTelefone("083981549498");
+//        usuario.setIdEmpresa(1);
+//        usuarioDao.inserirUsuario(usuario);
+//        //
+//        Duvida duvida = new Duvida();
+//        duvida.setId(2);
+//        duvida.setDeUsuario("Rodrigo");
+//        duvida.setParaUsuario("Arlan");
+//        duvida.setPergunta("Teste");
+//        duvida.setResposta("Teste");
+//        duvidaDao.inserirDuvida(duvida);
+//        //
+//        Tarefa tarefa = new Tarefa();
+//        tarefa.setId(1);
+//        tarefa.setDeUsuario("Rodrigo");
+//        tarefa.setParaUsuario("Arlan");
+//        tarefa.setTitulo("Teste");
+//        tarefa.setDescricao("Teste");
+//        tarefa.setData("01-08-2018");
+//        tarefa.setConcluida(true);
+//        tarefaDao.inserirTarefa(tarefa);
+
         if (ActivityCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, 100);
@@ -109,4 +150,36 @@ public class MainActivity extends AppCompatActivity {
         return alerta;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater layoutInflater = getMenuInflater();
+        layoutInflater.inflate(R.menu.configuracoes, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.config:
+                AlertDialog.Builder b = new AlertDialog.Builder(this);
+                b.setTitle("Repositório de dados");
+                b.setMessage("Informe o repositório");
+                b.setNegativeButton("Local", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this, "Teste Local", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                b.setPositiveButton("Remoto", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MainActivity.this, "Teste Remoto", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                AlertDialog alerta = b.create();
+                alerta.show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

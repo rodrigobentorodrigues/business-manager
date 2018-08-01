@@ -1,6 +1,10 @@
 package bm.pdm.ifpb.com.businessmanager.domains;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Duvida implements Serializable {
 
@@ -75,6 +79,25 @@ public class Duvida implements Serializable {
                 ", pergunta='" + pergunta + '\'' +
                 ", resposta='" + resposta + '\'' +
                 '}';
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Duvida duvida = (Duvida) o;
+        return id == duvida.id &&
+                Objects.equals(deUsuario, duvida.deUsuario) &&
+                Objects.equals(paraUsuario, duvida.paraUsuario) &&
+                Objects.equals(pergunta, duvida.pergunta) &&
+                Objects.equals(resposta, duvida.resposta);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, deUsuario, paraUsuario, pergunta, resposta);
     }
 
 }
