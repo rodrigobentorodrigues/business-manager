@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -24,7 +23,7 @@ import java.util.Locale;
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
-import bm.pdm.ifpb.com.businessmanager.infra.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.services.AdicionarAtividade;
 
 public class CadastroAtividade extends AppCompatActivity {

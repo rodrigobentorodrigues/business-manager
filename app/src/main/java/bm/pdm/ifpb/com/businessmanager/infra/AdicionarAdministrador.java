@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.interfaces.RestUsuario;
 import bm.pdm.ifpb.com.businessmanager.views.MenuActivity;

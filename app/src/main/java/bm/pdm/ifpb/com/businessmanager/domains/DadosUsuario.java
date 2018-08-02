@@ -1,8 +1,6 @@
-package bm.pdm.ifpb.com.businessmanager.infra;
+package bm.pdm.ifpb.com.businessmanager.domains;
 
 import android.content.SharedPreferences;
-
-import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 
 public class DadosUsuario {
 

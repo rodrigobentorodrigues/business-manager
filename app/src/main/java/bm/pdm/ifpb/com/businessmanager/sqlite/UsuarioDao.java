@@ -54,13 +54,7 @@ public class UsuarioDao {
                 UsuarioContrato.UsuarioDados.colunaIdEmpresa};
         Cursor cursor = db.query(UsuarioContrato.UsuarioDados.tabela, campos,
                 null,null, null, null, null);
-//        if(cursor != null){
-//            cursor.moveToFirst();
-//        }
         while(cursor.moveToNext()){
-            Log.d("Cursor", "Entrou");
-            Log.d("Cursor", ": " + cursor.getCount());
-            Log.d("Cursor", ": " + cursor.getString(1));
             Usuario usuario = new Usuario();
             usuario.setId(cursor.getInt(0));
             usuario.setNome(cursor.getString(1));

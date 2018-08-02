@@ -1,15 +1,8 @@
 package bm.pdm.ifpb.com.businessmanager.views;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -20,17 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.infra.AdicionarFuncionario;
-import bm.pdm.ifpb.com.businessmanager.infra.ConversorImagem;
-import bm.pdm.ifpb.com.businessmanager.infra.DadosUsuario;
-import bm.pdm.ifpb.com.businessmanager.sqlite.UsuarioDao;
+import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import br.com.jansenfelipe.androidmask.MaskEditTextChangedListener;
 
 public class CadastroFuncionario extends AppCompatActivity {

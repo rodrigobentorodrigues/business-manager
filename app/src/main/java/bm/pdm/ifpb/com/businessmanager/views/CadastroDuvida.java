@@ -15,7 +15,7 @@ import android.widget.Toast;
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Duvida;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
-import bm.pdm.ifpb.com.businessmanager.infra.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.services.AdicionarDuvida;
 
 public class CadastroDuvida extends AppCompatActivity {

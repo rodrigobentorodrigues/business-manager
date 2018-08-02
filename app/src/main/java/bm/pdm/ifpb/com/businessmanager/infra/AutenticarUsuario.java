@@ -17,8 +17,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
-import bm.pdm.ifpb.com.businessmanager.views.MainActivity;
 import bm.pdm.ifpb.com.businessmanager.views.MenuActivity;
 
 public class AutenticarUsuario extends AsyncTask<String, Void, String> {

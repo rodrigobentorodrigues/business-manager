@@ -14,8 +14,9 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
+import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
-import bm.pdm.ifpb.com.businessmanager.infra.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -37,7 +38,6 @@ public class MenuActivity extends AppCompatActivity {
         this.duvida = findViewById(R.id.botaoDuvida);
         //
         usuario = dadosUsuario.autenticado();
-        Log.i("Menu", usuario.toString());
         atividade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,19 +83,6 @@ public class MenuActivity extends AppCompatActivity {
         });
     }
 
-    private AlertDialog construirAlerta(String titulo, String mensagem){
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setTitle(titulo);
-        b.setMessage(mensagem);
-        b.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
-        AlertDialog alerta = b.create();
-        return alerta;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -116,6 +103,19 @@ public class MenuActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private AlertDialog construirAlerta(String titulo, String mensagem){
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(titulo);
+        b.setMessage(mensagem);
+        b.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        AlertDialog alerta = b.create();
+        return alerta;
     }
 
 }
