@@ -1,7 +1,15 @@
 package bm.pdm.ifpb.com.businessmanager.views;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.media.MediaScannerConnection;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +20,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.UUID;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
@@ -97,7 +111,7 @@ public class MenuActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.dados:
-                Toast.makeText(this, "Selecionou Dados", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.buscaServidor:
                 this.config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
@@ -125,10 +139,83 @@ public class MenuActivity extends AppCompatActivity {
                     Toast.makeText(MenuActivity.this, "Você ja está utilizando os dados do servidor", Toast.LENGTH_SHORT).show();
                 }
                 break;
+            case R.id.camera:
+                requisitarPermissoes();
+                break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void requisitarPermissoes(){
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+
+        } else {
+            abrirCamera();
+        }
+    }
+
+    private void abrirCamera(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(intent.resolveActivity(getPackageManager()) != null){
+            startActivityForResult(intent, 0);
+        }
+    }
+
+    // Metodo responsavel por despachar o usuário em relação as permissões
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    abrirCamera();
+                } else {
+                    requisitarPermissoes();
+                }
+                return;
+            }
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bundle bundle = data.getExtras();
+        Bitmap bitmap = (Bitmap) bundle.get("data");
+        // Caminho do diretorio da camera
+        String diretorio = Environment.
+                getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_DCIM).toString()+ "/Camera/BusinessManager";
+        File dir = new File(diretorio);
+        // Caso nao exista, criar pastas
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        // ID para foto (não se repetir)
+        UUID idFoto = UUID.randomUUID();
+        String nomeArquivo = "Image-" + idFoto.toString() + ".png";
+        File foto = new File(dir, nomeArquivo);
+        try {
+            // Escrevendo foto em arquivo
+            FileOutputStream outputStream = new FileOutputStream(foto);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
+            outputStream.flush();
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MediaScannerConnection.scanFile(MenuActivity.this, new String[]{foto.getPath()},
+                new String[]{"image/jpeg"}, null);
     }
 
     private AlertDialog construirAlerta(String titulo, String mensagem){

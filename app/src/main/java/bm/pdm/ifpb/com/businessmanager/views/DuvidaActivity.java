@@ -22,6 +22,7 @@ import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.infra.DuvidaAdapter;
 import bm.pdm.ifpb.com.businessmanager.infra.ListarDuvida;
+import bm.pdm.ifpb.com.businessmanager.infra.NetworkUtils;
 import bm.pdm.ifpb.com.businessmanager.sqlite.DuvidaDao;
 
 public class DuvidaActivity extends AppCompatActivity {
@@ -32,6 +33,7 @@ public class DuvidaActivity extends AppCompatActivity {
     private Configuracao config;
     private String repositorio;
     private DuvidaDao duvidaDao;
+    // private NetworkUtils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -4,15 +4,12 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,10 +23,9 @@ import android.widget.Toast;
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
-import bm.pdm.ifpb.com.businessmanager.domains.Duvida;
-import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.infra.AutenticarUsuario;
+import bm.pdm.ifpb.com.businessmanager.infra.NetworkUtils;
 import bm.pdm.ifpb.com.businessmanager.infra.SincronizarDadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.sqlite.DuvidaDao;
 import bm.pdm.ifpb.com.businessmanager.sqlite.TarefaDao;
@@ -37,15 +33,14 @@ import bm.pdm.ifpb.com.businessmanager.sqlite.UsuarioDao;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button botaoLogin;
+    private Button botaoLogin, botaoSobre;
     private Spinner spinner;
     private EditText login, senha;
     private Configuracao config;
     private String repositorio;
     private UsuarioDao usuarioDao;
-    private TarefaDao tarefaDao;
-    private DuvidaDao duvidaDao;
     private DadosUsuario dadosUsuario;
+    private NetworkUtils networkUtils;
 
     @Override
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -53,14 +48,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.usuarioDao = new UsuarioDao(this);
-        this.tarefaDao = new TarefaDao(this);
-        this.duvidaDao = new DuvidaDao(this);
-//        usuarioDao.removerDados();
-//        tarefaDao.removerDados();
-//        Log.i("Usuarios", usuarioDao.todosUsuarios().toString());
-//        Log.i("Tarefas", tarefaDao.todasTarefas().toString());
-        Log.i("Duvidas", duvidaDao.todasDuvidas().toString());
         this.config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
+        this.networkUtils = new NetworkUtils();
 
         if (ActivityCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -78,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         this.login = findViewById(R.id.inputLogin);
         this.senha = findViewById(R.id.inputSenha);
         this.botaoLogin = findViewById(R.id.botaoLogin);
+        this.botaoSobre = findViewById(R.id.botaoSobre);
 
         // Setando os valores para o Spinner
         this.spinner = findViewById(R.id.spinner2);
@@ -98,12 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     repositorio = config.getRepositorio();
                     if(repositorio.equals("remoto")){
-                        ConnectivityManager cm = (ConnectivityManager)
-                                MainActivity.this.getSystemService(CONNECTIVITY_SERVICE);
-                        // Objeto netInfo que recebe as informacoes da Network
-                        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-                        //Se o objeto for nulo ou nao tem conectividade retorna false
-                        if ((netInfo != null) && (netInfo.isConnectedOrConnecting()) && (netInfo.isAvailable())){
+                        if(networkUtils.verificarConexao(MainActivity.this)){
                             //if(valorLogin.equals("adminpdm") && valorSenha.equals("pdmadmin")){
                             if(valorLogin.equals("a") && valorSenha.equals("a")){
                                 Intent intent = new Intent(MainActivity.this, CadastroActivity.class);
@@ -138,6 +123,20 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
+                }
+            }
+        });
+        botaoSobre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(networkUtils.verificarConexao(MainActivity.this)){
+                    Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+                    startActivity(intent);
+                } else {
+                    String titulo = "Sem conexão com a internet";
+                    String msg = "Por favor, conecte-se com alguma rede e tente novamente";
+                    AlertDialog alerta = construirAlerta(titulo, msg);
+                    alerta.show();
                 }
             }
         });
@@ -178,23 +177,30 @@ public class MainActivity extends AppCompatActivity {
                 alerta.show();
                 break;
             case R.id.sinc:
-                AlertDialog.Builder b2 = new AlertDialog.Builder(this);
-                b2.setTitle("Sincronização de Dados");
-                b2.setMessage("Deseja buscar os dados de usuários do servidor remoto?");
-                b2.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                });
-                b2.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        SincronizarDadosUsuario sinc = new SincronizarDadosUsuario(MainActivity.this);
-                        sinc.execute("https://business-manager-server.herokuapp.com/usuario/listar");
-                    }
-                });
-                AlertDialog alerta2 = b2.create();
-                alerta2.show();
+                if(networkUtils.verificarConexao(MainActivity.this)){
+                    AlertDialog.Builder b2 = new AlertDialog.Builder(this);
+                    b2.setTitle("Sincronização de Dados");
+                    b2.setMessage("Deseja buscar os dados de usuários do servidor remoto?");
+                    b2.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+                    b2.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            SincronizarDadosUsuario sinc = new SincronizarDadosUsuario(MainActivity.this);
+                            sinc.execute("https://business-manager-server.herokuapp.com/usuario/listar");
+                        }
+                    });
+                    AlertDialog alerta2 = b2.create();
+                    alerta2.show();
+                } else {
+                    String titulo = "Sem conexão com a internet";
+                    String msg = "Por favor, conecte-se com alguma rede e tente novamente";
+                    AlertDialog alerta2 = construirAlerta(titulo, msg);
+                    alerta2.show();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

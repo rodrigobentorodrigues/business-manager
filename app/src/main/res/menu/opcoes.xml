@@ -14,4 +14,10 @@
         android:title="Sincronizar"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/camera"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="Tirar Foto"
+        app:showAsAction="always" />
+
 </menu>
