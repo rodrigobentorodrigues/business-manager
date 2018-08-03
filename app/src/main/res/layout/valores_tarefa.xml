@@ -21,7 +21,9 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="19dp"
-            app:srcCompat="@drawable/bloco3" />
+            app:srcCompat="@drawable/bloco3"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="19dp" />
 
         <TextView
             android:id="@+id/textView27"
@@ -38,28 +40,27 @@
         <TextView
             android:id="@+id/textView28"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="33dp"
+            android:layout_alignLeft="@+id/textView27"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/textView27"
             android:layout_marginTop="94dp"
-            android:text="Titulo:"
-            android:layout_alignLeft="@+id/textView27" />
+            android:text="Titulo:" />
 
         <TextView
             android:id="@+id/campoPara"
-            android:layout_width="199dp"
+            android:layout_width="182dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/textView27"
-            android:layout_marginEnd="9dp"
+            android:layout_marginEnd="14dp"
             android:text="TextView"
             tools:ignore="RtlCompat" />
 
         <TextView
             android:id="@+id/campoTitulo"
-            android:layout_width="202dp"
-            android:layout_height="wrap_content"
+            android:layout_width="181dp"
+            android:layout_height="35dp"
             android:layout_alignLeft="@+id/campoPara"
             android:layout_alignStart="@+id/campoPara"
             android:layout_alignTop="@+id/textView28"

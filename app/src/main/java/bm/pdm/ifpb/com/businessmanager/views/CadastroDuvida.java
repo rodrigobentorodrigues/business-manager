@@ -79,7 +79,8 @@ public class CadastroDuvida extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             Toast.makeText(CadastroDuvida.this, "Cadastrado", Toast.LENGTH_SHORT).show();
-            finish();
+            Intent intent1 = new Intent(CadastroDuvida.this, MenuActivity.class);
+            startActivity(intent1);
         }
 
     }

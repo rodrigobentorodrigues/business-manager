@@ -12,6 +12,8 @@ import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.infra.ListarUsuario;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
+import bm.pdm.ifpb.com.businessmanager.infra.UsuarioAdapter;
+import bm.pdm.ifpb.com.businessmanager.sqlite.UsuarioDao;
 
 public class UsuarioActivity extends AppCompatActivity {
 
@@ -20,6 +22,7 @@ public class UsuarioActivity extends AppCompatActivity {
     private DadosUsuario dadosUsuario;
     private Configuracao config;
     private String repositorio;
+    private UsuarioDao usuarioDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,9 @@ public class UsuarioActivity extends AppCompatActivity {
             ListarUsuario listarUsuario = new ListarUsuario(UsuarioActivity.this, listView);
             listarUsuario.execute("https://business-manager-server.herokuapp.com/usuario/todosPorId?id="+usuario.getIdEmpresa());
         } else {
-            // SQLite
+            usuarioDao = new UsuarioDao(UsuarioActivity.this);
+            listView.setAdapter(new UsuarioAdapter(usuarioDao.todosUsuariosPorId(usuario.getIdEmpresa()),
+                    UsuarioActivity.this));
         }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

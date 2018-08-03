@@ -75,6 +75,31 @@ public class UsuarioDao {
         return usuarios;
     }
 
+    public List<Usuario> todosUsuariosPorId(int id){
+        List<Usuario> usuarios = new ArrayList<>();
+        db = contrato.getReadableDatabase();
+        String[] campos = {UsuarioContrato.UsuarioDados._ID, UsuarioContrato.UsuarioDados.colunaNome,
+                UsuarioContrato.UsuarioDados.colunaCargo, UsuarioContrato.UsuarioDados.colunaLogin,
+                UsuarioContrato.UsuarioDados.colunaSenha, UsuarioContrato.UsuarioDados.colunaTelefone,
+                UsuarioContrato.UsuarioDados.colunaIdEmpresa};
+        Cursor cursor = db.query(UsuarioContrato.UsuarioDados.tabela, campos,
+                "idEmpresa = ?",new String[]{String.valueOf(id)}, null, null, UsuarioContrato.UsuarioDados.colunaNome);
+        while(cursor.moveToNext()){
+            Usuario usuario = new Usuario();
+            usuario.setId(cursor.getInt(0));
+            usuario.setNome(cursor.getString(1));
+            usuario.setCargo(cursor.getString(2));
+            usuario.setLogin(cursor.getString(3));
+            usuario.setSenha(cursor.getString(4));
+            usuario.setTelefone(cursor.getString(5));
+            usuario.setIdEmpresa(cursor.getInt(6));
+            usuarios.add(usuario);
+        }
+        cursor.close();
+        db.close();
+        return usuarios;
+    }
+
     public Usuario autenticarUsuario(String login, String senha){
         Usuario usuario = new Usuario();
         db = contrato.getReadableDatabase();

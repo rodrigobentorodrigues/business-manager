@@ -43,6 +43,7 @@ public class ListarUsuario extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... strings) {
+        System.out.println(strings[0]);
         try {
             URL url = new URL(strings[0]);
             HttpURLConnection conexao = (HttpURLConnection) url.openConnection();
@@ -72,6 +73,7 @@ public class ListarUsuario extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
+        System.out.println("Usuarios: " + s.toString());
         try {
             List<Usuario> usuarios = new ArrayList<>();
             JSONArray arrayResult = new JSONArray(s);
