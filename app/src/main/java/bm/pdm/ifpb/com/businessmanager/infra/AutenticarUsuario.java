@@ -27,12 +27,14 @@ public class AutenticarUsuario extends AsyncTask<String, Void, String> {
     private String tipo;
     private ProgressDialog dialog;
     private DadosUsuario dadosUsuario;
+    private ConversorDados conversorDados;
 
     public AutenticarUsuario(Context contexto, String tipo) {
         this.contexto = contexto;
         this.tipo = tipo;
         this.dadosUsuario = new DadosUsuario(contexto.getSharedPreferences("usuario",
                 Context.MODE_PRIVATE));
+        this.conversorDados = new ConversorDados();
     }
 
     @Override
@@ -74,15 +76,17 @@ public class AutenticarUsuario extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         try {
             JSONObject retorno = new JSONObject(s);
+            Usuario usuario = conversorDados.getUsuario(retorno);
             Log.d("JSON", retorno.toString());
-            int id = retorno.getInt("id");
+            int id = usuario.getId();
             dialog.dismiss();
             if(id != 0){
-                String cargo = retorno.getString("funcao");
-                if(cargo.equals(tipo)){
-                    preencherUsuario(retorno);
-                } else if(tipo.equals("Funcionário")){
-                    preencherUsuario(retorno);
+                String cargo = usuario.getCargo();
+                if(cargo.equals(tipo) || tipo.equals("Funcionário")){
+                    dadosUsuario.alterarValores(usuario);
+                    Intent intent = new Intent(contexto, MenuActivity.class);
+                    contexto.startActivity(intent);
+                    // preencherUsuario(retorno);
                 } else {
                     Toast.makeText(contexto, "O usuário não é desse tipo de cargo",
                             Toast.LENGTH_SHORT).show();
@@ -96,24 +100,24 @@ public class AutenticarUsuario extends AsyncTask<String, Void, String> {
         }
     }
 
-    private void preencherUsuario(JSONObject retorno){
-        JSONObject empresa = null;
-        try {
-            empresa = retorno.getJSONObject("empresa");
-            Usuario usuario = new Usuario();
-            usuario.setId(retorno.getInt("id"));
-            usuario.setNome(retorno.getString("nome"));
-            usuario.setCargo(retorno.getString("funcao"));
-            usuario.setLogin(retorno.getString("login"));
-            usuario.setSenha(retorno.getString("senha"));
-            usuario.setTelefone(retorno.getString("telefone"));
-            usuario.setIdEmpresa(empresa.getInt("id"));
-            dadosUsuario.alterarValores(usuario);
-            Intent intent = new Intent(contexto, MenuActivity.class);
-            contexto.startActivity(intent);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void preencherUsuario(JSONObject retorno){
+//        JSONObject empresa = null;
+//        try {
+//            empresa = retorno.getJSONObject("empresa");
+//            Usuario usuario = new Usuario();
+//            usuario.setId(retorno.getInt("id"));
+//            usuario.setNome(retorno.getString("nome"));
+//            usuario.setCargo(retorno.getString("funcao"));
+//            usuario.setLogin(retorno.getString("login"));
+//            usuario.setSenha(retorno.getString("senha"));
+//            usuario.setTelefone(retorno.getString("telefone"));
+//            usuario.setIdEmpresa(empresa.getInt("id"));
+//            dadosUsuario.alterarValores(usuario);
+//            Intent intent = new Intent(contexto, MenuActivity.class);
+//            contexto.startActivity(intent);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

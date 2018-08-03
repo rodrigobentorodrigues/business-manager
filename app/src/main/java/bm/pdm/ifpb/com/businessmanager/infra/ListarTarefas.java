@@ -25,10 +25,12 @@ public class ListarTarefas extends AsyncTask<String, Void, String> {
     private Context contexto;
     private ListView listView;
     private ProgressDialog progressDialog;
+    private ConversorDados conversorDados;
 
     public ListarTarefas(Context context, ListView listView) {
         this.contexto = context;
         this.listView = listView;
+        this.conversorDados = new ConversorDados();
     }
 
     @Override
@@ -74,14 +76,7 @@ public class ListarTarefas extends AsyncTask<String, Void, String> {
             JSONArray arrayResult = new JSONArray(s);
             for(int i = 0; i < arrayResult.length(); i++){
                 JSONObject object = arrayResult.getJSONObject(i);
-                Tarefa tarefa = new Tarefa();
-                tarefa.setId(object.getInt("id"));
-                tarefa.setDeUsuario(object.getString("deUsuario"));
-                tarefa.setParaUsuario(object.getString("paraUsuario"));
-                tarefa.setTitulo(object.getString("titulo"));
-                tarefa.setDescricao(object.getString("descricao"));
-                tarefa.setData(object.getString("data"));
-                tarefa.setConcluida(object.getBoolean("concluida"));
+                Tarefa tarefa = conversorDados.getTarefa(object);
                 tarefas.add(tarefa);
             }
             progressDialog.dismiss();

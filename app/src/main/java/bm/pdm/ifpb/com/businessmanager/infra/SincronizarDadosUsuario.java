@@ -3,9 +3,6 @@ package bm.pdm.ifpb.com.businessmanager.infra;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -27,11 +24,13 @@ public class SincronizarDadosUsuario extends AsyncTask<String, Void, String>{
     private Context context;
     private ProgressDialog progressDialog;
     private UsuarioDao usuarioDao;
+    private ConversorDados conversorDados;
 
     public SincronizarDadosUsuario(Context context) {
         this.context = context;
         this.progressDialog = ProgressDialog.show(context, "Aguarde...", "Buscando dados do servidor");
         this.usuarioDao = new UsuarioDao(context);
+        this.conversorDados = new ConversorDados();
     }
 
     @Override
@@ -65,24 +64,14 @@ public class SincronizarDadosUsuario extends AsyncTask<String, Void, String>{
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onPostExecute(String s) {
         try {
             JSONArray valores = new JSONArray(s);
             List<Usuario> usuarios = usuarioDao.todosUsuarios();
-            int linhas = 0;
             for(int i = 0; i < valores.length(); i++){
                 JSONObject usuarioJSON = valores.getJSONObject(i);
-                JSONObject empresaJSON = usuarioJSON.getJSONObject("empresa");
-                Usuario usuario = new Usuario();
-                usuario.setId(usuarioJSON.getInt("id"));
-                usuario.setNome(usuarioJSON.getString("nome"));
-                usuario.setCargo(usuarioJSON.getString("funcao"));
-                usuario.setLogin(usuarioJSON.getString("login"));
-                usuario.setSenha(usuarioJSON.getString("senha"));
-                usuario.setTelefone(usuarioJSON.getString("telefone"));
-                usuario.setIdEmpresa(empresaJSON.getInt("id"));
+                Usuario usuario = conversorDados.getUsuario(usuarioJSON);
                 boolean exist = false;
                 for(Usuario aux: usuarios){
                     if(aux.getLogin().equals(usuario.getLogin()) &&
@@ -92,10 +81,8 @@ public class SincronizarDadosUsuario extends AsyncTask<String, Void, String>{
                 }
                 if(!exist){
                     usuarioDao.inserirUsuario(usuario);
-                    linhas++;
                 }
             }
-            Toast.makeText(context, "Numero de linhas inseridas: " + linhas, Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();
         }

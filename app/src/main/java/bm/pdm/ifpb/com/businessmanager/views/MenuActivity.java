@@ -17,6 +17,8 @@ import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.infra.SincronizarDadosAdicionais;
+import bm.pdm.ifpb.com.businessmanager.infra.SincronizarDadosUsuario;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -24,6 +26,7 @@ public class MenuActivity extends AppCompatActivity {
     private final String TIPO_FUNC = "Administrador";
     private DadosUsuario dadosUsuario;
     private Usuario usuario;
+    private Configuracao config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +100,30 @@ public class MenuActivity extends AppCompatActivity {
                 Toast.makeText(this, "Selecionou Dados", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.buscaServidor:
-                Toast.makeText(this, "Selecionou Servidor", Toast.LENGTH_SHORT).show();
+                this.config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
+                String servidor = config.getRepositorio();
+                if(servidor.equals("local")){
+                    AlertDialog.Builder b2 = new AlertDialog.Builder(this);
+                    b2.setTitle("Sincronização de Dados");
+                    b2.setMessage("Deseja sincronizar com os dados do servidor remoto?");
+                    b2.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+                    b2.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            SincronizarDadosAdicionais sinc = new SincronizarDadosAdicionais(MenuActivity.this);
+                            sinc.execute("https://business-manager-server.herokuapp.com/duvida/listar",
+                                    "https://business-manager-server.herokuapp.com/tarefa/listar");
+                        }
+                    });
+                    AlertDialog alerta2 = b2.create();
+                    alerta2.show();
+                } else {
+                    Toast.makeText(MenuActivity.this, "Você ja está utilizando os dados do servidor", Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 break;

@@ -10,8 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
+import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Duvida;
 import bm.pdm.ifpb.com.businessmanager.infra.ResponderDuvida;
+import bm.pdm.ifpb.com.businessmanager.sqlite.DuvidaDao;
 
 public class InfoDuvidaActivity extends AppCompatActivity {
 
@@ -19,12 +21,15 @@ public class InfoDuvidaActivity extends AppCompatActivity {
     private TextView usuario, descricao;
     private EditText resposta;
     private Duvida duvida;
+    private DuvidaDao duvidaDao;
+    private Configuracao config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_duvida);
 
+        this.config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
         Intent intent = getIntent();
         duvida = (Duvida) intent.getSerializableExtra("duvida");
 
@@ -52,10 +57,18 @@ public class InfoDuvidaActivity extends AppCompatActivity {
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String repo = config.getRepositorio();
                 String valorResposta = resposta.getText().toString();
                 duvida.setResposta(valorResposta);
-                ResponderDuvida responderDuvida = new ResponderDuvida(InfoDuvidaActivity.this, duvida);
-                responderDuvida.execute("https://business-manager-server.herokuapp.com/");
+                if(repo.equals("remoto")){
+                    ResponderDuvida responderDuvida = new ResponderDuvida(InfoDuvidaActivity.this, duvida);
+                    responderDuvida.execute("https://business-manager-server.herokuapp.com/");
+                } else {
+                    duvidaDao = new DuvidaDao(InfoDuvidaActivity.this);
+                    duvidaDao.responderDuvida(duvida);
+                    Intent intent = new Intent(InfoDuvidaActivity.this, MenuActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

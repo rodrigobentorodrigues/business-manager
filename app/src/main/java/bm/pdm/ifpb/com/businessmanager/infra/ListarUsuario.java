@@ -26,10 +26,12 @@ public class ListarUsuario extends AsyncTask<String, Void, String> {
     private Context contexto;
     private ListView listView;
     private ProgressDialog progressDialog;
+    private ConversorDados conversorDados;
 
     public ListarUsuario(Context contexto, ListView listView) {
         this.contexto = contexto;
         this.listView = listView;
+        this.conversorDados = new ConversorDados();
     }
 
     @Override
@@ -75,15 +77,7 @@ public class ListarUsuario extends AsyncTask<String, Void, String> {
             JSONArray arrayResult = new JSONArray(s);
             for(int i = 0; i < arrayResult.length(); i++){
                 JSONObject object = arrayResult.getJSONObject(i);
-                Usuario usuario = new Usuario();
-                usuario.setId(object.getInt("id"));
-                usuario.setNome(object.getString("nome"));
-                usuario.setCargo(object.getString("funcao"));
-                usuario.setLogin(object.getString("login"));
-                usuario.setSenha(object.getString("senha"));
-                usuario.setTelefone(object.getString("telefone"));
-                JSONObject empresa = object.getJSONObject("empresa");
-                usuario.setIdEmpresa(empresa.getInt("id"));
+                Usuario usuario = conversorDados.getUsuario(object);
                 usuarios.add(usuario);
             }
             progressDialog.dismiss();

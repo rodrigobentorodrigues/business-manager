@@ -3,6 +3,7 @@ package bm.pdm.ifpb.com.businessmanager.views;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,12 +12,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Duvida;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.infra.DuvidaAdapter;
 import bm.pdm.ifpb.com.businessmanager.infra.ListarDuvida;
+import bm.pdm.ifpb.com.businessmanager.sqlite.DuvidaDao;
 
 public class DuvidaActivity extends AppCompatActivity {
 
@@ -25,6 +31,7 @@ public class DuvidaActivity extends AppCompatActivity {
     private DadosUsuario dadosUsuario;
     private Configuracao config;
     private String repositorio;
+    private DuvidaDao duvidaDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,10 @@ public class DuvidaActivity extends AppCompatActivity {
             listarDuvida.execute("https://business-manager-server.herokuapp.com/duvida/naoConcluidas?usuario="+usuario.getNome());
         } else {
             // SQLite
+            duvidaDao = new DuvidaDao(this);
+            Log.d("Duvida", usuario.getNome());
+            List<Duvida> duvidas = duvidaDao.todasNaoConcluidas(usuario.getNome());
+            listView.setAdapter(new DuvidaAdapter(duvidas, this));
         }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

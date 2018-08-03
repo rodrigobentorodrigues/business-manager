@@ -8,20 +8,25 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import bm.pdm.ifpb.com.businessmanager.R;
+import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 import bm.pdm.ifpb.com.businessmanager.infra.ConcluirAtividade;
+import bm.pdm.ifpb.com.businessmanager.sqlite.TarefaDao;
 
 public class InfoTarefaActivity extends AppCompatActivity {
 
     private Button botaoConcluida;
     private TextView usuario, titulo, descricao;
     private Tarefa tarefa;
+    private TarefaDao tarefaDao;
+    private Configuracao config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         tarefa = (Tarefa) intent.getSerializableExtra("tarefa");
+        config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
         setContentView(R.layout.activity_info_tarefa);
         this.usuario = findViewById(R.id.cadPor);
         usuario.setText(tarefa.getDeUsuario());
@@ -33,10 +38,19 @@ public class InfoTarefaActivity extends AppCompatActivity {
         botaoConcluida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Implementar logica
-                ConcluirAtividade concluirAtividade = new ConcluirAtividade(
-                        InfoTarefaActivity.this, tarefa);
-                concluirAtividade.execute("https://business-manager-server.herokuapp.com/");
+                String repo = config.getRepositorio();
+                if(repo.equals("remoto")){
+                    // Implementar logica
+                    ConcluirAtividade concluirAtividade = new ConcluirAtividade(
+                            InfoTarefaActivity.this, tarefa);
+                    concluirAtividade.execute("https://business-manager-server.herokuapp.com/");
+                } else {
+                    tarefaDao = new TarefaDao(InfoTarefaActivity.this);
+                    tarefaDao.concluirTarefa(tarefa);
+                    Intent intent = new Intent(InfoTarefaActivity.this,
+                            MenuActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }

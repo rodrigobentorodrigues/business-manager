@@ -23,6 +23,11 @@ public class UsuarioDao {
         this.contrato = new UsuarioContrato(contexto);
     }
 
+    public void removerDados(){
+        db = contrato.getWritableDatabase();
+        db.delete(UsuarioContrato.UsuarioDados.tabela, null, null);
+    }
+
     public void inserirUsuario(Usuario usuario){
         db = contrato.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -68,6 +73,30 @@ public class UsuarioDao {
         cursor.close();
         db.close();
         return usuarios;
+    }
+
+    public Usuario autenticarUsuario(String login, String senha){
+        Usuario usuario = new Usuario();
+        db = contrato.getReadableDatabase();
+        String[] campos = {UsuarioContrato.UsuarioDados._ID, UsuarioContrato.UsuarioDados.colunaNome,
+                UsuarioContrato.UsuarioDados.colunaCargo, UsuarioContrato.UsuarioDados.colunaLogin,
+                UsuarioContrato.UsuarioDados.colunaSenha, UsuarioContrato.UsuarioDados.colunaTelefone,
+                UsuarioContrato.UsuarioDados.colunaIdEmpresa};
+        Cursor cursor = db.query(UsuarioContrato.UsuarioDados.tabela, campos,
+                "login = ? AND senha = ?", new String[]{login, senha},
+                null, null, null);
+        if(cursor.moveToNext()){
+            usuario.setId(cursor.getInt(0));
+            usuario.setNome(cursor.getString(1));
+            usuario.setCargo(cursor.getString(2));
+            usuario.setLogin(cursor.getString(3));
+            usuario.setSenha(cursor.getString(4));
+            usuario.setTelefone(cursor.getString(5));
+            usuario.setIdEmpresa(cursor.getInt(6));
+        }
+        cursor.close();
+        db.close();
+        return usuario;
     }
 
 }

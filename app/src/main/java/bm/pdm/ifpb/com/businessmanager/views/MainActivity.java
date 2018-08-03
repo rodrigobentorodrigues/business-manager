@@ -25,9 +25,14 @@ import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
+import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.domains.Duvida;
+import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.infra.AutenticarUsuario;
 import bm.pdm.ifpb.com.businessmanager.infra.SincronizarDadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.sqlite.DuvidaDao;
+import bm.pdm.ifpb.com.businessmanager.sqlite.TarefaDao;
 import bm.pdm.ifpb.com.businessmanager.sqlite.UsuarioDao;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
     private Configuracao config;
     private String repositorio;
     private UsuarioDao usuarioDao;
-
+    private TarefaDao tarefaDao;
+    private DuvidaDao duvidaDao;
+    private DadosUsuario dadosUsuario;
 
     @Override
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -46,8 +53,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.usuarioDao = new UsuarioDao(this);
-        // usuarioDao.inserirUsuario(new Usuario());
-        Log.d("Usuarios", usuarioDao.todosUsuarios().toString());
+        this.tarefaDao = new TarefaDao(this);
+        this.duvidaDao = new DuvidaDao(this);
+//        usuarioDao.removerDados();
+//        tarefaDao.removerDados();
+//        Log.i("Usuarios", usuarioDao.todosUsuarios().toString());
+//        Log.i("Tarefas", tarefaDao.todasTarefas().toString());
+        Log.i("Duvidas", duvidaDao.todasDuvidas().toString());
         this.config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
 
         if (ActivityCompat.checkSelfPermission(MainActivity.this,
@@ -107,24 +119,28 @@ public class MainActivity extends AppCompatActivity {
                             alerta.show();
                         }
                     } else {
-
+                        Usuario autenticado = usuarioDao.autenticarUsuario(valorLogin, valorSenha);
+                        int id = autenticado.getId();
+                        String tipo = spinner.getSelectedItem().toString();
+                        if(id != 0){
+                            String cargo = autenticado.getCargo();
+                            if(cargo.equals(tipo) || tipo.equals("Funcionário")){
+                                dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
+                                dadosUsuario.alterarValores(autenticado);
+                                Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(MainActivity.this, "O usuário não é desse tipo de cargo",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(MainActivity.this, "Usuário não cadastrado na base de dados",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
         });
-    }
-
-    private AlertDialog construirAlerta(String titulo, String mensagem){
-        AlertDialog.Builder b = new AlertDialog.Builder(this);
-        b.setTitle(titulo);
-        b.setMessage(mensagem);
-        b.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
-        AlertDialog alerta = b.create();
-        return alerta;
     }
 
     @Override
@@ -183,4 +199,18 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private AlertDialog construirAlerta(String titulo, String mensagem){
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(titulo);
+        b.setMessage(mensagem);
+        b.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        AlertDialog alerta = b.create();
+        return alerta;
+    }
+
 }

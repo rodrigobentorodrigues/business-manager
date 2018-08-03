@@ -25,10 +25,12 @@ public class ListarDuvida extends AsyncTask<String, Void, String>{
     private ProgressDialog progressDialog;
     private Context contexto;
     private ListView listView;
+    private ConversorDados conversorDados;
 
     public ListarDuvida(Context contexto, ListView listView) {
         this.contexto = contexto;
         this.listView = listView;
+        this.conversorDados = new ConversorDados();
     }
 
     @Override
@@ -69,24 +71,19 @@ public class ListarDuvida extends AsyncTask<String, Void, String>{
 
     @Override
     protected void onPostExecute(String s) {
+        List<Duvida> duvidas = new ArrayList<>();
         try {
-            List<Duvida> duvidas = new ArrayList<>();
             JSONArray arrayResult = new JSONArray(s);
             for(int i = 0; i < arrayResult.length(); i++){
                 JSONObject object = arrayResult.getJSONObject(i);
-                Duvida duvida = new Duvida();
-                duvida.setId(object.getInt("id"));
-                duvida.setDeUsuario(object.getString("deUsuario"));
-                duvida.setParaUsuario(object.getString("paraUsuario"));
-                duvida.setPergunta(object.getString("pergunta"));
-                duvida.setResposta(object.getString("resposta"));
+                Duvida duvida = conversorDados.getDuvida(object);
                 duvidas.add(duvida);
             }
-            progressDialog.dismiss();
-            listView.setAdapter(new DuvidaAdapter(duvidas, contexto));
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        progressDialog.dismiss();
+        listView.setAdapter(new DuvidaAdapter(duvidas, contexto));
     }
 
 }

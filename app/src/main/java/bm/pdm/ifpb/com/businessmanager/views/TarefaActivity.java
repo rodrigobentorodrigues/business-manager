@@ -8,12 +8,16 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.infra.ListarTarefas;
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
+import bm.pdm.ifpb.com.businessmanager.infra.TarefaAdapter;
+import bm.pdm.ifpb.com.businessmanager.sqlite.TarefaDao;
 
 public class TarefaActivity extends AppCompatActivity {
 
@@ -22,6 +26,7 @@ public class TarefaActivity extends AppCompatActivity {
     private DadosUsuario dadosUsuario;
     private Configuracao config;
     private String repositorio;
+    private TarefaDao tarefaDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,9 @@ public class TarefaActivity extends AppCompatActivity {
             listar.execute("https://business-manager-server.herokuapp.com/tarefa/naoConcluidas?usuario="+usuario.getNome());
         } else {
             // Buscar no SQLite
+            tarefaDao = new TarefaDao(this);
+            List<Tarefa> tarefas = tarefaDao.todasNaoConcluidas(usuario.getNome());
+            listView.setAdapter(new TarefaAdapter(tarefas, this));
         }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
