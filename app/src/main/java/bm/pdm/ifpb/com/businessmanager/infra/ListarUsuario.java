@@ -2,7 +2,9 @@ package bm.pdm.ifpb.com.businessmanager.infra;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -84,6 +86,17 @@ public class ListarUsuario extends AsyncTask<String, Void, String> {
             }
             progressDialog.dismiss();
             listView.setAdapter(new UsuarioAdapter(usuarios, contexto));
+            AlertDialog.Builder b = new AlertDialog.Builder(contexto);
+            b.setTitle("Info");
+            b.setMessage("Nesta tela é possível visualizar todos os usuários cadastrados na empresa.\n\n" +
+                    " - Para visualizar os detalhes sobre o mesmo, é necessário selecionar ou tocar o campo que contenha os dados sobre o usuário!");
+            b.setNegativeButton("Fechar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
+            AlertDialog alerta = b.create();
+            alerta.show();
         } catch (JSONException e) {
             e.printStackTrace();
         }

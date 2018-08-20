@@ -2,7 +2,9 @@ package bm.pdm.ifpb.com.businessmanager.infra;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -79,10 +81,22 @@ public class ListarTarefas extends AsyncTask<String, Void, String> {
             for(int i = 0; i < arrayResult.length(); i++){
                 JSONObject object = arrayResult.getJSONObject(i);
                 Tarefa tarefa = conversorDados.getTarefa(object);
+                System.out.println(tarefa.toString());
                 tarefas.add(tarefa);
             }
             progressDialog.dismiss();
             listView.setAdapter(new TarefaAdapter(tarefas, contexto));
+            AlertDialog.Builder b = new AlertDialog.Builder(contexto);
+            b.setTitle("Info");
+            b.setMessage("Nesta tela é possível visualizar todas as tarefas cadastradas para os funcionários.\n\n" +
+                    " - Para visualizar os detalhes sobre a tarefa, é necessário selecionar ou tocar a mesma!");
+            b.setNegativeButton("Fechar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
+            AlertDialog alerta = b.create();
+            alerta.show();
         } catch (JSONException e) {
             e.printStackTrace();
         }

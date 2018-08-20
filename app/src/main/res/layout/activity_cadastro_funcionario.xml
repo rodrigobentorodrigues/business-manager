@@ -10,6 +10,8 @@
     <RelativeLayout
         android:id="@+id/relative"
         android:layout_width="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_height="570dp">
 
         <TextView
@@ -18,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="34dp"
             android:gravity="center"
             android:text="@string/logo_cad"
             android:textSize="28sp" />
@@ -28,32 +30,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/nomeFunc"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="-133dp"
-            android:layout_marginStart="27dp"
+            android:layout_alignStart="@+id/textView"
+            android:layout_marginBottom="-117dp"
             android:text="@string/nome"
             android:textSize="20sp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="27dp" />
+            android:layout_alignLeft="@+id/textView" />
 
         <EditText
             android:id="@+id/nomeFunc"
-            android:layout_width="326dp"
+            android:layout_width="309dp"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView9"
-            android:layout_marginTop="130dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="117dp"
             android:ems="10"
             android:gravity="center"
             android:hint="@string/info_nome"
             android:inputType="textPersonName"
             android:textAlignment="center"
-            android:textSize="20sp"
-            android:layout_alignLeft="@+id/textView9" />
+            android:textSize="20sp" />
 
         <EditText
             android:id="@+id/cargoFunc"
-            android:layout_width="322dp"
+            android:layout_width="302dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView9"
             android:layout_centerHorizontal="true"
@@ -69,11 +68,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView8"
-            android:layout_marginTop="188dp"
+            android:layout_alignStart="@+id/textView"
+            android:layout_marginTop="176dp"
             android:text="@string/cargo"
             android:textSize="20sp"
-            android:layout_alignLeft="@+id/textView8" />
+            android:layout_alignLeft="@+id/textView" />
 
         <EditText
             android:id="@+id/telefoneCampo"
@@ -96,10 +95,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/telefoneCampo"
-            android:layout_alignLeft="@+id/textView8"
-            android:layout_alignStart="@+id/textView8"
+            android:layout_alignEnd="@+id/textView8"
             android:text="Telefone"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_alignRight="@+id/textView8" />
 
         <EditText
             android:id="@+id/loginFunc"
@@ -121,11 +120,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/loginFunc"
-            android:layout_alignLeft="@+id/textView8"
-            android:layout_alignStart="@+id/textView8"
+            android:layout_alignStart="@+id/backCadFunc"
             android:gravity="center"
             android:text="@string/login"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_alignLeft="@+id/backCadFunc" />
 
         <EditText
             android:id="@+id/senhaFunc"
@@ -147,21 +146,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/senhaFunc"
-            android:layout_alignLeft="@+id/textView8"
-            android:layout_alignStart="@+id/textView8"
+            android:layout_alignStart="@+id/textView11"
             android:gravity="center"
             android:text="@string/senha"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_alignLeft="@+id/textView11" />
 
         <Button
             android:id="@+id/cadFunc"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="170dp"
-            android:layout_height="60dp"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_alignEnd="@+id/textView"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
             android:text="Cadastrar"
-            android:textSize="20sp" />
+            android:textSize="16sp"
+            android:layout_alignRight="@+id/textView" />
+
+        <Button
+            android:id="@+id/backCadFunc"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="25dp"
+            android:text="Voltar"
+            android:textSize="16sp"
+            android:layout_marginLeft="25dp"
+            android:layout_alignParentLeft="true" />
 
     </RelativeLayout>
 

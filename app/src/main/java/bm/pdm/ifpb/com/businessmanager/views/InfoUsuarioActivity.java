@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import bm.pdm.ifpb.com.businessmanager.R;
@@ -22,8 +23,9 @@ import bm.pdm.ifpb.com.businessmanager.infra.ContatosUtil;
 
 public class InfoUsuarioActivity extends AppCompatActivity {
 
-    private TextView nome, telefone;
+    private TextView nome, telefone, cargo;
     private Button ligar, adicionar;
+    private ImageButton voltar;
     private Usuario usuario;
 
     @Override
@@ -36,8 +38,11 @@ public class InfoUsuarioActivity extends AppCompatActivity {
         this.nome.setText(usuario.getNome());
         this.telefone = findViewById(R.id.numUsu);
         this.telefone.setText(usuario.getTelefone());
+        this.cargo = findViewById(R.id.cargoF);
+        this.cargo.setText(usuario.getCargo());
         this.ligar = findViewById(R.id.botaoLigar);
         this.adicionar = findViewById(R.id.botaoAgenda);
+        this.voltar = findViewById(R.id.backUsu);
 
         ligar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +77,13 @@ public class InfoUsuarioActivity extends AppCompatActivity {
                     AlertDialog alerta = construirAlerta(titulo, msg);
                     alerta.show();
                 }
+            }
+        });
+
+        voltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

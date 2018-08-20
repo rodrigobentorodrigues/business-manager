@@ -10,11 +10,10 @@
     card_view:cardElevation="7dp"
     card_view:cardUseCompatPadding="true">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="181dp">
 
         <TextView
             android:id="@+id/textView25"
@@ -22,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/mensagem"
-            android:layout_marginTop="19dp"
+            android:layout_marginTop="12dp"
             android:text="De: "
             android:textSize="18sp"
             android:layout_alignLeft="@+id/mensagem" />
@@ -31,37 +30,29 @@
             android:id="@+id/textView26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/textView25"
-            android:layout_marginTop="100dp"
+            android:layout_centerVertical="true"
             android:text="Pergunta: "
-            android:textSize="18sp"
-            android:layout_alignLeft="@+id/textView25" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/deUsuario"
             android:layout_width="112dp"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/paraUsuario"
+            android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/textView25"
+            android:layout_marginStart="93dp"
             android:text="TextView"
-            android:textSize="18sp"
-            android:layout_alignLeft="@+id/paraUsuario" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/mensagem"
             android:layout_width="301dp"
-            android:layout_height="wrap_content"
+            android:layout_height="38dp"
             android:layout_below="@+id/textView26"
             android:layout_centerHorizontal="true"
             android:text="TextView"
             android:textSize="18sp" />
-
-        <Space
-            android:layout_width="340dp"
-            android:layout_height="19dp"
-            android:layout_below="@+id/mensagem"
-            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/textView31"
@@ -69,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/textView25"
-            android:layout_marginTop="59dp"
+            android:layout_marginTop="48dp"
             android:text="Para:"
             android:textSize="18sp"
             android:layout_alignLeft="@+id/textView25" />
@@ -78,22 +69,32 @@
             android:id="@+id/paraUsuario"
             android:layout_width="113dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:layout_alignStart="@+id/deUsuario"
             android:layout_alignTop="@+id/textView31"
-            android:layout_marginStart="103dp"
             android:text="TextView"
-            android:textSize="18sp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="103dp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="87dp"
-            android:layout_height="110dp"
-            android:layout_alignEnd="@+id/mensagem"
+            android:layout_width="89dp"
+            android:layout_height="82dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/textView25"
+            android:layout_marginEnd="18dp"
             app:srcCompat="@android:drawable/ic_menu_help"
-            android:layout_alignRight="@+id/mensagem" />
+            android:layout_marginRight="18dp"
+            android:layout_alignParentRight="true" />
+
+        <TextView
+            android:id="@+id/textView53"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:text="(Clique para obter mais informações sobre a dúvida)"
+            android:textSize="12dp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

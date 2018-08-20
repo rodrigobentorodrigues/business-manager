@@ -12,20 +12,21 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="153dp">
 
         <TextView
             android:id="@+id/valorInicial"
-            android:layout_width="36dp"
-            android:layout_height="55dp"
+            android:layout_width="64dp"
+            android:layout_height="86dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="17dp"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
             android:gravity="center"
             android:text="R"
+            android:textStyle="bold|italic"
             android:textSize="30sp"
             tools:layout_editor_absoluteX="26dp"
             tools:layout_editor_absoluteY="27dp" />
@@ -34,51 +35,52 @@
             android:id="@+id/textView42"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/valorInicial"
-            android:layout_marginLeft="69dp"
-            android:layout_marginStart="69dp"
-            android:text="Nome: " />
+            android:layout_marginStart="102dp"
+            android:text="Nome: "
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="102dp" />
 
         <TextView
             android:id="@+id/textView43"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/valorInicial"
             android:layout_alignLeft="@+id/textView42"
             android:layout_alignStart="@+id/textView42"
-            android:text="Telefone" />
+            android:layout_centerVertical="true"
+            android:text="Telefone"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/valorNome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/valorInicial"
-            android:layout_marginLeft="142dp"
-            android:layout_marginStart="142dp"
-            android:text="TextView" />
+            android:layout_alignStart="@+id/textView42"
+            android:layout_below="@+id/textView42"
+            android:text="TextView"
+            android:layout_alignLeft="@+id/textView42" />
 
         <TextView
             android:id="@+id/valorNumero"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/valorInicial"
-            android:layout_alignLeft="@+id/valorNome"
-            android:layout_alignStart="@+id/valorNome"
-            android:text="TextView" />
+            android:layout_alignStart="@+id/textView42"
+            android:layout_below="@+id/textView43"
+            android:text="TextView"
+            android:layout_alignLeft="@+id/textView42" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="13dp"
-            android:layout_alignLeft="@+id/valorInicial"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/valorInicial"
-            android:layout_marginLeft="-35dp"
-            android:layout_marginStart="-35dp"
-            android:layout_marginTop="108dp" />
+        <TextView
+            android:id="@+id/textView54"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:text="(Clique para obter mais informações sobre o usuário)"
+            android:textSize="12dp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

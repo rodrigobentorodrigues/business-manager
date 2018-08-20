@@ -15,8 +15,8 @@ import bm.pdm.ifpb.com.businessmanager.sqlite.TarefaDao;
 
 public class InfoTarefaActivity extends AppCompatActivity {
 
-    private Button botaoConcluida;
-    private TextView usuario, titulo, descricao;
+    private Button botaoConcluida, voltar;
+    private TextView usuario, titulo, descricao, data;
     private Tarefa tarefa;
     private TarefaDao tarefaDao;
     private Configuracao config;
@@ -34,13 +34,15 @@ public class InfoTarefaActivity extends AppCompatActivity {
         titulo.setText(tarefa.getTitulo());
         this.descricao = findViewById(R.id.descricaoAtiv);
         descricao.setText(tarefa.getDescricao());
+        this.data = findViewById(R.id.dataAtividade);
+        data.setText(tarefa.getData());
         this.botaoConcluida = findViewById(R.id.botaoConcluida);
+        this.voltar = findViewById(R.id.backInfo);
         botaoConcluida.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String repo = config.getRepositorio();
                 if(repo.equals("remoto")){
-                    // Implementar logica
                     ConcluirAtividade concluirAtividade = new ConcluirAtividade(
                             InfoTarefaActivity.this, tarefa);
                     concluirAtividade.execute("https://business-manager-server.herokuapp.com/");
@@ -51,6 +53,12 @@ public class InfoTarefaActivity extends AppCompatActivity {
                             MenuActivity.class);
                     startActivity(intent);
                 }
+            }
+        });
+        voltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

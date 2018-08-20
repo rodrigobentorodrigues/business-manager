@@ -22,7 +22,7 @@ import br.com.jansenfelipe.androidmask.MaskEditTextChangedListener;
 public class CadastroFuncionario extends AppCompatActivity {
 
     private EditText nome, cargo, login, senha, tel;
-    private Button cadastro;
+    private Button cadastro, voltar;
     private Usuario usuario;
     private Usuario usuarioAdministrador;
     private DadosUsuario dadosUsuario;
@@ -42,6 +42,7 @@ public class CadastroFuncionario extends AppCompatActivity {
         MaskEditTextChangedListener mask = new MaskEditTextChangedListener("(###)#####-####", tel);
         tel.addTextChangedListener(mask);
         this.cadastro = findViewById(R.id.cadFunc);
+        this.voltar = findViewById(R.id.backCadFunc);
         //
         cadastro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +71,12 @@ public class CadastroFuncionario extends AppCompatActivity {
                     tel.setText("");
                     // requisitarPermissoes();
                 }
+            }
+        });
+        voltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

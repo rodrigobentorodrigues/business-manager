@@ -155,14 +155,15 @@ public class MainActivity extends AppCompatActivity {
             case R.id.config:
                 AlertDialog.Builder b = new AlertDialog.Builder(this);
                 b.setTitle("Repositório de dados");
-                b.setMessage("Informe o repositório");
+                b.setMessage("Informe o repositório de dados que você deseja utilizar");
                 b.setNegativeButton("Local", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         config.setRepositorio("local");
                         AlertDialog alert = construirAlerta("Repositorio Local", "Utilizando esse tipo de repositorio você ganha " +
                                 "mais perfomance ao requisitar os dados, porém para ter acesso a todos os dados " +
-                                "é necessário realizar uma requisição ao servidor quando possivel");
+                                "é necessário realizar uma requisição ao servidor quando possivel. \n\n" +
+                                " - Para realizar uma requisição ao servidor, selecione o icone no canto superior direito;");
                         alert.show();
                     }
                 });

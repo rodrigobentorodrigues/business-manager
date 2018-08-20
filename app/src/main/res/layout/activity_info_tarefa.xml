@@ -12,9 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="27dp"
         android:text="Informações sobre a atividade"
-        android:textSize="24sp"/>
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
 
     <TextView
         android:id="@+id/textView30"
@@ -22,39 +23,60 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView29"
-        android:layout_marginTop="113dp"
+        android:layout_marginTop="94dp"
         android:text="Cadastrada por:"
         android:textSize="18sp"
+        android:textStyle="bold"
         android:layout_alignLeft="@+id/textView29" />
 
     <TextView
         android:id="@+id/cadPor"
         android:layout_width="322dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView29"
         android:layout_below="@+id/textView30"
+        android:layout_centerHorizontal="true"
         android:text="TextView"
-        android:textSize="18sp"
-        android:layout_alignLeft="@+id/textView29" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView33"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tituloAtividade"
+        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView29"
-        android:layout_marginBottom="-219dp"
+        android:layout_marginTop="159dp"
         android:text="Titulo:"
         android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_alignLeft="@+id/textView29" />
+
+    <TextView
+        android:id="@+id/textView56"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView29"
+        android:layout_marginTop="224dp"
+        android:text="Data para conclusão:"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:layout_alignLeft="@+id/textView29" />
 
     <TextView
         android:id="@+id/tituloAtividade"
         android:layout_width="322dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/textView33"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="219dp"
+        android:text="TextView"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/dataAtividade"
+        android:layout_width="322dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView56"
+        android:layout_centerHorizontal="true"
         android:text="TextView"
         android:textSize="18sp" />
 
@@ -63,30 +85,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textView29"
-        android:layout_marginBottom="208dp"
+        android:layout_alignStart="@+id/cadPor"
+        android:layout_marginBottom="200dp"
         android:text="Descrição"
         android:textSize="18sp"
-        android:layout_alignLeft="@+id/textView29" />
+        android:textStyle="bold"
+        android:layout_alignLeft="@+id/cadPor" />
 
     <TextView
         android:id="@+id/descricaoAtiv"
         android:layout_width="322dp"
-        android:layout_height="71dp"
+        android:layout_height="86dp"
         android:layout_below="@+id/textView35"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-208dp"
+        android:layout_marginTop="-200dp"
         android:ems="10"
         android:textSize="18sp" />
 
     <Button
         android:id="@+id/botaoConcluida"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="230dp"
-        android:layout_height="65dp"
+        android:layout_width="140dp"
+        android:layout_height="55dp"
+        android:layout_alignEnd="@+id/textView29"
+        android:layout_alignTop="@+id/backInfo"
+        android:text="Marcar como concluida"
+        android:layout_alignRight="@+id/textView29" />
+
+    <Button
+        android:id="@+id/backInfo"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="140dp"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textView29"
+        android:layout_marginBottom="40dp"
+        android:text="Voltar"
+        android:layout_alignLeft="@+id/textView29" />
+
+    <Space
+        android:layout_width="327dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="43dp"
-        android:text="Marcar como concluida" />
+        android:layout_marginTop="75dp" />
 
 </RelativeLayout>

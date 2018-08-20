@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import bm.pdm.ifpb.com.businessmanager.infra.SincronizarDadosUsuario;
 
 public class MenuActivity extends AppCompatActivity {
 
+    private Button sincronizar;
     private ImageButton atividade, contatos, cadastro, duvida;
     private final String TIPO_FUNC = "Administrador";
     private DadosUsuario dadosUsuario;
@@ -53,6 +55,7 @@ public class MenuActivity extends AppCompatActivity {
         this.contatos = findViewById(R.id.botaoContatos);
         this.cadastro = findViewById(R.id.botaoCadastro);
         this.duvida = findViewById(R.id.botaoDuvida);
+        this.sincronizar = findViewById(R.id.button);
         //
         usuario = dadosUsuario.autenticado();
         atividade.setOnClickListener(new View.OnClickListener() {
@@ -98,55 +101,100 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        sincronizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder b = new AlertDialog.Builder(MenuActivity.this);
+                b.setTitle("Repositório de dados");
+                b.setMessage("Informe o repositório de dados que você deseja utilizar");
+                b.setNegativeButton("Enviar Dados", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(MenuActivity.this, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                b.setPositiveButton("Receber Dados", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
+                        String servidor = config.getRepositorio();
+                        if(servidor.equals("local")){
+                            AlertDialog.Builder b2 = new AlertDialog.Builder(MenuActivity.this);
+                            b2.setTitle("Sincronização de Dados");
+                            b2.setMessage("Deseja sincronizar com os dados do servidor remoto?");
+                            b2.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                }
+                            });
+                            b2.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    SincronizarDadosAdicionais sinc = new SincronizarDadosAdicionais(MenuActivity.this);
+                                    sinc.execute("https://business-manager-server.herokuapp.com/duvida/listar",
+                                            "https://business-manager-server.herokuapp.com/tarefa/listar");
+                                }
+                            });
+                            AlertDialog alerta2 = b2.create();
+                            alerta2.show();
+                        } else {
+                            Toast.makeText(MenuActivity.this, "Você ja está utilizando os dados do servidor", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                AlertDialog alerta = b.create();
+                alerta.show();
+            }
+        });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.opcoes, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.dados:
-                Toast.makeText(this, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.buscaServidor:
-                this.config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
-                String servidor = config.getRepositorio();
-                if(servidor.equals("local")){
-                    AlertDialog.Builder b2 = new AlertDialog.Builder(this);
-                    b2.setTitle("Sincronização de Dados");
-                    b2.setMessage("Deseja sincronizar com os dados do servidor remoto?");
-                    b2.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                        }
-                    });
-                    b2.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            SincronizarDadosAdicionais sinc = new SincronizarDadosAdicionais(MenuActivity.this);
-                            sinc.execute("https://business-manager-server.herokuapp.com/duvida/listar",
-                                    "https://business-manager-server.herokuapp.com/tarefa/listar");
-                        }
-                    });
-                    AlertDialog alerta2 = b2.create();
-                    alerta2.show();
-                } else {
-                    Toast.makeText(MenuActivity.this, "Você ja está utilizando os dados do servidor", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.camera:
-                requisitarPermissoes();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater menuInflater = getMenuInflater();
+//        menuInflater.inflate(R.menu.opcoes, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()){
+//            case R.id.dados:
+//                Toast.makeText(this, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+//                break;
+//            case R.id.buscaServidor:
+//                this.config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
+//                String servidor = config.getRepositorio();
+//                if(servidor.equals("local")){
+//                    AlertDialog.Builder b2 = new AlertDialog.Builder(this);
+//                    b2.setTitle("Sincronização de Dados");
+//                    b2.setMessage("Deseja sincronizar com os dados do servidor remoto?");
+//                    b2.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                        }
+//                    });
+//                    b2.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            SincronizarDadosAdicionais sinc = new SincronizarDadosAdicionais(MenuActivity.this);
+//                            sinc.execute("https://business-manager-server.herokuapp.com/duvida/listar",
+//                                    "https://business-manager-server.herokuapp.com/tarefa/listar");
+//                        }
+//                    });
+//                    AlertDialog alerta2 = b2.create();
+//                    alerta2.show();
+//                } else {
+//                    Toast.makeText(MenuActivity.this, "Você ja está utilizando os dados do servidor", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            case R.id.camera:
+//                requisitarPermissoes();
+//                break;
+//            default:
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private void requisitarPermissoes(){
         if (ActivityCompat.checkSelfPermission(this,

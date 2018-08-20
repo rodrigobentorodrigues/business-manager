@@ -22,7 +22,7 @@ public class CadastroDuvida extends AppCompatActivity {
 
     private EditText usuarioPara, pergunta;
     private TextView usuarioDe;
-    private Button enviar;
+    private Button enviar, voltar;
     private Usuario usuario;
     private DadosUsuario dadosUsuario;
     private CadastroDuvidaBroad broadcast;
@@ -45,6 +45,7 @@ public class CadastroDuvida extends AppCompatActivity {
         this.usuarioPara = findViewById(R.id.destDuvida);
         this.pergunta = findViewById(R.id.campoPerg);
         this.enviar = findViewById(R.id.botaoEnv);
+        this.voltar = findViewById(R.id.backCadDuv);
 
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +64,12 @@ public class CadastroDuvida extends AppCompatActivity {
                     startService(intent);
                     Toast.makeText(CadastroDuvida.this, "Dados enviados", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        voltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

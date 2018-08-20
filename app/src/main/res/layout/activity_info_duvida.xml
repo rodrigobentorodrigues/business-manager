@@ -13,6 +13,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:text="Informações sobre a dúvida"
+        android:textStyle="bold|italic"
         android:textSize="24sp" />
 
     <TextView
@@ -21,20 +22,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView36"
-        android:layout_marginTop="82dp"
+        android:layout_marginTop="83dp"
         android:text="Enviado por:"
         android:textSize="18sp"
+        android:textStyle="bold"
         android:layout_alignLeft="@+id/textView36" />
 
     <TextView
         android:id="@+id/campoUsuarioDe"
         android:layout_width="294dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView36"
+        android:layout_alignStart="@+id/textView37"
         android:layout_below="@+id/textView37"
         android:text="TextView"
         android:textSize="18sp"
-        android:layout_alignLeft="@+id/textView36" />
+        android:layout_alignLeft="@+id/textView37" />
 
     <TextView
         android:id="@+id/textView39"
@@ -42,21 +44,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/textView36"
-        android:layout_marginTop="154dp"
+        android:layout_marginTop="147dp"
         android:text="Descrição:"
         android:textSize="18sp"
+        android:textStyle="bold"
         android:layout_alignLeft="@+id/textView36" />
 
     <TextView
         android:id="@+id/descAtividade"
         android:layout_width="294dp"
-        android:layout_height="70dp"
-        android:layout_alignStart="@+id/textView36"
+        android:layout_height="93dp"
         android:layout_below="@+id/textView39"
+        android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:textSize="18sp"
-        android:layout_alignLeft="@+id/textView36" />
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/botaoResp"
@@ -65,16 +67,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="188dp"
+        android:layout_marginBottom="178dp"
         android:text="Responder" />
 
     <EditText
         android:id="@+id/campoResp"
         android:layout_width="294dp"
         android:layout_height="66dp"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/botaoEnviar"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="98dp"
         android:ems="10"
         android:inputType="textMultiLine"
         android:textSize="18sp" />
@@ -85,9 +86,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/textView36"
-        android:layout_below="@+id/campoResp"
-        android:layout_marginTop="-98dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="36dp"
         android:text="Enviar >"
         android:layout_alignRight="@+id/textView36" />
+
+    <Button
+        android:id="@+id/backDuv"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView36"
+        android:layout_below="@+id/campoResp"
+        android:text="Voltar"
+        android:layout_alignLeft="@+id/textView36" />
 
 </RelativeLayout>

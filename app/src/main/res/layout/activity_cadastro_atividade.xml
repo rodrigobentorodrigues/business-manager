@@ -12,30 +12,33 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="21dp"
         android:text="Cadastro de Atividade"
-        android:textSize="28sp" />
+        android:textSize="28sp"
+        android:textStyle="bold|italic" />
 
     <TextView
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/campoData"
-        android:layout_marginTop="66dp"
+        android:layout_above="@+id/campoNomeFunc"
+        android:layout_alignStart="@+id/campoDesc"
+        android:layout_marginBottom="-99dp"
         android:text="Funcionário"
         android:textSize="18sp"
-        android:layout_alignLeft="@+id/campoData" />
+        android:textStyle="bold"
+        android:layout_alignLeft="@+id/campoDesc" />
 
     <TextView
         android:id="@+id/textView47"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/campoTitulo"
         android:layout_alignStart="@+id/textView22"
-        android:layout_marginTop="151dp"
+        android:layout_marginBottom="-187dp"
         android:text="Titulo"
         android:textSize="18sp"
+        android:textStyle="bold"
         android:layout_alignLeft="@+id/textView22" />
 
     <!--<Spinner-->
@@ -54,16 +57,17 @@
         android:layout_above="@+id/campoDesc"
         android:layout_alignStart="@+id/textView22"
         android:text="Descrição da atividade"
+        android:textStyle="bold"
         android:textSize="18sp"
         android:layout_alignLeft="@+id/textView22" />
 
     <EditText
         android:id="@+id/campoDesc"
         android:layout_width="309dp"
-        android:layout_height="79dp"
+        android:layout_height="73dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="176dp"
+        android:layout_marginBottom="169dp"
         android:ems="10"
         android:inputType="textMultiLine" />
 
@@ -75,6 +79,7 @@
         android:layout_alignStart="@+id/textView22"
         android:text="Data de conclusão"
         android:textSize="18sp"
+        android:textStyle="bold"
         android:layout_alignLeft="@+id/textView22" />
 
     <EditText
@@ -94,17 +99,29 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="140dp"
         android:layout_height="55dp"
+        android:layout_alignEnd="@+id/campoDesc"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginBottom="23dp"
-        android:text="@string/btn_cad" />
+        android:text="@string/btn_cad"
+        android:layout_alignRight="@+id/campoDesc" />
+
+    <Button
+        android:id="@+id/backCadAtiv"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="140dp"
+        android:layout_height="55dp"
+        android:layout_alignStart="@+id/textView22"
+        android:layout_alignTop="@+id/cadAtiv"
+        android:text="Voltar"
+        android:layout_alignLeft="@+id/textView22" />
 
     <EditText
         android:id="@+id/campoTitulo"
         android:layout_width="309dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView47"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="187dp"
         android:ems="10"
         android:inputType="textPersonName" />
 
@@ -112,12 +129,12 @@
         android:id="@+id/campoNomeFunc"
         android:layout_width="309dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView22"
-        android:layout_below="@+id/textView22"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="99dp"
         android:ems="10"
-        android:hint="Informe o nome do funcionário"
         android:gravity="center"
-        android:inputType="textCapSentences"
-        android:layout_alignLeft="@+id/textView22" />
+        android:hint="Informe o nome do funcionário"
+        android:inputType="textCapSentences" />
 
 </RelativeLayout>

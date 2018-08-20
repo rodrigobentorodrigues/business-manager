@@ -30,7 +30,7 @@ public class CadastroAtividade extends AppCompatActivity {
 
     // private Spinner spinner;
     private EditText desc, data, titulo, funcionario;
-    private Button cadastro;
+    private Button cadastro, voltar;
     private Usuario usuario;
     private DadosUsuario dadosUsuario;
     private Calendar calendar;
@@ -80,6 +80,7 @@ public class CadastroAtividade extends AppCompatActivity {
         updateLabelDate();
         this.titulo = findViewById(R.id.campoTitulo);
         this.cadastro = findViewById(R.id.cadAtiv);
+        this.voltar = findViewById(R.id.backCadAtiv);
 
         this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
         this.usuario = dadosUsuario.autenticado();
@@ -117,6 +118,12 @@ public class CadastroAtividade extends AppCompatActivity {
                     }
 
                 }
+            }
+        });
+        voltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

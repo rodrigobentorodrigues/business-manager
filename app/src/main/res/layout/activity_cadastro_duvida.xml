@@ -16,6 +16,7 @@
         android:layout_marginTop="8dp"
         android:text="Cadastro de Dúvida"
         android:textSize="26sp"
+        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,13 +37,14 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Usuário:"
+        android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.079"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView32"
-        app:layout_constraintVertical_bias="0.017" />
+        app:layout_constraintVertical_bias="0.059" />
 
     <TextView
         android:id="@+id/textView38"
@@ -58,6 +60,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Para:"
+        android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,13 +85,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.507"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView38"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/usuarioDuvida"
+        app:layout_constraintVertical_bias="0.123" />
 
     <TextView
         android:id="@+id/usuarioDuvida"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="24dp"
         android:layout_alignLeft="@+id/textView34"
         android:layout_alignStart="@+id/textView34"
         android:layout_below="@+id/textView34"
@@ -97,9 +100,10 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.831"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView34"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView32"
+        app:layout_constraintVertical_bias="0.057" />
 
     <TextView
         android:id="@+id/textView41"
@@ -115,6 +119,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Pergunta"
+        android:textStyle="bold"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -134,11 +139,12 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textMultiLine"
+        android:hint="Informe a pergunta que desejas fazer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView41"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/destDuvida"
+        app:layout_constraintVertical_bias="0.307" />
 
     <Button
         android:id="@+id/botaoEnv"
@@ -153,8 +159,27 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.884"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/campoPerg"
-        app:layout_constraintVertical_bias="0.552" />
+        app:layout_constraintVertical_bias="0.392" />
+
+    <Button
+        android:id="@+id/backCadDuv"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="116dp"
+        android:layout_height="59dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Voltar"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.119"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/campoPerg"
+        app:layout_constraintVertical_bias="0.392" />
 
 </android.support.constraint.ConstraintLayout>

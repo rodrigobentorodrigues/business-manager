@@ -2,7 +2,9 @@ package bm.pdm.ifpb.com.businessmanager.infra;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -86,6 +88,19 @@ public class ListarDuvida extends AsyncTask<String, Void, String>{
         }
         progressDialog.dismiss();
         listView.setAdapter(new DuvidaAdapter(duvidas, contexto));
+        AlertDialog.Builder b = new AlertDialog.Builder(contexto);
+        b.setTitle("Info");
+        b.setMessage("Nesta tela é possível visualizar todas as dúvidas cadastradas pelos funcionários e " +
+                "administradores da empresa. Sendo possível tambem cadastrar uma duvida.\n\n" +
+                " - Para visualizar os detalhes sobre, é necessário selecionar ou tocar a duvida desejada!\n" +
+                " - Para cadastrar uma duvida para algum funcionário, vá no icone + que está no canto superior direito!");
+        b.setNegativeButton("Fechar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        AlertDialog alerta = b.create();
+        alerta.show();
     }
 
 }
