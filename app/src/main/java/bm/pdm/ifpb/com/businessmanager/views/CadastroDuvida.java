@@ -13,10 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
+import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Duvida;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.services.AdicionarDuvida;
+import bm.pdm.ifpb.com.businessmanager.sqlite.DuvidaDao;
 
 public class CadastroDuvida extends AppCompatActivity {
 
@@ -26,12 +28,15 @@ public class CadastroDuvida extends AppCompatActivity {
     private Usuario usuario;
     private DadosUsuario dadosUsuario;
     private CadastroDuvidaBroad broadcast;
+    private Configuracao configuracao;
+    private DuvidaDao duvidaDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_duvida);
         this.broadcast = new CadastroDuvidaBroad();
+        this.configuracao = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
         IntentFilter broadDuvida = new IntentFilter("cad-duv");
         registerReceiver(broadcast, broadDuvida);
 

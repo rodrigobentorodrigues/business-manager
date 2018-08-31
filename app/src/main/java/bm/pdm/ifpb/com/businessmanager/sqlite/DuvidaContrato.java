@@ -12,7 +12,8 @@ public class DuvidaContrato extends SQLiteOpenHelper {
             DuvidaDados.colunaDeUsuario + " TEXT, " +
             DuvidaDados.colunaParaUsuario + " TEXT, " +
             DuvidaDados.colunaPergunta + " TEXT, " +
-            DuvidaDados.colunaResposta +" TEXT);";
+            DuvidaDados.colunaResposta +" TEXT, "+
+            DuvidaDados.colunaEnviado + " INTEGER);";
     private static final String sqlExcluirTabela = "DROP TABLE IF EXISTS " + DuvidaDados.tabela;
 
     public DuvidaContrato(Context context) {
@@ -31,13 +32,14 @@ public class DuvidaContrato extends SQLiteOpenHelper {
     }
 
     public static class DuvidaDados implements BaseColumns {
-        public static String bancoDados = "duvida.db";
-        public static int versaoBanco = 1;
-        public static String tabela = "duvida";
-        public static String colunaDeUsuario = "deUsuario";
-        public static String colunaParaUsuario = "paraUsuario";
-        public static String colunaPergunta = "pergunta";
-        public static String colunaResposta = "resposta";
+        public static final String bancoDados = "duvida.db";
+        public static final int versaoBanco = 2;
+        public static final String tabela = "duvida";
+        public static final String colunaDeUsuario = "deUsuario";
+        public static final String colunaParaUsuario = "paraUsuario";
+        public static final String colunaPergunta = "pergunta";
+        public static final String colunaResposta = "resposta";
+        public static final String colunaEnviado = "enviado";
     }
 
 }

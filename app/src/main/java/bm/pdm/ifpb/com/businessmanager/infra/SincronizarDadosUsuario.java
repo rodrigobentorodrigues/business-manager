@@ -80,6 +80,7 @@ public class SincronizarDadosUsuario extends AsyncTask<String, Void, String>{
                     }
                 }
                 if(!exist){
+                    usuario.setEnviado(1);
                     usuarioDao.inserirUsuario(usuario);
                 }
             }

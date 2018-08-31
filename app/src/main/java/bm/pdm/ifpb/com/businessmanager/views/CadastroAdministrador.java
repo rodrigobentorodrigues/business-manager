@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import bm.pdm.ifpb.com.businessmanager.R;
+import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.infra.AdicionarAdministrador;
 import bm.pdm.ifpb.com.businessmanager.infra.AdicionarFuncionario;

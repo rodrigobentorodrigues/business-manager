@@ -29,13 +29,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.LoginActivity"
-            android:parentActivityName=".views.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.MainActivity" />
-        </activity>
-        <activity
             android:name=".views.CadastroActivity"
             android:parentActivityName=".views.MainActivity">
             <meta-data
@@ -126,21 +119,29 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.MainActivity" />
         </activity>
+
         <service
             android:name=".services.AdicionarAtividade"
             android:exported="false" />
         <service
             android:name=".services.AdicionarDuvida"
             android:exported="false" />
+        <service
+            android:name=".services.EnviarDados"
+            android:exported="false" />
+
         <receiver
             android:name=".broadcast.MyReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".views.ConfiguracaoActivity" />
+        <activity android:name=".views.CadastroFuncionario2"></activity>
     </application>
 
 </manifest>

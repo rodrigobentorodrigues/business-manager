@@ -15,6 +15,7 @@ public class Usuario implements Serializable{
     private String senha;
     private String telefone;
     private int idEmpresa;
+    private int enviado;
 
     public Usuario(int id, String nome, String cargo,
                    String login, String senha, String telefone) {
@@ -24,6 +25,17 @@ public class Usuario implements Serializable{
         this.login = login;
         this.senha = senha;
         this.telefone = telefone;
+    }
+
+    public Usuario(int id, String nome, String cargo, String login, String senha, String telefone, int idEmpresa, int enviado) {
+        this.id = id;
+        this.nome = nome;
+        this.cargo = cargo;
+        this.login = login;
+        this.senha = senha;
+        this.telefone = telefone;
+        this.idEmpresa = idEmpresa;
+        this.enviado = enviado;
     }
 
     public Usuario() {
@@ -85,6 +97,14 @@ public class Usuario implements Serializable{
         this.idEmpresa = idEmpresa;
     }
 
+    public int getEnviado() {
+        return enviado;
+    }
+
+    public void setEnviado(int enviado) {
+        this.enviado = enviado;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
@@ -95,6 +115,7 @@ public class Usuario implements Serializable{
                 ", senha='" + senha + '\'' +
                 ", telefone='" + telefone + '\'' +
                 ", idEmpresa=" + idEmpresa +
+                ", enviado=" + enviado +
                 '}';
     }
 

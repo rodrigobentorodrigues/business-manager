@@ -38,6 +38,7 @@ public class UsuarioDao {
         contentValues.put(UsuarioContrato.UsuarioDados.colunaSenha, usuario.getSenha());
         contentValues.put(UsuarioContrato.UsuarioDados.colunaTelefone, usuario.getTelefone());
         contentValues.put(UsuarioContrato.UsuarioDados.colunaIdEmpresa, usuario.getIdEmpresa());
+        contentValues.put(UsuarioContrato.UsuarioDados.colunaEnviado, usuario.getEnviado());
         resultado = db.insert(UsuarioContrato.UsuarioDados.tabela,
                 null, contentValues);
         if(resultado == -1){
@@ -50,13 +51,39 @@ public class UsuarioDao {
         db.close();
     }
 
+    public List<Usuario> todasNaoEnviadas(String aux){
+        List<Usuario> usuarios = new ArrayList<>();
+        db = contrato.getReadableDatabase();
+        String[] campos = {UsuarioContrato.UsuarioDados._ID, UsuarioContrato.UsuarioDados.colunaNome,
+                UsuarioContrato.UsuarioDados.colunaCargo, UsuarioContrato.UsuarioDados.colunaLogin,
+                UsuarioContrato.UsuarioDados.colunaSenha, UsuarioContrato.UsuarioDados.colunaTelefone,
+                UsuarioContrato.UsuarioDados.colunaIdEmpresa, UsuarioContrato.UsuarioDados.colunaEnviado};
+        Cursor cursor = db.query(UsuarioContrato.UsuarioDados.tabela, campos,
+                "(enviado = 0) AND _ID = ?", new String[]{aux}, null, null, null);
+        while(cursor.moveToNext()){
+            Usuario usuario = new Usuario();
+            usuario.setId(cursor.getInt(0));
+            usuario.setNome(cursor.getString(1));
+            usuario.setCargo(cursor.getString(2));
+            usuario.setLogin(cursor.getString(3));
+            usuario.setSenha(cursor.getString(4));
+            usuario.setTelefone(cursor.getString(5));
+            usuario.setIdEmpresa(cursor.getInt(6));
+            usuario.setEnviado(cursor.getInt(7));
+            usuarios.add(usuario);
+        }
+        cursor.close();
+        db.close();
+        return usuarios;
+    }
+
     public List<Usuario> todosUsuarios(){
         List<Usuario> usuarios = new ArrayList<>();
         db = contrato.getReadableDatabase();
         String[] campos = {UsuarioContrato.UsuarioDados._ID, UsuarioContrato.UsuarioDados.colunaNome,
                 UsuarioContrato.UsuarioDados.colunaCargo, UsuarioContrato.UsuarioDados.colunaLogin,
                 UsuarioContrato.UsuarioDados.colunaSenha, UsuarioContrato.UsuarioDados.colunaTelefone,
-                UsuarioContrato.UsuarioDados.colunaIdEmpresa};
+                UsuarioContrato.UsuarioDados.colunaIdEmpresa, UsuarioContrato.UsuarioDados.colunaEnviado};
         Cursor cursor = db.query(UsuarioContrato.UsuarioDados.tabela, campos,
                 null,null, null, null, null);
         while(cursor.moveToNext()){
@@ -68,6 +95,7 @@ public class UsuarioDao {
             usuario.setSenha(cursor.getString(4));
             usuario.setTelefone(cursor.getString(5));
             usuario.setIdEmpresa(cursor.getInt(6));
+            usuario.setEnviado(cursor.getInt(7));
             usuarios.add(usuario);
         }
         cursor.close();
@@ -81,7 +109,7 @@ public class UsuarioDao {
         String[] campos = {UsuarioContrato.UsuarioDados._ID, UsuarioContrato.UsuarioDados.colunaNome,
                 UsuarioContrato.UsuarioDados.colunaCargo, UsuarioContrato.UsuarioDados.colunaLogin,
                 UsuarioContrato.UsuarioDados.colunaSenha, UsuarioContrato.UsuarioDados.colunaTelefone,
-                UsuarioContrato.UsuarioDados.colunaIdEmpresa};
+                UsuarioContrato.UsuarioDados.colunaIdEmpresa, UsuarioContrato.UsuarioDados.colunaEnviado};
         Cursor cursor = db.query(UsuarioContrato.UsuarioDados.tabela, campos,
                 "idEmpresa = ?",new String[]{String.valueOf(id)}, null, null, UsuarioContrato.UsuarioDados.colunaNome);
         while(cursor.moveToNext()){
@@ -93,6 +121,7 @@ public class UsuarioDao {
             usuario.setSenha(cursor.getString(4));
             usuario.setTelefone(cursor.getString(5));
             usuario.setIdEmpresa(cursor.getInt(6));
+            usuario.setEnviado(cursor.getInt(7));
             usuarios.add(usuario);
         }
         cursor.close();
@@ -106,7 +135,7 @@ public class UsuarioDao {
         String[] campos = {UsuarioContrato.UsuarioDados._ID, UsuarioContrato.UsuarioDados.colunaNome,
                 UsuarioContrato.UsuarioDados.colunaCargo, UsuarioContrato.UsuarioDados.colunaLogin,
                 UsuarioContrato.UsuarioDados.colunaSenha, UsuarioContrato.UsuarioDados.colunaTelefone,
-                UsuarioContrato.UsuarioDados.colunaIdEmpresa};
+                UsuarioContrato.UsuarioDados.colunaIdEmpresa, UsuarioContrato.UsuarioDados.colunaEnviado};
         Cursor cursor = db.query(UsuarioContrato.UsuarioDados.tabela, campos,
                 "login = ? AND senha = ?", new String[]{login, senha},
                 null, null, null);
@@ -118,10 +147,27 @@ public class UsuarioDao {
             usuario.setSenha(cursor.getString(4));
             usuario.setTelefone(cursor.getString(5));
             usuario.setIdEmpresa(cursor.getInt(6));
+            usuario.setEnviado(cursor.getInt(7));
         }
         cursor.close();
         db.close();
         return usuario;
+    }
+
+    public void marcarComoEnviada(Usuario usuario){
+        db = contrato.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(UsuarioContrato.UsuarioDados._ID, usuario.getId());
+        contentValues.put(UsuarioContrato.UsuarioDados.colunaNome, usuario.getNome());
+        contentValues.put(UsuarioContrato.UsuarioDados.colunaCargo, usuario.getCargo());
+        contentValues.put(UsuarioContrato.UsuarioDados.colunaLogin, usuario.getLogin());
+        contentValues.put(UsuarioContrato.UsuarioDados.colunaSenha, usuario.getSenha());
+        contentValues.put(UsuarioContrato.UsuarioDados.colunaTelefone, usuario.getTelefone());
+        contentValues.put(UsuarioContrato.UsuarioDados.colunaIdEmpresa, usuario.getIdEmpresa());
+        contentValues.put(UsuarioContrato.UsuarioDados.colunaEnviado, usuario.getEnviado());
+        int update = db.update(DuvidaContrato.DuvidaDados.tabela, contentValues,
+                "_id = ?", new String[]{String.valueOf(usuario.getId())});
+        Log.d("Atualizados", ": " + update);
     }
 
 }

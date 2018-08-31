@@ -18,6 +18,7 @@ import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.infra.ListarTarefas;
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
+import bm.pdm.ifpb.com.businessmanager.infra.NetworkUtils;
 import bm.pdm.ifpb.com.businessmanager.infra.TarefaAdapter;
 import bm.pdm.ifpb.com.businessmanager.sqlite.TarefaDao;
 
@@ -29,20 +30,39 @@ public class TarefaActivity extends AppCompatActivity {
     private Configuracao config;
     private String repositorio;
     private TarefaDao tarefaDao;
+    private NetworkUtils networkUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarefa);
 
+        this.networkUtils = new NetworkUtils();
         this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
         this.usuario = dadosUsuario.autenticado();
         this.config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
         this.repositorio = config.getRepositorio();
         this.listView = findViewById(android.R.id.list);
         if(repositorio.equals("remoto")){
-            ListarTarefas listar = new ListarTarefas(TarefaActivity.this, listView);
-            listar.execute("https://business-manager-server.herokuapp.com/tarefa/naoConcluidas?usuario="+usuario.getNome());
+            if(networkUtils.verificarConexao(TarefaActivity.this)){
+                ListarTarefas listar = new ListarTarefas(TarefaActivity.this, listView);
+                listar.execute("https://business-manager-server.herokuapp.com/tarefa/naoConcluidas?usuario="+usuario.getNome());
+            } else {
+                String titulo = "Sem conexão com a internet";
+                String msg = "Por favor, conecte-se com alguma rede e tente novamente";
+                AlertDialog.Builder b = new AlertDialog.Builder(this);
+                b.setTitle(titulo);
+                b.setMessage(msg);
+                b.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                AlertDialog alerta = b.create();
+                alerta.show();
+            }
+
         } else {
             // Buscar no SQLite
             tarefaDao = new TarefaDao(this);

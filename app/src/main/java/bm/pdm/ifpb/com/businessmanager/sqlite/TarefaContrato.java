@@ -14,7 +14,8 @@ public class TarefaContrato extends SQLiteOpenHelper {
             TarefaDados.colunaTitulo + " TEXT, " +
             TarefaDados.colunaDescricao + " TEXT, " +
             TarefaDados.colunaData + " TEXT, " +
-            TarefaDados.colunaConcluida + " INTEGER);";
+            TarefaDados.colunaConcluida + " INTEGER, " +
+            TarefaDados.colunaEnviado + " INTEGER);";
     private static final String sqlExcluirTabela = "DROP TABLE IF EXISTS " + TarefaDados.tabela;
 
     public TarefaContrato(Context context) {
@@ -35,13 +36,14 @@ public class TarefaContrato extends SQLiteOpenHelper {
     public static class TarefaDados implements BaseColumns {
         public static final String banco = "tarefa.db";
         public static final String tabela = "tarefa";
-        public static final int versao = 1;
+        public static final int versao = 2;
         public static final String colunaDeUsuario = "deUsuario";
         public static final String colunaParaUsuario = "paraUsuario";
         public static final String colunaTitulo = "titulo";
         public static final String colunaDescricao = "descricao";
         public static final String colunaData = "data";
         public static final String colunaConcluida = "concluida";
+        public static final String colunaEnviado = "enviado";
     }
 
 }

@@ -35,7 +35,7 @@ public class DuvidaActivity extends AppCompatActivity {
     private Configuracao config;
     private String repositorio;
     private DuvidaDao duvidaDao;
-    // private NetworkUtils utils;
+    private NetworkUtils networkUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +43,30 @@ public class DuvidaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_duvida);
 
         this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
+        this.networkUtils = new NetworkUtils();
         this.usuario = dadosUsuario.autenticado();
         this.config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
         this.repositorio = config.getRepositorio();
         this.listView = findViewById(android.R.id.list);
         if (repositorio.equals("remoto")){
-            ListarDuvida listarDuvida = new ListarDuvida(DuvidaActivity.this, listView);
-            listarDuvida.execute("https://business-manager-server.herokuapp.com/duvida/naoConcluidas?usuario="+usuario.getNome());
+            if(networkUtils.verificarConexao(DuvidaActivity.this)){
+                ListarDuvida listarDuvida = new ListarDuvida(DuvidaActivity.this, listView);
+                listarDuvida.execute("https://business-manager-server.herokuapp.com/duvida/naoConcluidas?usuario="+usuario.getNome());
+            } else {
+                String titulo = "Sem conexão com a internet";
+                String msg = "Por favor, conecte-se com alguma rede e tente novamente";
+                AlertDialog.Builder b = new AlertDialog.Builder(this);
+                b.setTitle(titulo);
+                b.setMessage(msg);
+                b.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                AlertDialog alerta = b.create();
+                alerta.show();
+            }
         } else {
             // SQLite
             duvidaDao = new DuvidaDao(this);

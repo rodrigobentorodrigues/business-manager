@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.CadastroFuncionario2">
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Login:"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/campoLoginCad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/campoLoginCad"
+        app:layout_constraintTop_toBottomOf="@+id/textView57" />
+
+    <TextView
+        android:id="@+id/textView58"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="3dp"
+        android:text="Senha:"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/campoSenhaCad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/campoSenhaCad"
+        app:layout_constraintTop_toBottomOf="@+id/campoLoginCad" />
+
+    <TextView
+        android:id="@+id/textView57"
+        android:layout_width="384dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="65dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="41dp"
+        android:text="Informe os dados para o login do funcionário"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/campoLoginCad"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="42dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="23dp"
+        android:layout_marginStart="23dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Informe um login para o funcionário"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/textView58"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <EditText
+        android:id="@+id/campoSenhaCad"
+        android:layout_width="331dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="42dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Informe uma senha para o funcionário"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/cadastrarFuncionario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView58" />
+
+    <Button
+        android:id="@+id/voltarCad"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="91dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="91dp"
+        android:layout_marginStart="30dp"
+        android:text="Voltar"
+        app:layout_constraintBottom_toBottomOf="@+id/cadastrarFuncionario"
+        app:layout_constraintEnd_toStartOf="@+id/cadastrarFuncionario"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cadastrarFuncionario" />
+
+    <Button
+        android:id="@+id/cadastrarFuncionario"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="27dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:text="Cadastrar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/voltarCad"
+        app:layout_constraintTop_toBottomOf="@+id/campoSenhaCad" />
+</android.support.constraint.ConstraintLayout>

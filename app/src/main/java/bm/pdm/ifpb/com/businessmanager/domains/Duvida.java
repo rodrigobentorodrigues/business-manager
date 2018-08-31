@@ -13,6 +13,7 @@ public class Duvida implements Serializable {
     private String paraUsuario;
     private String pergunta;
     private String resposta;
+    private int enviado;
 
     public Duvida() {
     }
@@ -28,6 +29,15 @@ public class Duvida implements Serializable {
         this.paraUsuario = paraUsuario;
         this.pergunta = pergunta;
         this.resposta = resposta;
+    }
+
+    public Duvida(int id, String deUsuario, String paraUsuario, String pergunta, String resposta, int enviado) {
+        this.id = id;
+        this.deUsuario = deUsuario;
+        this.paraUsuario = paraUsuario;
+        this.pergunta = pergunta;
+        this.resposta = resposta;
+        this.enviado = enviado;
     }
 
     public int getId() {
@@ -70,6 +80,14 @@ public class Duvida implements Serializable {
         this.resposta = resposta;
     }
 
+    public int getEnviado() {
+        return enviado;
+    }
+
+    public void setEnviado(int enviado) {
+        this.enviado = enviado;
+    }
+
     @Override
     public String toString() {
         return "Duvida{" +
@@ -78,6 +96,7 @@ public class Duvida implements Serializable {
                 ", paraUsuario='" + paraUsuario + '\'' +
                 ", pergunta='" + pergunta + '\'' +
                 ", resposta='" + resposta + '\'' +
+                ", enviado=" + enviado +
                 '}';
     }
 

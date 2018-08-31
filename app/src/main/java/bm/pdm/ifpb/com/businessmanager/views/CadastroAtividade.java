@@ -1,8 +1,10 @@
 package bm.pdm.ifpb.com.businessmanager.views;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
@@ -21,10 +23,13 @@ import java.util.Date;
 import java.util.Locale;
 
 import bm.pdm.ifpb.com.businessmanager.R;
+import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.infra.NetworkUtils;
 import bm.pdm.ifpb.com.businessmanager.services.AdicionarAtividade;
+import bm.pdm.ifpb.com.businessmanager.sqlite.TarefaDao;
 
 public class CadastroAtividade extends AppCompatActivity {
 
@@ -37,12 +42,17 @@ public class CadastroAtividade extends AppCompatActivity {
     private SimpleDateFormat dateFormat;
     private final String format = "dd/MM/yyyy";
     private CadAtivBroadCast broadCast;
+    private Configuracao configuracao;
+    private TarefaDao tarefaDao;
+    private NetworkUtils networkUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_atividade);
         this.broadCast = new CadAtivBroadCast();
+        this.configuracao = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
+        this.networkUtils = new NetworkUtils();
         //
         IntentFilter filter = new IntentFilter("cad-ativ");
         registerReceiver(broadCast, filter);
@@ -85,7 +95,6 @@ public class CadastroAtividade extends AppCompatActivity {
         this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
         this.usuario = dadosUsuario.autenticado();
 
-        Log.i("Cad-Atividade", usuario.toString());
         cadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,14 +118,37 @@ public class CadastroAtividade extends AppCompatActivity {
                     if(atual.after(informado)){
                         Toast.makeText(CadastroAtividade.this, "A data não pode ser igual ou inferior ao dia de hoje!", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(CadastroAtividade.this, "Enviando dados para o servidor", Toast.LENGTH_SHORT).show();
                         Tarefa tarefa = new Tarefa(0, deUsuario, paraUsuario, valorTitulo, valorDesc, valorData, false);
-                        Intent intent = new Intent(CadastroAtividade.this, AdicionarAtividade.class);
-                        intent.putExtra("url", "https://business-manager-server.herokuapp.com/");
-                        intent.putExtra("tarefa", tarefa);
-                        startService(intent);
-                    }
+                        String repositorio = configuracao.getRepositorio();
+                        if(repositorio.equals("remoto")){
+                            if(networkUtils.verificarConexao(CadastroAtividade.this)){
+                                Intent intent = new Intent(CadastroAtividade.this, AdicionarAtividade.class);
+                                intent.putExtra("url", "https://business-manager-server.herokuapp.com/");
+                                intent.putExtra("tarefa", tarefa);
+                                startService(intent);
+                            } else {
+                                String titulo = "Sem conexão com a internet";
+                                String msg = "Por favor, conecte-se com alguma rede e tente novamente";
+                                AlertDialog.Builder b = new AlertDialog.Builder(CadastroAtividade.this);
+                                b.setTitle(titulo);
+                                b.setMessage(msg);
+                                b.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                    }
+                                });
+                                AlertDialog alerta = b.create();
+                                alerta.show();
+                            }
 
+                        } else {
+                            tarefaDao = new TarefaDao(CadastroAtividade.this);
+                            tarefaDao.inserirTarefa(tarefa);
+                            Intent intent = new Intent(CadastroAtividade.this,
+                                    MenuActivity.class);
+                            startActivity(intent);
+                        }
+                    }
                 }
             }
         });

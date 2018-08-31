@@ -83,6 +83,7 @@ public class SincronizarDadosAdicionais extends AsyncTask<String, Void, String>{
                     }
                     if(!exist){
                         Log.d("Inexistente Duvida", duvida.toString());
+                        duvida.setEnviado(1);
                         duvidaDao.inserirDuvida(duvida);
                     }
                 }
@@ -126,6 +127,7 @@ public class SincronizarDadosAdicionais extends AsyncTask<String, Void, String>{
                     }
                     if(!exist){
                         Log.d("Inexistente Tarefa", tarefa.toString());
+                        tarefa.setEnviado(1);
                         tarefaDao.inserirTarefa(tarefa);
                     }
                 }

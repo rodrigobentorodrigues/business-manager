@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -32,8 +33,12 @@ import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.infra.ListarTarefas;
+import bm.pdm.ifpb.com.businessmanager.infra.NetworkUtils;
 import bm.pdm.ifpb.com.businessmanager.infra.SincronizarDadosAdicionais;
 import bm.pdm.ifpb.com.businessmanager.infra.SincronizarDadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.services.AdicionarDuvida;
+import bm.pdm.ifpb.com.businessmanager.services.EnviarDados;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -43,6 +48,7 @@ public class MenuActivity extends AppCompatActivity {
     private DadosUsuario dadosUsuario;
     private Usuario usuario;
     private Configuracao config;
+    private NetworkUtils networkUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         //
         this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
+        this.networkUtils = new NetworkUtils();
         //
         this.atividade = findViewById(R.id.botaoAtividade);
         this.contatos = findViewById(R.id.botaoContatos);
@@ -104,46 +111,64 @@ public class MenuActivity extends AppCompatActivity {
         sincronizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder b = new AlertDialog.Builder(MenuActivity.this);
-                b.setTitle("Repositório de dados");
-                b.setMessage("Informe o repositório de dados que você deseja utilizar");
-                b.setNegativeButton("Enviar Dados", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(MenuActivity.this, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                b.setPositiveButton("Receber Dados", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
-                        String servidor = config.getRepositorio();
-                        if(servidor.equals("local")){
-                            AlertDialog.Builder b2 = new AlertDialog.Builder(MenuActivity.this);
-                            b2.setTitle("Sincronização de Dados");
-                            b2.setMessage("Deseja sincronizar com os dados do servidor remoto?");
-                            b2.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                }
-                            });
-                            b2.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    SincronizarDadosAdicionais sinc = new SincronizarDadosAdicionais(MenuActivity.this);
-                                    sinc.execute("https://business-manager-server.herokuapp.com/duvida/listar",
-                                            "https://business-manager-server.herokuapp.com/tarefa/listar");
-                                }
-                            });
-                            AlertDialog alerta2 = b2.create();
-                            alerta2.show();
-                        } else {
-                            Toast.makeText(MenuActivity.this, "Você ja está utilizando os dados do servidor", Toast.LENGTH_SHORT).show();
+                if(networkUtils.verificarConexao(MenuActivity.this)){
+                    AlertDialog.Builder b = new AlertDialog.Builder(MenuActivity.this);
+                    b.setTitle("Repositório de dados");
+                    b.setMessage("Informe a ação que você deseja realizar");
+                    b.setNegativeButton("Enviar Dados", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(MenuActivity.this, EnviarDados.class);
+                            intent.putExtra("usuario", usuario.getNome());
+                            startService(intent);
+                            Toast.makeText(MenuActivity.this, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                });
-                AlertDialog alerta = b.create();
-                alerta.show();
+                    });
+                    b.setPositiveButton("Receber Dados", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
+                            String servidor = config.getRepositorio();
+                            if(servidor.equals("local")){
+                                AlertDialog.Builder b2 = new AlertDialog.Builder(MenuActivity.this);
+                                b2.setTitle("Sincronização de Dados");
+                                b2.setMessage("Deseja sincronizar com os dados do servidor remoto?");
+                                b2.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                    }
+                                });
+                                b2.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        SincronizarDadosAdicionais sinc = new SincronizarDadosAdicionais(MenuActivity.this);
+                                        sinc.execute("https://business-manager-server.herokuapp.com/duvida/listar",
+                                                "https://business-manager-server.herokuapp.com/tarefa/listar");
+                                    }
+                                });
+                                AlertDialog alerta2 = b2.create();
+                                alerta2.show();
+                            } else {
+                                Toast.makeText(MenuActivity.this, "Você ja está utilizando os dados do servidor", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    AlertDialog alerta = b.create();
+                    alerta.show();
+                } else {
+                    String titulo = "Sem conexão com a internet";
+                    String msg = "Por favor, conecte-se com alguma rede e tente novamente";
+                    AlertDialog.Builder b = new AlertDialog.Builder(MenuActivity.this);
+                    b.setTitle(titulo);
+                    b.setMessage(msg);
+                    b.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+                    AlertDialog alerta = b.create();
+                    alerta.show();
+                }
             }
         });
     }

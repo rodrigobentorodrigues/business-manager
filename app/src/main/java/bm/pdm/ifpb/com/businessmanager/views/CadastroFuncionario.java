@@ -14,30 +14,36 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import bm.pdm.ifpb.com.businessmanager.R;
+import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.infra.AdicionarFuncionario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.sqlite.UsuarioDao;
 import br.com.jansenfelipe.androidmask.MaskEditTextChangedListener;
 
 public class CadastroFuncionario extends AppCompatActivity {
 
-    private EditText nome, cargo, login, senha, tel;
+    // private EditText nome, cargo, login, senha, tel;
+    private EditText nome, cargo, tel;
     private Button cadastro, voltar;
     private Usuario usuario;
     private Usuario usuarioAdministrador;
     private DadosUsuario dadosUsuario;
+    private Configuracao configuracao;
+    private UsuarioDao usuarioDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_funcionario);
         this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
+        this.configuracao = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
         this.usuarioAdministrador = dadosUsuario.autenticado();
         Log.d("Administrador", usuarioAdministrador.toString());
         this.nome = findViewById(R.id.nomeFunc);
         this.cargo = findViewById(R.id.cargoFunc);
-        this.login = findViewById(R.id.loginFunc);
-        this.senha = findViewById(R.id.senhaFunc);
+        // this.login = findViewById(R.id.loginFunc);
+        // this.senha = findViewById(R.id.senhaFunc);
         this.tel = findViewById(R.id.telefoneCampo);
         MaskEditTextChangedListener mask = new MaskEditTextChangedListener("(###)#####-####", tel);
         tel.addTextChangedListener(mask);
@@ -49,27 +55,37 @@ public class CadastroFuncionario extends AppCompatActivity {
             public void onClick(View v) {
                 String nomeFunc = nome.getText().toString();
                 String cargoFunc = cargo.getText().toString();
-                String loginFunc = login.getText().toString();
-                String senhaFunc = senha.getText().toString();
+                // String loginFunc = login.getText().toString();
+                // String senhaFunc = senha.getText().toString();
                 String telFunc = tel.getText().toString();
                 Log.i("TELEFONE", telFunc);
-                if(nomeFunc.equals("") || cargoFunc.equals("") ||
-                        loginFunc.equals("")  || senhaFunc.equals("") || telFunc.equals("")){
+                if(nomeFunc.equals("") || cargoFunc.equals("") || telFunc.equals("")){
                     Toast.makeText(CadastroFuncionario.this, "Informe todos os campos",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    usuario = new Usuario(0, nomeFunc, cargoFunc, loginFunc, senhaFunc, telFunc);
+                    usuario = new Usuario(0, nomeFunc, cargoFunc, "", "", telFunc);
                     usuario.setIdEmpresa(usuarioAdministrador.getIdEmpresa());
-                    // usuarioDao.inserirUsuario(usuario);
-                    AdicionarFuncionario addFunc = new bm.pdm.ifpb.com.businessmanager.infra.
-                            AdicionarFuncionario(usuario, CadastroFuncionario.this);
-                    addFunc.execute("https://business-manager-server.herokuapp.com/");
+                    //
+                    Intent intent = new Intent(CadastroFuncionario.this, CadastroFuncionario2.class);
+                    intent.putExtra("usuario", usuario);
+                    startActivity(intent);
+                    //
+//                    String repositorio = configuracao.getRepositorio();
+//                    if(repositorio.equals("remoto")){
+//                        AdicionarFuncionario addFunc = new bm.pdm.ifpb.com.businessmanager.infra.
+//                                AdicionarFuncionario(usuario, CadastroFuncionario.this);
+//                        addFunc.execute("https://business-manager-server.herokuapp.com/");
+//                    } else {
+//                        usuarioDao = new UsuarioDao(CadastroFuncionario.this);
+//                        usuarioDao.inserirUsuario(usuario);
+//                        Intent intent = new Intent(CadastroFuncionario.this, MenuActivity.class);
+//                        startActivity(intent);
+//                    }
                     nome.setText("");
                     cargo.setText("");
-                    login.setText("");
-                    senha.setText("");
+                    // login.setText("");
+                    // senha.setText("");
                     tel.setText("");
-                    // requisitarPermissoes();
                 }
             }
         });
@@ -79,61 +95,6 @@ public class CadastroFuncionario extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private void requisitarPermissoes(){
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
-        else {
-            despacharIntent();
-        }
-    }
-
-    // Metodo responsavel por despachar o usuário em relação as permissões
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    despacharIntent();
-                } else {
-                    Toast.makeText(this, "Não vai funcionar!!!", Toast.LENGTH_LONG).show();
-                }
-                return;
-            }
-        }
-    }
-
-    private void despacharIntent(){
-        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (intentCamera.resolveActivity(getPackageManager()) != null){
-            startActivityForResult(intentCamera, 0);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        Bundle bundle = data.getExtras();
-//        if(bundle.get("data") != null){
-//            Bitmap bitmap = (Bitmap) bundle.get("data");
-//            conversor = new ConversorImagem();
-//            // usuarioDao = new UsuarioDao(CadastroFuncionario.this);
-//            // usuario.setImagem(conversor.toByteArray(bitmap));
-//            // usuarioDao.inserirUsuario(usuario);
-//            AdicionarFuncionario addFunc = new bm.pdm.ifpb.com.businessmanager.infra.
-//                    AdicionarFuncionario(usuario, CadastroFuncionario.this);
-//            addFunc.execute("https://business-manager-server.herokuapp.com/");
-//            nome.setText("");
-//            cargo.setText("");
-//            login.setText("");
-//            senha.setText("");
-//            tel.setText("");
-//        } else {
-//            despacharIntent();
-//        }
     }
 
 }

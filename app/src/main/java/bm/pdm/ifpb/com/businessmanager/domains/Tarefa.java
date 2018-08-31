@@ -16,6 +16,7 @@ public class Tarefa implements Serializable {
     private String descricao;
     private String data;
     private boolean concluida;
+    private int enviado;
 
     public Tarefa(int id, String deUsuario, String paraUsuario, String titulo, String descricao, String data, boolean concluida) {
         this.id = id;
@@ -25,6 +26,17 @@ public class Tarefa implements Serializable {
         this.descricao = descricao;
         this.data = data;
         this.concluida = concluida;
+    }
+
+    public Tarefa(int id, String deUsuario, String paraUsuario, String titulo, String descricao, String data, boolean concluida, int enviado) {
+        this.id = id;
+        this.deUsuario = deUsuario;
+        this.paraUsuario = paraUsuario;
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.data = data;
+        this.concluida = concluida;
+        this.enviado = enviado;
     }
 
     public Tarefa() {
@@ -86,6 +98,14 @@ public class Tarefa implements Serializable {
         this.concluida = concluida;
     }
 
+    public int getEnviado() {
+        return enviado;
+    }
+
+    public void setEnviado(int enviado) {
+        this.enviado = enviado;
+    }
+
     @Override
     public String toString() {
         return "Tarefa{" +
@@ -96,6 +116,7 @@ public class Tarefa implements Serializable {
                 ", descricao='" + descricao + '\'' +
                 ", data='" + data + '\'' +
                 ", concluida=" + concluida +
+                ", enviado=" + enviado +
                 '}';
     }
 
