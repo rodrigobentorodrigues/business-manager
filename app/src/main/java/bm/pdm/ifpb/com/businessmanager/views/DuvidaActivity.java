@@ -105,6 +105,10 @@ public class DuvidaActivity extends AppCompatActivity {
                 Intent intent = new Intent(DuvidaActivity.this, CadastroDuvida.class);
                 startActivity(intent);
                 break;
+            case R.id.duvidasConcluidas:
+                Intent intent2 = new Intent(DuvidaActivity.this, DuvidasConcluidas.class);
+                startActivity(intent2);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

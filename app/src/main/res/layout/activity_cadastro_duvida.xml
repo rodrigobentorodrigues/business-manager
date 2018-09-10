@@ -69,24 +69,24 @@
         app:layout_constraintTop_toBottomOf="@+id/usuarioDuvida"
         app:layout_constraintVertical_bias="0.039" />
 
-    <EditText
-        android:id="@+id/destDuvida"
-        android:layout_width="321dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView38"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:gravity="center"
-        android:hint="Informe para quem voce deseja enviar"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usuarioDuvida"
-        app:layout_constraintVertical_bias="0.123" />
+    <!--<EditText-->
+        <!--android:id="@+id/destDuvida"-->
+        <!--android:layout_width="321dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/textView38"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:ems="10"-->
+        <!--android:gravity="center"-->
+        <!--android:hint="Informe para quem voce deseja enviar"-->
+        <!--android:inputType="textPersonName"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.507"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/usuarioDuvida"-->
+        <!--app:layout_constraintVertical_bias="0.123" />-->
 
     <TextView
         android:id="@+id/usuarioDuvida"
@@ -112,21 +112,21 @@
         android:layout_alignLeft="@+id/textView34"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textView34"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="240dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Pergunta"
-        android:textStyle="bold"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.081"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/destDuvida"
-        app:layout_constraintVertical_bias="0.104" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/campoPerg"
@@ -135,16 +135,16 @@
         android:layout_alignLeft="@+id/textView34"
         android:layout_alignStart="@+id/textView34"
         android:layout_below="@+id/textView41"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="128dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textMultiLine"
         android:hint="Informe a pergunta que desejas fazer"
+        android:inputType="textMultiLine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/destDuvida"
-        app:layout_constraintVertical_bias="0.307" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/botaoEnv"
@@ -181,5 +181,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/campoPerg"
         app:layout_constraintVertical_bias="0.392" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="320dp"
+        android:layout_height="49dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usuarioDuvida"
+        app:layout_constraintVertical_bias="0.118" />
 
 </android.support.constraint.ConstraintLayout>

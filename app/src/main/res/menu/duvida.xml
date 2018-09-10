@@ -4,7 +4,12 @@
 
     <item
         android:id="@+id/addContato"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="Novo Contato"
-        app:showAsAction="always" />
+        android:title="Cadastrar"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/duvidasConcluidas"
+        android:title="Concluidas"
+        app:showAsAction="always"/>
+
 </menu>

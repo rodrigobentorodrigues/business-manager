@@ -141,7 +141,19 @@
         </receiver>
 
         <activity android:name=".views.ConfiguracaoActivity" />
-        <activity android:name=".views.CadastroFuncionario2"></activity>
+        <activity android:name=".views.CadastroFuncionario2" />
+        <activity android:name=".views.AtividadesConcluidas"
+            android:parentActivityName=".views.TarefaActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.TarefaActivity" />
+        </activity>
+        <activity android:name=".views.DuvidasConcluidas"
+            android:parentActivityName=".views.DuvidaActivity">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".views.DuvidaActivity" />
+        </activity>
     </application>
 
 </manifest>

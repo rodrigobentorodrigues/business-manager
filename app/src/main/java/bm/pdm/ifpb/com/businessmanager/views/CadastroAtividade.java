@@ -7,19 +7,30 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import bm.pdm.ifpb.com.businessmanager.R;
@@ -27,14 +38,15 @@ import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.infra.ListarUsuariosPorId;
 import bm.pdm.ifpb.com.businessmanager.infra.NetworkUtils;
 import bm.pdm.ifpb.com.businessmanager.services.AdicionarAtividade;
 import bm.pdm.ifpb.com.businessmanager.sqlite.TarefaDao;
 
 public class CadastroAtividade extends AppCompatActivity {
 
-    // private Spinner spinner;
-    private EditText desc, data, titulo, funcionario;
+    private Spinner spinner;
+    private EditText desc, data, titulo;
     private Button cadastro, voltar;
     private Usuario usuario;
     private DadosUsuario dadosUsuario;
@@ -45,6 +57,7 @@ public class CadastroAtividade extends AppCompatActivity {
     private Configuracao configuracao;
     private TarefaDao tarefaDao;
     private NetworkUtils networkUtils;
+    private static List<String> usuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,17 +66,18 @@ public class CadastroAtividade extends AppCompatActivity {
         this.broadCast = new CadAtivBroadCast();
         this.configuracao = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
         this.networkUtils = new NetworkUtils();
+        this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
+        this.usuario = dadosUsuario.autenticado();
+        this.usuarios = new ArrayList<>();
         //
         IntentFilter filter = new IntentFilter("cad-ativ");
         registerReceiver(broadCast, filter);
 
-//        this.spinner = findViewById(R.id.spinner3);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-//                R.array.tipo, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        this.spinner.setAdapter(adapter);
+        this.spinner = findViewById(R.id.spinnerFuncAtividade);
 
-        this.funcionario = findViewById(R.id.campoNomeFunc);
+        ListarUsuariosPorId listar = new ListarUsuariosPorId(this, spinner, usuario.getNome());
+        listar.execute("http://business-manager-server.herokuapp.com/usuario/nomes?id="+usuario.getIdEmpresa());
+
         this.desc = findViewById(R.id.campoDesc);
 
         this.data = findViewById(R.id.campoData);
@@ -92,14 +106,13 @@ public class CadastroAtividade extends AppCompatActivity {
         this.cadastro = findViewById(R.id.cadAtiv);
         this.voltar = findViewById(R.id.backCadAtiv);
 
-        this.dadosUsuario = new DadosUsuario(getSharedPreferences("usuario", MODE_PRIVATE));
-        this.usuario = dadosUsuario.autenticado();
+
 
         cadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String deUsuario = usuario.getNome();
-                String paraUsuario = funcionario.getText().toString();
+                String paraUsuario = spinner.getSelectedItem().toString();
                 String valorDesc = desc.getText().toString();
                 String valorData = data.getText().toString();
                 String valorTitulo = titulo.getText().toString();

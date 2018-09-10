@@ -24,7 +24,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.UUID;
@@ -33,11 +32,8 @@ import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
-import bm.pdm.ifpb.com.businessmanager.infra.ListarTarefas;
 import bm.pdm.ifpb.com.businessmanager.infra.NetworkUtils;
 import bm.pdm.ifpb.com.businessmanager.infra.SincronizarDadosAdicionais;
-import bm.pdm.ifpb.com.businessmanager.infra.SincronizarDadosUsuario;
-import bm.pdm.ifpb.com.businessmanager.services.AdicionarDuvida;
 import bm.pdm.ifpb.com.businessmanager.services.EnviarDados;
 
 public class MenuActivity extends AppCompatActivity {
@@ -63,6 +59,12 @@ public class MenuActivity extends AppCompatActivity {
         this.cadastro = findViewById(R.id.botaoCadastro);
         this.duvida = findViewById(R.id.botaoDuvida);
         this.sincronizar = findViewById(R.id.button);
+        //
+        config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
+        //
+        if(config.getRepositorio().equals("remoto")){
+            sincronizar.setVisibility(View.INVISIBLE);
+        }
         //
         usuario = dadosUsuario.autenticado();
         atividade.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +129,6 @@ public class MenuActivity extends AppCompatActivity {
                     b.setPositiveButton("Receber Dados", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
                             String servidor = config.getRepositorio();
                             if(servidor.equals("local")){
                                 AlertDialog.Builder b2 = new AlertDialog.Builder(MenuActivity.this);

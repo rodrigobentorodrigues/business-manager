@@ -56,12 +56,11 @@
         android:id="@+id/textView48"
         android:layout_width="132dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/botaoAtividade"
+        android:layout_alignStart="@+id/botaoCadastro"
         android:layout_below="@+id/botaoAtividade"
         android:gravity="center"
         android:text="Atividades"
-        android:textSize="20sp"
-        android:layout_alignLeft="@+id/botaoAtividade" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textView50"
@@ -72,8 +71,7 @@
         android:layout_marginTop="-128dp"
         android:gravity="center"
         android:text="Funcionários"
-        android:textSize="20sp"
-        android:layout_alignLeft="@+id/botaoCadastro" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textView51"

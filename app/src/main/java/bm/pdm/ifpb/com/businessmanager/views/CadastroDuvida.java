@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,12 +18,14 @@ import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
 import bm.pdm.ifpb.com.businessmanager.domains.Duvida;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
+import bm.pdm.ifpb.com.businessmanager.infra.ListarUsuariosPorId;
 import bm.pdm.ifpb.com.businessmanager.services.AdicionarDuvida;
 import bm.pdm.ifpb.com.businessmanager.sqlite.DuvidaDao;
 
 public class CadastroDuvida extends AppCompatActivity {
 
-    private EditText usuarioPara, pergunta;
+    private EditText pergunta;
+    private Spinner paraUsuario;
     private TextView usuarioDe;
     private Button enviar, voltar;
     private Usuario usuario;
@@ -47,22 +50,26 @@ public class CadastroDuvida extends AppCompatActivity {
         usuarioDe.setText(usuario.getNome());
         usuarioDe.setEnabled(true);
 
-        this.usuarioPara = findViewById(R.id.destDuvida);
+        // this.usuarioPara = findViewById(R.id.destDuvida);
+        this.paraUsuario = findViewById(R.id.spinner);
         this.pergunta = findViewById(R.id.campoPerg);
         this.enviar = findViewById(R.id.botaoEnv);
         this.voltar = findViewById(R.id.backCadDuv);
 
+        ListarUsuariosPorId listar = new ListarUsuariosPorId(this, paraUsuario, usuario.getNome());
+        listar.execute("http://business-manager-server.herokuapp.com/usuario/nomes?id="+usuario.getIdEmpresa());
+
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String para = usuarioPara.getText().toString();
+                String para = paraUsuario.getSelectedItem().toString();
                 String perg = pergunta.getText().toString();
                 if(para.isEmpty() || perg.isEmpty()){
                     Toast.makeText(CadastroDuvida.this, "Informe todos os dados",
                             Toast.LENGTH_SHORT).show();
                 } else {
                     Duvida duvida = new Duvida(usuario.getNome(),
-                            usuarioPara.getText().toString(), pergunta.getText().toString());
+                            para, pergunta.getText().toString());
                     Intent intent = new Intent(CadastroDuvida.this, AdicionarDuvida.class);
                     intent.putExtra("url", "https://business-manager-server.herokuapp.com/");
                     intent.putExtra("duvida", duvida);

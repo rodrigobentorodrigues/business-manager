@@ -74,7 +74,6 @@ public class ListarDuvida extends AsyncTask<String, Void, String>{
 
     @Override
     protected void onPostExecute(String s) {
-        System.out.println("Duvidas: " + s.toString());
         List<Duvida> duvidas = new ArrayList<>();
         try {
             JSONArray arrayResult = new JSONArray(s);

@@ -21,13 +21,12 @@
         android:id="@+id/textView22"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/campoNomeFunc"
+        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/campoDesc"
-        android:layout_marginBottom="-99dp"
+        android:layout_marginTop="69dp"
         android:text="Funcionário"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_alignLeft="@+id/campoDesc" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView47"
@@ -40,15 +39,6 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_alignLeft="@+id/textView22" />
-
-    <!--<Spinner-->
-        <!--android:id="@+id/spinner3"-->
-        <!--android:layout_width="307dp"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_below="@+id/textView22"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:gravity="center"-->
-        <!--android:textAlignment="center" />-->
 
     <TextView
         android:id="@+id/textView23"
@@ -69,7 +59,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="169dp"
         android:ems="10"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:gravity="center"
+        android:hint="Informe a descrição da atividade"/>
 
     <TextView
         android:id="@+id/textView24"
@@ -92,7 +84,8 @@
         android:ems="10"
         android:gravity="center"
         android:inputType="number"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:hint="Informe a data de conclusão"/>
 
     <Button
         android:id="@+id/cadAtiv"
@@ -123,18 +116,30 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="187dp"
         android:ems="10"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/campoNomeFunc"
-        android:layout_width="309dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="99dp"
-        android:ems="10"
+        android:inputType="textPersonName"
         android:gravity="center"
-        android:hint="Informe o nome do funcionário"
-        android:inputType="textCapSentences" />
+        android:hint="Informe o titulo da atividade"/>
+
+    <Spinner
+        android:id="@+id/spinnerFuncAtividade"
+        android:layout_width="314dp"
+        android:layout_height="45dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView22"
+        android:layout_marginLeft="36dp"
+        android:layout_marginStart="36dp" />
+
+    <!--<EditText-->
+        <!--android:id="@+id/campoNomeFunc"-->
+        <!--android:layout_width="309dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="99dp"-->
+        <!--android:ems="10"-->
+        <!--android:gravity="center"-->
+        <!--android:hint="Informe o nome do funcionário"-->
+        <!--android:inputType="textCapSentences" />-->
 
 </RelativeLayout>

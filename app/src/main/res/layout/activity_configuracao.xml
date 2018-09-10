@@ -12,17 +12,18 @@
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="92dp"
-        android:layout_marginLeft="38dp"
-        android:layout_marginRight="92dp"
-        android:layout_marginStart="38dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="132dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="132dp"
         android:layout_marginTop="8dp"
         android:text="Voltar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/sobre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sincDados"
-        app:layout_constraintVertical_bias="0.723" />
+        app:layout_constraintVertical_bias="0.89" />
 
     <Button
         android:id="@+id/escolhaLocal"
@@ -52,26 +53,27 @@
         android:text="Requisitar Dados"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.378" />
 
     <Button
         android:id="@+id/sobre"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginRight="34dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Sobre nós"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/botaoVoltarConfig"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/botaoVoltarConfig"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sincDados"
-        app:layout_constraintVertical_bias="0.723" />
+        app:layout_constraintVertical_bias="0.243" />
 
     <Button
         android:id="@+id/escolhaRemoto"
@@ -110,8 +112,8 @@
         android:id="@+id/textView6"
         android:layout_width="361dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="255dp"
-        android:layout_marginTop="196dp"
+        android:layout_marginBottom="280dp"
+        android:layout_marginTop="8dp"
         android:text="Caso deseje utilizar o repositório local, realize abaixo uma requisição ao servidor remoto e obtenha todos os dados contido nele"
         android:textAlignment="center"
         android:textSize="16sp"
@@ -120,7 +122,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.521"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/space" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.944" />
 
     <Space
         android:id="@+id/space"
