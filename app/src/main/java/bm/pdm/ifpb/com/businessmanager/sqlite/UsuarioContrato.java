@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 public class UsuarioContrato extends SQLiteOpenHelper {
 
@@ -18,13 +19,14 @@ public class UsuarioContrato extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.i("UPDATE", "USUARIO");
         db.execSQL(sqlExcluirTabela);
         onCreate(db);
     }
 
     public static class UsuarioDados implements BaseColumns {
         public static final String nomeBanco = "usuario.db";
-        public static final int versaoBanco = 4;
+        public static final int versaoBanco = 5;
         public static final String tabela = "usuario";
         public static final String colunaNome = "nome";
         public static final String colunaCargo = "cargo";
@@ -37,7 +39,7 @@ public class UsuarioContrato extends SQLiteOpenHelper {
 
     private static final String sqlCriarTabela =
             "CREATE TABLE " + UsuarioDados.tabela + " (" +
-                    UsuarioDados._ID + " INTEGER PRIMARY KEY," +
+                    UsuarioDados._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     UsuarioDados.colunaNome + " TEXT," +
                     UsuarioDados.colunaCargo + " TEXT, " +
                     UsuarioDados.colunaLogin + " TEXT, " +

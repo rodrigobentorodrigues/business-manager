@@ -44,7 +44,9 @@ public class ConcluirAtividade extends AsyncTask<String, Void, Boolean>{
             tarefaCall.execute();
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.makeText(context, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
             return false;
         }
     }

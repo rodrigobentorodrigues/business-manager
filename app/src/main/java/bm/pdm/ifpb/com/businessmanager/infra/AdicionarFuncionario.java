@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -45,7 +46,9 @@ public class AdicionarFuncionario extends AsyncTask<String, Void, Boolean> {
             usuarioCall.execute();
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.makeText(context, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
             return false;
         }
     }
@@ -66,8 +69,8 @@ public class AdicionarFuncionario extends AsyncTask<String, Void, Boolean> {
                 context.startActivity(inten);
             } else {
                 Toast.makeText(context, "Contato ja existente em sua agenda", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, MenuActivity.class);
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, MenuActivity.class);
+//                context.startActivity(intent);
             }
             Toast.makeText(context, "Funcionario cadastrado com exito", Toast.LENGTH_LONG).show();
         }

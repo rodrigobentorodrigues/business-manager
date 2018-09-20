@@ -3,6 +3,7 @@ package bm.pdm.ifpb.com.businessmanager.infra;
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Duvida;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,6 @@ public class DuvidaAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Duvida duvida = (Duvida) getItem(position);
-
         LayoutInflater inflater = (LayoutInflater) contexto.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View visao = inflater.inflate(R.layout.valores_duvida, parent, false);

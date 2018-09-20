@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
-import android.net.NetworkInfo;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,15 +24,23 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
+import bm.pdm.ifpb.com.businessmanager.domains.Duvida;
+import bm.pdm.ifpb.com.businessmanager.domains.Tarefa;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.infra.NetworkUtils;
 import bm.pdm.ifpb.com.businessmanager.infra.SincronizarDadosAdicionais;
-import bm.pdm.ifpb.com.businessmanager.services.EnviarDados;
+import bm.pdm.ifpb.com.businessmanager.services.AdicionarAtividade;
+import bm.pdm.ifpb.com.businessmanager.services.AdicionarDuvida;
+import bm.pdm.ifpb.com.businessmanager.services.AdicionarFuncionario;
+import bm.pdm.ifpb.com.businessmanager.sqlite.DuvidaDao;
+import bm.pdm.ifpb.com.businessmanager.sqlite.TarefaDao;
+import bm.pdm.ifpb.com.businessmanager.sqlite.UsuarioDao;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -45,6 +51,8 @@ public class MenuActivity extends AppCompatActivity {
     private Usuario usuario;
     private Configuracao config;
     private NetworkUtils networkUtils;
+    private DuvidaDao duvidaDao;
+    private TarefaDao tarefaDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +68,19 @@ public class MenuActivity extends AppCompatActivity {
         this.duvida = findViewById(R.id.botaoDuvida);
         this.sincronizar = findViewById(R.id.button);
         //
+        this.duvidaDao = new DuvidaDao(MenuActivity.this);
+        this.tarefaDao = new TarefaDao(MenuActivity.this);
+        //
         config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
+        usuario = dadosUsuario.autenticado();
         //
         if(config.getRepositorio().equals("remoto")){
             sincronizar.setVisibility(View.INVISIBLE);
+        } else {
+            Log.d("Duvidas", duvidaDao.todasNaoEnviadas(usuario.getNome()).toString());
+            Log.d("Tarefas", tarefaDao.todasNaoEnviadas(usuario.getNome()).toString());
         }
         //
-        usuario = dadosUsuario.autenticado();
         atividade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,10 +134,40 @@ public class MenuActivity extends AppCompatActivity {
                     b.setNegativeButton("Enviar Dados", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent(MenuActivity.this, EnviarDados.class);
-                            intent.putExtra("usuario", usuario.getNome());
-                            startService(intent);
-                            Toast.makeText(MenuActivity.this, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
+//                            Intent intent = new Intent(MenuActivity.this, EnviarDados.class);
+//                            intent.putExtra("usuario", usuario.getNome());
+//                            startService(intent);
+                            int quantidade = 0;
+                            List<Duvida> duvidas = duvidaDao.todasNaoEnviadas(usuario.getNome());
+                            for(Duvida auxiliar: duvidas){
+                                quantidade++;
+                                Intent intent = new Intent(MenuActivity.this, AdicionarDuvida.class);
+                                intent.putExtra("url", "https://business-manager-server.herokuapp.com/");
+                                intent.putExtra("duvida", auxiliar);
+                                startService(intent);
+                                duvidaDao.marcarComoEnviada(auxiliar);
+                            }
+
+                            List<Tarefa> tarefas = tarefaDao.todasNaoEnviadas(usuario.getNome());
+                            for(Tarefa auxiliar: tarefas){
+                                quantidade++;
+                                Intent intent = new Intent(MenuActivity.this, AdicionarAtividade.class);
+                                intent.putExtra("url", "https://business-manager-server.herokuapp.com/");
+                                intent.putExtra("tarefa", auxiliar);
+                                startService(intent);
+                                tarefaDao.marcarComoEnviada(auxiliar);
+                            }
+                            UsuarioDao usuarioDao = new UsuarioDao(MenuActivity.this);
+                            List<Usuario> usuarios = usuarioDao.todasNaoEnviadas(usuario.getNome());
+                            for(Usuario auxiliar: usuarios){
+                                quantidade++;
+                                Intent intent = new Intent(MenuActivity.this, AdicionarFuncionario.class);
+                                intent.putExtra("url", "https://business-manager-server.herokuapp.com/");
+                                intent.putExtra("usuario", auxiliar);
+                                startService(intent);
+                                usuarioDao.marcarComoEnviada(auxiliar);
+                            }
+                            Toast.makeText(MenuActivity.this, "Quantidade enviada: " + quantidade, Toast.LENGTH_SHORT).show();
                         }
                     });
                     b.setPositiveButton("Receber Dados", new DialogInterface.OnClickListener() {
@@ -174,53 +218,22 @@ public class MenuActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater menuInflater = getMenuInflater();
-//        menuInflater.inflate(R.menu.opcoes, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.dados:
-//                Toast.makeText(this, "Em desenvolvimento", Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.buscaServidor:
-//                this.config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
-//                String servidor = config.getRepositorio();
-//                if(servidor.equals("local")){
-//                    AlertDialog.Builder b2 = new AlertDialog.Builder(this);
-//                    b2.setTitle("Sincronização de Dados");
-//                    b2.setMessage("Deseja sincronizar com os dados do servidor remoto?");
-//                    b2.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                        }
-//                    });
-//                    b2.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            SincronizarDadosAdicionais sinc = new SincronizarDadosAdicionais(MenuActivity.this);
-//                            sinc.execute("https://business-manager-server.herokuapp.com/duvida/listar",
-//                                    "https://business-manager-server.herokuapp.com/tarefa/listar");
-//                        }
-//                    });
-//                    AlertDialog alerta2 = b2.create();
-//                    alerta2.show();
-//                } else {
-//                    Toast.makeText(MenuActivity.this, "Você ja está utilizando os dados do servidor", Toast.LENGTH_SHORT).show();
-//                }
-//                break;
-//            case R.id.camera:
-//                requisitarPermissoes();
-//                break;
-//            default:
-//                break;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.opcoes, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.camera:
+                requisitarPermissoes();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void requisitarPermissoes(){
         if (ActivityCompat.checkSelfPermission(this,

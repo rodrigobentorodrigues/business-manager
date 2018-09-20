@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,9 +67,13 @@ public class ListarDuvida extends AsyncTask<String, Void, String>{
             conexao.disconnect();
             return conteudo.toString();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Toast.makeText(contexto, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.makeText(contexto, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
         }
         return null;
     }
@@ -92,7 +98,7 @@ public class ListarDuvida extends AsyncTask<String, Void, String>{
         b.setMessage("Nesta tela é possível visualizar todas as dúvidas cadastradas pelos funcionários e " +
                 "administradores da empresa. Sendo possível tambem cadastrar uma duvida.\n\n" +
                 " - Para visualizar os detalhes sobre, é necessário selecionar ou tocar a duvida desejada!\n" +
-                " - Para cadastrar uma duvida para algum funcionário, vá no icone + que está no canto superior direito!");
+                " - Para cadastrar uma duvida para algum funcionário, vá no botão cadastrar que está no canto superior direito!");
         b.setNegativeButton("Fechar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

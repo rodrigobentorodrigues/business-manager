@@ -13,6 +13,7 @@ import java.io.IOException;
 import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.domains.Usuario;
 import bm.pdm.ifpb.com.businessmanager.interfaces.RestUsuario;
+import bm.pdm.ifpb.com.businessmanager.views.MainActivity;
 import bm.pdm.ifpb.com.businessmanager.views.MenuActivity;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -75,8 +76,8 @@ public class AdicionarAdministrador extends AsyncTask<String, Void, Boolean>{
             context.startActivity(inten);
         } else {
             Toast.makeText(context, "Contato ja existente em sua agenda", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(context, MenuActivity.class);
-            context.startActivity(intent);
+//            Intent intent = new Intent(context, MainActivity.class);
+//            context.startActivity(intent);
         }
         Toast.makeText(context, "Administrador cadastrado com exito", Toast.LENGTH_LONG).show();
     }

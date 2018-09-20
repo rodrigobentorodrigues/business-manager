@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private Configuracao config;
     private String repositorio;
     private UsuarioDao usuarioDao;
+    private TarefaDao tarefaDao;
+    private DuvidaDao duvidaDao;
     private DadosUsuario dadosUsuario;
     private NetworkUtils networkUtils;
 
@@ -51,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.usuarioDao = new UsuarioDao(this);
+//        usuarioDao.removerDados();
+//        this.duvidaDao = new DuvidaDao(this);
+//        this.tarefaDao = new TarefaDao(this);
+//        tarefaDao.removerDados();
+//        duvidaDao.removerDados();
+
         this.config = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
         this.networkUtils = new NetworkUtils();
 
@@ -69,15 +79,25 @@ public class MainActivity extends AppCompatActivity {
         //
         this.login = findViewById(R.id.inputLogin);
         this.senha = findViewById(R.id.inputSenha);
+        this.spinner = findViewById(R.id.spinner2);
         this.botaoLogin = findViewById(R.id.botaoLogin);
         this.botaoConfig = findViewById(R.id.botaoConfiguracao);
 
+//        Animation animation = AnimationUtils.
+//                loadAnimation(MainActivity.this, R.anim.rotate);
+//        Animation animation2 = AnimationUtils.
+//                loadAnimation(MainActivity.this, R.anim.sample_anim);
+//        botaoConfig.setAnimation(animation);
+//        botaoLogin.setAnimation(animation);
+
         // Setando os valores para o Spinner
-        this.spinner = findViewById(R.id.spinner2);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.tipo, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         this.spinner.setAdapter(adapter);
+
+//        botaoConfig.clearAnimation();
+//        botaoLogin.clearAnimation();
 
         botaoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,9 +112,8 @@ public class MainActivity extends AppCompatActivity {
                     repositorio = config.getRepositorio();
                     if(repositorio.equals("remoto")){
                         if(networkUtils.verificarConexao(MainActivity.this)){
-                            //if(valorLogin.equals("adminpdm") && valorSenha.equals("pdmadmin")){
-                            if(valorLogin.equals("a") && valorSenha.equals("a")){
-                                Intent intent = new Intent(MainActivity.this, CadastroActivity.class);
+                            if(valorLogin.equals("admin") && valorSenha.equals("admin")){
+                                Intent intent = new Intent(MainActivity.this, CadastroAdministrador.class);
                                 startActivity(intent);
                             } else {
                                 AutenticarUsuario auth = new AutenticarUsuario(MainActivity.this,  spinner.getSelectedItem().toString());
@@ -158,11 +177,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
         botaoConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ConfiguracaoActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.fadein, R.anim.fadein);
             }
         });
     }

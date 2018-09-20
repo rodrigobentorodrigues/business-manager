@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,9 +67,13 @@ public class ListarTarefas extends AsyncTask<String, Void, String> {
             conexao.disconnect();
             return conteudo.toString();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Toast.makeText(contexto, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.makeText(contexto, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
         }
         return null;
     }
@@ -98,7 +104,9 @@ public class ListarTarefas extends AsyncTask<String, Void, String> {
             AlertDialog alerta = b.create();
             alerta.show();
         } catch (JSONException e) {
-            e.printStackTrace();
+            Toast.makeText(contexto, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
         }
     }
 }

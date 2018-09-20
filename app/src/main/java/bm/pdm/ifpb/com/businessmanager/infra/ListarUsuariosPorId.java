@@ -2,8 +2,10 @@ package bm.pdm.ifpb.com.businessmanager.infra;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,9 +55,13 @@ public class ListarUsuariosPorId extends AsyncTask<String, Void, String>{
             conexao.disconnect();
             return builder.toString();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Toast.makeText(context, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.makeText(context, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
         }
         return null;
     }
@@ -73,7 +79,9 @@ public class ListarUsuariosPorId extends AsyncTask<String, Void, String>{
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Toast.makeText(context, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
         }
 
     }

@@ -4,11 +4,12 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 public class TarefaContrato extends SQLiteOpenHelper {
 
     private static final String sqlCriarTabela = "CREATE TABLE " + TarefaDados.tabela + "( " +
-            TarefaDados._ID +" INTEGER PRIMARY KEY, " +
+            TarefaDados._ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +
             TarefaDados.colunaDeUsuario + " TEXT, " +
             TarefaDados.colunaParaUsuario + " TEXT, " +
             TarefaDados.colunaTitulo + " TEXT, " +
@@ -29,6 +30,7 @@ public class TarefaContrato extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.i("UPDATE", "TAREFA");
         db.execSQL(sqlExcluirTabela);
         onCreate(db);
     }
@@ -36,7 +38,7 @@ public class TarefaContrato extends SQLiteOpenHelper {
     public static class TarefaDados implements BaseColumns {
         public static final String banco = "tarefa.db";
         public static final String tabela = "tarefa";
-        public static final int versao = 2;
+        public static final int versao = 4;
         public static final String colunaDeUsuario = "deUsuario";
         public static final String colunaParaUsuario = "paraUsuario";
         public static final String colunaTitulo = "titulo";

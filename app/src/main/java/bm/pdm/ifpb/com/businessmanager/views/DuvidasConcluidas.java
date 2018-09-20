@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -67,22 +65,17 @@ public class DuvidasConcluidas extends AppCompatActivity {
         } else {
             // SQLite
             duvidaDao = new DuvidaDao(this);
-            List<Duvida> duvidas = duvidaDao.todasNaoConcluidas(usuario.getNome());
+            List<Duvida> duvidas = duvidaDao.todasConcluidas(usuario.getNome());
             listView.setAdapter(new DuvidaAdapter(duvidas, this));
         }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Duvida duvida = (Duvida) parent.getAdapter().getItem(position);
-                if(duvida.getParaUsuario().equals(usuario.getNome())){
-                    Intent intent = new Intent(DuvidasConcluidas.this, InfoDuvidaActivity.class);
-                    intent.putExtra("duvida", duvida);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(DuvidasConcluidas.this, "Para visualizar esta duvida você precisa ser o destinatário",
-                            Toast.LENGTH_SHORT).show();
-                }
-
+                Intent intent = new Intent(DuvidasConcluidas.this, bm.pdm.ifpb.com.businessmanager.views.Duvida.class);
+                intent.putExtra("duvida", duvida);
+                startActivity(intent);
+                overridePendingTransition(R.anim.sample_anim, R.anim.sample_anim);
             }
         });
 

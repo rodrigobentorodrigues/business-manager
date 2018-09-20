@@ -3,18 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/dados"
-        android:icon="@android:drawable/stat_sys_upload"
-        android:title="Meus Dados"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/buscaServidor"
-        android:icon="@android:drawable/stat_sys_download_done"
-        android:title="Sincronizar"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/camera"
         android:icon="@android:drawable/ic_menu_camera"
         android:title="Tirar Foto"

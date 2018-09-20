@@ -7,11 +7,14 @@ import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import bm.pdm.ifpb.com.businessmanager.R;
 import bm.pdm.ifpb.com.businessmanager.domains.Configuracao;
@@ -21,6 +24,7 @@ import bm.pdm.ifpb.com.businessmanager.domains.DadosUsuario;
 import bm.pdm.ifpb.com.businessmanager.infra.ListarUsuariosPorId;
 import bm.pdm.ifpb.com.businessmanager.services.AdicionarDuvida;
 import bm.pdm.ifpb.com.businessmanager.sqlite.DuvidaDao;
+import bm.pdm.ifpb.com.businessmanager.sqlite.UsuarioDao;
 
 public class CadastroDuvida extends AppCompatActivity {
 
@@ -32,14 +36,17 @@ public class CadastroDuvida extends AppCompatActivity {
     private DadosUsuario dadosUsuario;
     private CadastroDuvidaBroad broadcast;
     private Configuracao configuracao;
+    private String repositorio;
     private DuvidaDao duvidaDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_duvida);
+
         this.broadcast = new CadastroDuvidaBroad();
         this.configuracao = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
+
         IntentFilter broadDuvida = new IntentFilter("cad-duv");
         registerReceiver(broadcast, broadDuvida);
 
@@ -56,8 +63,17 @@ public class CadastroDuvida extends AppCompatActivity {
         this.enviar = findViewById(R.id.botaoEnv);
         this.voltar = findViewById(R.id.backCadDuv);
 
-        ListarUsuariosPorId listar = new ListarUsuariosPorId(this, paraUsuario, usuario.getNome());
-        listar.execute("http://business-manager-server.herokuapp.com/usuario/nomes?id="+usuario.getIdEmpresa());
+        repositorio = configuracao.getRepositorio();
+        if(repositorio.equals("remoto")){
+            ListarUsuariosPorId listar = new ListarUsuariosPorId(this, paraUsuario, usuario.getNome());
+            listar.execute("http://business-manager-server.herokuapp.com/usuario/nomes?id="+usuario.getIdEmpresa());
+        } else {
+            UsuarioDao usuarioDao = new UsuarioDao(this);
+            List<String> usuarios = usuarioDao.nomesUsuariosPorId(usuario.getIdEmpresa(), usuario.getNome());
+            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, usuarios);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            paraUsuario.setAdapter(adapter);
+        }
 
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,11 +86,20 @@ public class CadastroDuvida extends AppCompatActivity {
                 } else {
                     Duvida duvida = new Duvida(usuario.getNome(),
                             para, pergunta.getText().toString());
-                    Intent intent = new Intent(CadastroDuvida.this, AdicionarDuvida.class);
-                    intent.putExtra("url", "https://business-manager-server.herokuapp.com/");
-                    intent.putExtra("duvida", duvida);
-                    startService(intent);
-                    Toast.makeText(CadastroDuvida.this, "Dados enviados", Toast.LENGTH_SHORT).show();
+                    if(repositorio.equals("remoto")){
+                        Toast.makeText(CadastroDuvida.this, "Dados enviados", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(CadastroDuvida.this, AdicionarDuvida.class);
+                        intent.putExtra("url", "https://business-manager-server.herokuapp.com/");
+                        intent.putExtra("duvida", duvida);
+                        startService(intent);
+                    } else {
+                        DuvidaDao duvidaDao = new DuvidaDao(CadastroDuvida.this);
+                        duvida.setEnviado(0);
+                        duvida.setResposta("null");
+                        duvidaDao.inserirDuvida(duvida);
+                        Intent intent1 = new Intent(CadastroDuvida.this, MenuActivity.class);
+                        startActivity(intent1);
+                    }
                 }
             }
         });

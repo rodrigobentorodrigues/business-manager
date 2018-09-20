@@ -42,6 +42,7 @@ import bm.pdm.ifpb.com.businessmanager.infra.ListarUsuariosPorId;
 import bm.pdm.ifpb.com.businessmanager.infra.NetworkUtils;
 import bm.pdm.ifpb.com.businessmanager.services.AdicionarAtividade;
 import bm.pdm.ifpb.com.businessmanager.sqlite.TarefaDao;
+import bm.pdm.ifpb.com.businessmanager.sqlite.UsuarioDao;
 
 public class CadastroAtividade extends AppCompatActivity {
 
@@ -75,8 +76,17 @@ public class CadastroAtividade extends AppCompatActivity {
 
         this.spinner = findViewById(R.id.spinnerFuncAtividade);
 
-        ListarUsuariosPorId listar = new ListarUsuariosPorId(this, spinner, usuario.getNome());
-        listar.execute("http://business-manager-server.herokuapp.com/usuario/nomes?id="+usuario.getIdEmpresa());
+        String repositorio = configuracao.getRepositorio();
+        if(repositorio.equals("remoto")){
+            ListarUsuariosPorId listar = new ListarUsuariosPorId(this, spinner, usuario.getNome());
+            listar.execute("http://business-manager-server.herokuapp.com/usuario/nomes?id="+usuario.getIdEmpresa());
+        } else {
+            UsuarioDao usuarioDao = new UsuarioDao(this);
+            List<String> usuarios = usuarioDao.nomesUsuariosPorId(usuario.getIdEmpresa(), usuario.getNome());
+            ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, usuarios);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        }
 
         this.desc = findViewById(R.id.campoDesc);
 
@@ -106,13 +116,15 @@ public class CadastroAtividade extends AppCompatActivity {
         this.cadastro = findViewById(R.id.cadAtiv);
         this.voltar = findViewById(R.id.backCadAtiv);
 
-
-
         cadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String deUsuario = usuario.getNome();
-                String paraUsuario = spinner.getSelectedItem().toString();
+                Object selectedItem = spinner.getSelectedItem();
+                String paraUsuario = "";
+                if(selectedItem != null){
+                    paraUsuario = spinner.getSelectedItem().toString();
+                }
                 String valorDesc = desc.getText().toString();
                 String valorData = data.getText().toString();
                 String valorTitulo = titulo.getText().toString();
@@ -153,8 +165,8 @@ public class CadastroAtividade extends AppCompatActivity {
                                 AlertDialog alerta = b.create();
                                 alerta.show();
                             }
-
                         } else {
+                            tarefa.setEnviado(0);
                             tarefaDao = new TarefaDao(CadastroAtividade.this);
                             tarefaDao.inserirTarefa(tarefa);
                             Intent intent = new Intent(CadastroAtividade.this,

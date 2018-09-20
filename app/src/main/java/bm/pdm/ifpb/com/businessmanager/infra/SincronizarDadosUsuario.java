@@ -3,6 +3,7 @@ package bm.pdm.ifpb.com.businessmanager.infra;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -59,7 +60,9 @@ public class SincronizarDadosUsuario extends AsyncTask<String, Void, String>{
             httpURLConnection.disconnect();
             return s.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.makeText(context, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
             return null;
         }
     }
@@ -85,7 +88,7 @@ public class SincronizarDadosUsuario extends AsyncTask<String, Void, String>{
                 }
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d("Erro JSON", e.getMessage());
         }
         progressDialog.dismiss();
     }

@@ -22,12 +22,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView29"
+        android:layout_alignStart="@+id/tituloAtividade"
         android:layout_marginTop="94dp"
         android:text="Cadastrada por:"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_alignLeft="@+id/textView29" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/cadPor"
@@ -43,24 +42,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView29"
+        android:layout_alignStart="@+id/textView30"
         android:layout_marginTop="159dp"
         android:text="Titulo:"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_alignLeft="@+id/textView29" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView56"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/textView29"
-        android:layout_marginTop="224dp"
+        android:layout_alignStart="@+id/textView30"
+        android:layout_marginTop="223dp"
         android:text="Data para conclusão:"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_alignLeft="@+id/textView29" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tituloAtividade"

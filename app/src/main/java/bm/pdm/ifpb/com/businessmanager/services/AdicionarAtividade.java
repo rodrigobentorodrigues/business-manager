@@ -3,6 +3,7 @@ package bm.pdm.ifpb.com.businessmanager.services;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -20,6 +21,7 @@ public class AdicionarAtividade extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        Log.d("Atividade", "Serviço em execução");
         String url = intent.getStringExtra("url");
         Tarefa tarefa = (Tarefa) intent.getSerializableExtra("tarefa");
         Retrofit retrofit = new Retrofit.Builder().baseUrl(url).

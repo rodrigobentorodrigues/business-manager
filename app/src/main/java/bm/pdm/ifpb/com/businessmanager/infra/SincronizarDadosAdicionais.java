@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,19 +66,23 @@ public class SincronizarDadosAdicionais extends AsyncTask<String, Void, String>{
             }
             bufferedReader.close();
             conexao.disconnect();
-            try {
                 List<Duvida> duvidas = duvidaDao.todasDuvidas();
-                JSONArray array = new JSONArray(conteudo.toString());
-                duvidaDao.removerDados();
-                for(int i = 0; i < array.length(); i++){
-                    JSONObject object = array.getJSONObject(i);
+                JSONArray arrayDuvidas = new JSONArray(conteudo.toString());
+                //duvidaDao.removerDados();
+                for(int i = 0; i < arrayDuvidas.length(); i++){
+                    JSONObject object = arrayDuvidas.getJSONObject(i);
                     Duvida duvida = conversorDados.getDuvida(object);
                     boolean exist = false;
                     for (Duvida aux: duvidas){
+//                        if(aux.getDeUsuario().equals(duvida.getDeUsuario()) &&
+//                                aux.getParaUsuario().equals(duvida.getParaUsuario()) &&
+//                                aux.getPergunta().equals(duvida.getPergunta()) &&
+//                                aux.getResposta().equals(duvida.getResposta())){
+//                            exist = true;
+//                        }
                         if(aux.getDeUsuario().equals(duvida.getDeUsuario()) &&
                                 aux.getParaUsuario().equals(duvida.getParaUsuario()) &&
-                                aux.getPergunta().equals(duvida.getPergunta()) &&
-                                aux.getResposta().equals(duvida.getResposta())){
+                                aux.getPergunta().equals(duvida.getPergunta())){
                             exist = true;
                         }
                     }
@@ -87,9 +92,7 @@ public class SincronizarDadosAdicionais extends AsyncTask<String, Void, String>{
                         duvidaDao.inserirDuvida(duvida);
                     }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
             //
             URL url2 = new URL(strings[1]);
             HttpURLConnection conexao2 = (HttpURLConnection) url2.openConnection();
@@ -109,12 +112,11 @@ public class SincronizarDadosAdicionais extends AsyncTask<String, Void, String>{
             }
             bufferedReader2.close();
             conexao2.disconnect();
-            try {
-                JSONArray array = new JSONArray(conteudo2.toString());
-                tarefaDao.removerDados();
+                JSONArray arrayTarefas = new JSONArray(conteudo2.toString());
+                // tarefaDao.removerDados();
                 List<Tarefa> tarefas = tarefaDao.todasTarefas();
-                for(int i = 0; i < array.length(); i++){
-                    JSONObject object = array.getJSONObject(i);
+                for(int i = 0; i < arrayTarefas.length(); i++){
+                    JSONObject object = arrayTarefas.getJSONObject(i);
                     Tarefa tarefa = conversorDados.getTarefa(object);
                     boolean exist = false;
                     for(Tarefa aux: tarefas){
@@ -131,12 +133,16 @@ public class SincronizarDadosAdicionais extends AsyncTask<String, Void, String>{
                         tarefaDao.inserirTarefa(tarefa);
                     }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            Log.d("Tarefas", tarefaDao.todasTarefas().toString());
+            Log.d("Duvidas", duvidaDao.todasDuvidas().toString());
             return conteudo2.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.makeText(context, "Ocorreu um erro, tente novamente!", Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
+            return null;
+        } catch (JSONException e) {
+            Toast.makeText(context, "Ocorreu um erro, tente novamente!", Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
             return null;
         }
     }

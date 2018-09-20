@@ -129,6 +129,22 @@ public class UsuarioDao {
         return usuarios;
     }
 
+    public List<String> nomesUsuariosPorId(int id, String usuario){
+        List<String> usuarios = new ArrayList<>();
+        db = contrato.getReadableDatabase();
+        String[] campos = {UsuarioContrato.UsuarioDados.colunaNome};
+        Cursor cursor = db.query(UsuarioContrato.UsuarioDados.tabela, campos,
+                "idEmpresa = ? AND nome <> ?",new String[]{String.valueOf(id), usuario},
+                null, null,
+                UsuarioContrato.UsuarioDados.colunaNome);
+        while(cursor.moveToNext()){
+            usuarios.add(cursor.getString(0));
+        }
+        cursor.close();
+        db.close();
+        return usuarios;
+    }
+
     public Usuario autenticarUsuario(String login, String senha){
         Usuario usuario = new Usuario();
         db = contrato.getReadableDatabase();

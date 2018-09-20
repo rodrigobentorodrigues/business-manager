@@ -6,6 +6,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -33,6 +35,12 @@ public class ConfiguracaoActivity extends AppCompatActivity {
         this.voltar = findViewById(R.id.botaoVoltarConfig);
         this.sobre = findViewById(R.id.sobre);
         this.sincronizar = findViewById(R.id.sincDados);
+
+        Animation animation = AnimationUtils.
+                loadAnimation(ConfiguracaoActivity.this, R.anim.rotate);
+        local.setAnimation(animation);
+        remoto.setAnimation(animation);
+
         remoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,9 +57,8 @@ public class ConfiguracaoActivity extends AppCompatActivity {
                         "mais perfomance ao requisitar as informações, porém para ter acesso a todos os dados \n" +
                         "é necessário realizar uma requisição ao servidor quando possivel. \n" +
                         " - Para realizar uma requisição ao servidor, selecione o botão abaixo;";
-                AlertDialog alerta2 = construirAlerta(titulo, msg);
-                alerta2.show();
-
+                AlertDialog alerta = construirAlerta(titulo, msg);
+                alerta.show();
             }
         });
         sincronizar.setOnClickListener(new View.OnClickListener() {

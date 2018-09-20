@@ -65,9 +65,13 @@ public class AutenticarUsuario extends AsyncTask<String, Void, String> {
             conexao.disconnect();
             return conteudo.toString();
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Toast.makeText(contexto, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.makeText(contexto, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
         }
         return null;
     }
@@ -96,7 +100,9 @@ public class AutenticarUsuario extends AsyncTask<String, Void, String> {
                         Toast.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Toast.makeText(contexto, "Ocorreu um erro, tente novamente!",
+                    Toast.LENGTH_SHORT).show();
+            Log.d("Erro", e.getMessage());
         }
     }
 

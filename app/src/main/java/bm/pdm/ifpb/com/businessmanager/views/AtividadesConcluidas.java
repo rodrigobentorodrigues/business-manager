@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -66,24 +65,17 @@ public class AtividadesConcluidas extends AppCompatActivity {
         } else {
             // Buscar no SQLite
             tarefaDao = new TarefaDao(this);
-            List<Tarefa> tarefas = tarefaDao.todasNaoConcluidas(usuario.getNome());
+            List<Tarefa> tarefas = tarefaDao.todasConcluidas(usuario.getNome());
             listView.setAdapter(new TarefaAdapter(tarefas, this));
         }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Tarefa tarefa = (Tarefa) parent.getItemAtPosition(position);
-                if(tarefa.getParaUsuario().equals(usuario.getNome())){
-                    Intent intent = new Intent(AtividadesConcluidas.this,
-                            InfoTarefaActivity.class);
-                    intent.putExtra("tarefa", tarefa);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(AtividadesConcluidas.this,
-                            "Para visualizar esta atividade você precisa ser o destinatário",
-                            Toast.LENGTH_SHORT).show();
-                }
-
+                Intent intent = new Intent(AtividadesConcluidas.this,
+                        Atividade.class);
+                intent.putExtra("atividade", tarefa);
+                startActivity(intent);
             }
         });
     }

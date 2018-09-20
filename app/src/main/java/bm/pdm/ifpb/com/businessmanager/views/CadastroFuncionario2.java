@@ -62,6 +62,9 @@ public class CadastroFuncionario2 extends AppCompatActivity {
                             AdicionarFuncionario addFunc = new bm.pdm.ifpb.com.businessmanager.infra.
                                     AdicionarFuncionario(usuario, CadastroFuncionario2.this);
                             addFunc.execute("https://business-manager-server.herokuapp.com/");
+                            Intent intent = new Intent(CadastroFuncionario2.this,
+                                    MenuActivity.class);
+                            startActivity(intent);
                         } else {
                             String titulo = "Sem conexão com a internet";
                             String msg = "Por favor, conecte-se com alguma rede e tente novamente";
@@ -69,8 +72,8 @@ public class CadastroFuncionario2 extends AppCompatActivity {
                             alerta.show();
                         }
                     } else {
+                        usuario.setEnviado(0);
                         UsuarioDao usuarioDao = new UsuarioDao(CadastroFuncionario2.this);
-                        usuarioDao = new UsuarioDao(CadastroFuncionario2.this);
                         usuarioDao.inserirUsuario(usuario);
                         Intent intent = new Intent(CadastroFuncionario2.this, MenuActivity.class);
                         startActivity(intent);

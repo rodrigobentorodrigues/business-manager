@@ -69,23 +69,9 @@ public class CadastroFuncionario extends AppCompatActivity {
                     Intent intent = new Intent(CadastroFuncionario.this, CadastroFuncionario2.class);
                     intent.putExtra("usuario", usuario);
                     startActivity(intent);
-                    //
-//                    String repositorio = configuracao.getRepositorio();
-//                    if(repositorio.equals("remoto")){
-//                        AdicionarFuncionario addFunc = new bm.pdm.ifpb.com.businessmanager.infra.
-//                                AdicionarFuncionario(usuario, CadastroFuncionario.this);
-//                        addFunc.execute("https://business-manager-server.herokuapp.com/");
-//                    } else {
-//                        usuarioDao = new UsuarioDao(CadastroFuncionario.this);
-//                        usuarioDao.inserirUsuario(usuario);
-//                        Intent intent = new Intent(CadastroFuncionario.this, MenuActivity.class);
-//                        startActivity(intent);
-//                    }
-                    nome.setText("");
-                    cargo.setText("");
-                    // login.setText("");
-                    // senha.setText("");
-                    tel.setText("");
+//                    nome.setText("");
+//                    cargo.setText("");
+//                    tel.setText("");
                 }
             }
         });

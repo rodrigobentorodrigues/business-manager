@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -70,6 +71,7 @@ public class TarefaActivity extends AppCompatActivity {
             // Buscar no SQLite
             tarefaDao = new TarefaDao(this);
             List<Tarefa> tarefas = tarefaDao.todasNaoConcluidas(usuario.getNome());
+            Log.d("Tarefas", tarefas.toString());
             listView.setAdapter(new TarefaAdapter(tarefas, this));
         }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -81,6 +83,7 @@ public class TarefaActivity extends AppCompatActivity {
                             InfoTarefaActivity.class);
                     intent.putExtra("tarefa", tarefa);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.lefttoright, R.anim.lefttoright);
                 } else {
                     Toast.makeText(TarefaActivity.this,
                             "Para visualizar esta atividade você precisa ser o destinatário",

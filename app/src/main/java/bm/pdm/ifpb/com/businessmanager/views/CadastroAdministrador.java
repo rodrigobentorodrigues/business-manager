@@ -38,6 +38,7 @@ public class CadastroAdministrador extends AppCompatActivity {
     private Button cadastro;
     private Usuario usuario;
     private UsuarioDao usuarioDao;
+    private Configuracao configuracao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +70,22 @@ public class CadastroAdministrador extends AppCompatActivity {
                     usuario = new Usuario(0, nomeFunc, "Administrador", loginFunc,
                             senhaFunc, telFunc);
                     usuario.setIdEmpresa(1);
-                    AdicionarAdministrador add = new AdicionarAdministrador(usuario,
-                            CadastroAdministrador.this, empresaFunc);
-                    add.execute("https://business-manager-server.herokuapp.com/");
+                    configuracao = new Configuracao(getSharedPreferences("config", MODE_PRIVATE));
+                    String repositorio = configuracao.getRepositorio();
+                    if(repositorio.equals("remoto")){
+                        AdicionarAdministrador add = new AdicionarAdministrador(usuario,
+                                CadastroAdministrador.this, empresaFunc);
+                        add.execute("https://business-manager-server.herokuapp.com/");
+                        Intent intent = new Intent(CadastroAdministrador.this,
+                                MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        usuario.setEnviado(0);
+                        UsuarioDao usuarioDao = new UsuarioDao(CadastroAdministrador.this);
+                        usuarioDao.inserirUsuario(usuario);
+                        Intent intent = new Intent(CadastroAdministrador.this, MenuActivity.class);
+                        startActivity(intent);
+                    }
                     nome.setText("");
                     empresa.setText("");
                     login.setText("");

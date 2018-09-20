@@ -27,10 +27,16 @@ public class DuvidaDao {
         db.delete(DuvidaContrato.DuvidaDados.tabela, null, null);
     }
 
+    public void removerPorID(int id){
+        db = duvidaContrato.getWritableDatabase();
+        db.delete(DuvidaContrato.DuvidaDados.tabela, "_id = ?",
+                new String[]{String.valueOf(id)});
+    }
+
     public void inserirDuvida(Duvida duvida){
         db = duvidaContrato.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DuvidaContrato.DuvidaDados._ID, duvida.getId());
+        //contentValues.put(DuvidaContrato.DuvidaDados._ID, duvida.getId());
         contentValues.put(DuvidaContrato.DuvidaDados.colunaDeUsuario, duvida.getDeUsuario());
         contentValues.put(DuvidaContrato.DuvidaDados.colunaParaUsuario, duvida.getParaUsuario());
         contentValues.put(DuvidaContrato.DuvidaDados.colunaPergunta, duvida.getPergunta());
@@ -80,7 +86,31 @@ public class DuvidaDao {
                 "(deUsuario = ? OR paraUsuario = ?) AND (resposta = 'null')",
                 new String[]{usuario, usuario}, null, null, null);
         while(cursor.moveToNext()){
-            Log.d("Cursor", "Entrou!");
+            Duvida duvida = new Duvida();
+            duvida.setId(cursor.getInt(0));
+            duvida.setDeUsuario(cursor.getString(1));
+            duvida.setParaUsuario(cursor.getString(2));
+            duvida.setPergunta(cursor.getString(3));
+            duvida.setResposta(cursor.getString(4));
+            duvida.setEnviado(cursor.getInt(5));
+            duvidas.add(duvida);
+        }
+        cursor.close();
+        db.close();
+        return duvidas;
+    }
+
+    public List<Duvida> todasConcluidas(String usuario){
+        Log.d("Usuario", usuario);
+        List<Duvida> duvidas = new ArrayList<>();
+        db = duvidaContrato.getReadableDatabase();
+        String[] campos = {DuvidaContrato.DuvidaDados._ID, DuvidaContrato.DuvidaDados.colunaDeUsuario,
+                DuvidaContrato.DuvidaDados.colunaParaUsuario, DuvidaContrato.DuvidaDados.colunaPergunta,
+                DuvidaContrato.DuvidaDados.colunaResposta, DuvidaContrato.DuvidaDados.colunaEnviado};
+        Cursor cursor = db.query(DuvidaContrato.DuvidaDados.tabela, campos,
+                "(deUsuario = ? OR paraUsuario = ?) AND (resposta <> 'null')",
+                new String[]{usuario, usuario}, null, null, null);
+        while(cursor.moveToNext()){
             Duvida duvida = new Duvida();
             duvida.setId(cursor.getInt(0));
             duvida.setDeUsuario(cursor.getString(1));
@@ -106,7 +136,6 @@ public class DuvidaDao {
                 "(deUsuario = ?) AND (enviado = 0)",
                 new String[]{usuario}, null, null, null);
         while(cursor.moveToNext()){
-            Log.d("Cursor", "Entrou!");
             Duvida duvida = new Duvida();
             duvida.setId(cursor.getInt(0));
             duvida.setDeUsuario(cursor.getString(1));
@@ -129,10 +158,10 @@ public class DuvidaDao {
         contentValues.put(DuvidaContrato.DuvidaDados.colunaParaUsuario, duvida.getParaUsuario());
         contentValues.put(DuvidaContrato.DuvidaDados.colunaPergunta, duvida.getPergunta());
         contentValues.put(DuvidaContrato.DuvidaDados.colunaResposta, duvida.getResposta());
-        contentValues.put(DuvidaContrato.DuvidaDados.colunaEnviado, duvida.getEnviado());
+        contentValues.put(DuvidaContrato.DuvidaDados.colunaEnviado, 0);
         int update = db.update(DuvidaContrato.DuvidaDados.tabela, contentValues,
                 "_id = ?", new String[]{String.valueOf(duvida.getId())});
-        Log.d("Atualizados", ": " + update);
+        Log.d("Atualizados", ": " + update + " " + duvida.toString());
     }
 
     public void marcarComoEnviada(Duvida duvida){

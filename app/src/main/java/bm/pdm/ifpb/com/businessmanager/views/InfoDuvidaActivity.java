@@ -1,8 +1,11 @@
 package bm.pdm.ifpb.com.businessmanager.views;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -65,10 +68,23 @@ public class InfoDuvidaActivity extends AppCompatActivity {
                     ResponderDuvida responderDuvida = new ResponderDuvida(InfoDuvidaActivity.this, duvida);
                     responderDuvida.execute("https://business-manager-server.herokuapp.com/");
                 } else {
-                    duvidaDao = new DuvidaDao(InfoDuvidaActivity.this);
-                    duvidaDao.responderDuvida(duvida);
-                    Intent intent = new Intent(InfoDuvidaActivity.this, MenuActivity.class);
-                    startActivity(intent);
+                    //
+                    AlertDialog.Builder builder = new AlertDialog.Builder(InfoDuvidaActivity.this);
+                    builder.setTitle("Permissão negada");
+                    builder.setMessage("Para responder uma duvida é necessário estar utilizando o repositório remoto.\n" +
+                            "O repositório local só pode ser utilizado para cadastro e consulta!");
+                    builder.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                        }
+                    });
+                    AlertDialog alerta = builder.create();
+                    alerta.show();
+                    //
+//                    duvidaDao = new DuvidaDao(InfoDuvidaActivity.this);
+//                    duvidaDao.responderDuvida(duvida);
+//                    Intent intent = new Intent(InfoDuvidaActivity.this, MenuActivity.class);
+//                    startActivity(intent);
                 }
             }
         });

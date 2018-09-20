@@ -70,7 +70,6 @@ public class DuvidaActivity extends AppCompatActivity {
         } else {
             // SQLite
             duvidaDao = new DuvidaDao(this);
-            Log.d("Duvida", usuario.getNome());
             List<Duvida> duvidas = duvidaDao.todasNaoConcluidas(usuario.getNome());
             listView.setAdapter(new DuvidaAdapter(duvidas, this));
         }
@@ -82,6 +81,7 @@ public class DuvidaActivity extends AppCompatActivity {
                     Intent intent = new Intent(DuvidaActivity.this, InfoDuvidaActivity.class);
                     intent.putExtra("duvida", duvida);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.sample_anim, R.anim.sample_anim);
                 } else {
                     Toast.makeText(DuvidaActivity.this, "Para visualizar esta duvida você precisa ser o destinatário",
                             Toast.LENGTH_SHORT).show();
