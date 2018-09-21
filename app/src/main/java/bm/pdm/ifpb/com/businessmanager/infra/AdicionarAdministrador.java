@@ -76,8 +76,8 @@ public class AdicionarAdministrador extends AsyncTask<String, Void, Boolean>{
             context.startActivity(inten);
         } else {
             Toast.makeText(context, "Contato ja existente em sua agenda", Toast.LENGTH_SHORT).show();
-//            Intent intent = new Intent(context, MainActivity.class);
-//            context.startActivity(intent);
+            Intent intent = new Intent(context, MainActivity.class);
+            context.startActivity(intent);
         }
         Toast.makeText(context, "Administrador cadastrado com exito", Toast.LENGTH_LONG).show();
     }

@@ -69,29 +69,10 @@
         app:layout_constraintTop_toBottomOf="@+id/usuarioDuvida"
         app:layout_constraintVertical_bias="0.039" />
 
-    <!--<EditText-->
-        <!--android:id="@+id/destDuvida"-->
-        <!--android:layout_width="321dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/textView38"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:ems="10"-->
-        <!--android:gravity="center"-->
-        <!--android:hint="Informe para quem voce deseja enviar"-->
-        <!--android:inputType="textPersonName"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintHorizontal_bias="0.507"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/usuarioDuvida"-->
-        <!--app:layout_constraintVertical_bias="0.123" />-->
-
     <TextView
         android:id="@+id/usuarioDuvida"
-        android:layout_width="250dp"
-        android:layout_height="24dp"
+        android:layout_width="220dp"
+        android:layout_height="26dp"
         android:layout_alignLeft="@+id/textView34"
         android:layout_alignStart="@+id/textView34"
         android:layout_below="@+id/textView34"
@@ -100,7 +81,7 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.831"
+        app:layout_constraintHorizontal_bias="0.787"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView32"
         app:layout_constraintVertical_bias="0.057" />
@@ -149,14 +130,14 @@
     <Button
         android:id="@+id/botaoEnv"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="116dp"
-        android:layout_height="59dp"
+        android:layout_width="100dp"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="Enviar"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.884"
@@ -167,14 +148,14 @@
     <Button
         android:id="@+id/backCadDuv"
         style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="116dp"
-        android:layout_height="59dp"
+        android:layout_width="100dp"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="Voltar"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.119"

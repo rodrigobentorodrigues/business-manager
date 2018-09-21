@@ -129,30 +129,31 @@ public class MainActivity extends AppCompatActivity {
                         List<Usuario> usuarios = usuarioDao.todosUsuarios();
                         Log.d("Tamanho", ": " + usuarios.size());
                         if(usuarios.size() == 0){
-                            if(networkUtils.verificarConexao(MainActivity.this)){
-                                AlertDialog.Builder b2 = new AlertDialog.Builder(MainActivity.this);
-                                b2.setTitle("Seu repositório local não possui dados");
-                                b2.setMessage("Deseja buscar os dados de usuários do servidor remoto?");
-                                b2.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                    }
-                                });
-                                b2.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
+                            AlertDialog.Builder b2 = new AlertDialog.Builder(MainActivity.this);
+                            b2.setTitle("Seu repositório local não possui dados");
+                            b2.setMessage("Deseja buscar os dados de usuários do servidor remoto?");
+                            b2.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                }
+                            });
+                            b2.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if(networkUtils.verificarConexao(MainActivity.this)){
                                         SincronizarDadosUsuario sinc = new SincronizarDadosUsuario(MainActivity.this);
                                         sinc.execute("https://business-manager-server.herokuapp.com/usuario/listar");
+                                    } else {
+                                        String titulo = "Sem conexão com a internet";
+                                        String msg = "Por favor, conecte-se com alguma rede e tente novamente";
+                                        AlertDialog alerta2 = construirAlerta(titulo, msg);
+                                        alerta2.show();
                                     }
-                                });
-                                AlertDialog alerta2 = b2.create();
-                                alerta2.show();
-                            } else {
-                                String titulo = "Sem conexão com a internet";
-                                String msg = "Por favor, conecte-se com alguma rede e tente novamente";
-                                AlertDialog alerta2 = construirAlerta(titulo, msg);
-                                alerta2.show();
-                            }
+                                }
+                            });
+                            AlertDialog alerta3 = b2.create();
+                            alerta3.show();
+
                         } else {
                             Usuario autenticado = usuarioDao.autenticarUsuario(valorLogin, valorSenha);
                             int id = autenticado.getId();

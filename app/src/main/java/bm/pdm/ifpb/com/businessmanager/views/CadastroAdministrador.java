@@ -76,9 +76,9 @@ public class CadastroAdministrador extends AppCompatActivity {
                         AdicionarAdministrador add = new AdicionarAdministrador(usuario,
                                 CadastroAdministrador.this, empresaFunc);
                         add.execute("https://business-manager-server.herokuapp.com/");
-                        Intent intent = new Intent(CadastroAdministrador.this,
-                                MainActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(CadastroAdministrador.this,
+//                                MainActivity.class);
+//                        startActivity(intent);
                     } else {
                         usuario.setEnviado(0);
                         UsuarioDao usuarioDao = new UsuarioDao(CadastroAdministrador.this);
